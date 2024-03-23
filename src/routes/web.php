@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TimestampController;
+use App\Http\Controllers\BreakstampController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
+Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
+Route::get('/attendance', [AuthController::class, 'attendance'])->name('attendance');
+Route::middleware('auth')->group(function(){
+    Route::get('/', [AuthController::class, 'index'])->name('index');
 });
+Route::post('/auth/register', [AuthController::class, 'create']);
+Route::post('/auth/login', [AuthController::class, 'logout']);
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::post('/punchin', [TimestampController::class, 'punchIn'])->name('punchin');
+    Route::post('/punchout', [TimestampController::class, 'punchOut'])->name('punchout');
+    Route::post('/breakin', [BreakstampController::class, 'breakIn'])->name('breakin');
+    Route::post('/breakout', [BreakstampController::class, 'breakOut'])->name('breakout');
+});
+Route::group(['middleware' => 'auth'], function() {
+    Route::post('/adddate/{dt}', [AuthController::class, 'adddate'])->name('adddate');
+    Route::post('/subday/{dt}', [AuthController::class, 'subday'])->name('subday');
+});
+

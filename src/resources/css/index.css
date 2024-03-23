@@ -1,0 +1,8 @@
+.punchin__button-active {
+    background-color :yellow;
+}
+
+.punchin__button-inactive {
+    background-color :gray;
+}
+
