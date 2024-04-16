@@ -19,8 +19,7 @@ Route::get('/auth/register', [AuthController::class, 'register'])->name('registe
 Route::get('/login', [AuthController::class, 'login']);
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
-    Route::post('/search', [SearchController::class, 'search'])->name('search');
-    Route::get('/search', [SearchController::class, 'find']);
+    Route::get('/', [SearchController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage']);
 });

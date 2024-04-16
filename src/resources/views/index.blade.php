@@ -7,7 +7,7 @@
 
 @section('content')
 <header class="search__area">
-        <form class="search__form" action="{{ route('search') }}" method="post">
+        <form class="search__form" action="{{ route('search') }}" method="get">
             @csrf
             <select name="area">
                 <option value="all">All area</option>
