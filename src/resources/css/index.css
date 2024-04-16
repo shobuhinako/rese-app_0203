@@ -1,8 +1,48 @@
-.punchin__button-active {
-    background-color :yellow;
+.card {
+    width: 360px;
+    margin: 100px auto 0;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.punchin__button-inactive {
-    background-color :gray;
+.card__img img {
+    width: 100%;
 }
 
+.card__content {
+    padding: 15px 25px;
+}
+
+.card__content-ttl {
+    font-size: 18px;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.card__content-cat {
+    padding: 5px 10px;
+    background: #008888;
+    margin-bottom: 15px;
+    display: inline-block;
+    /* 要素の文字数に応じて幅が変更されるためにinline-blockを指定 */
+    color: #fff;
+    font-size: 14px;
+}
+
+.card__content-tag {
+    font-size: 14px;
+    text-align: right;
+    /* 親要素にtext-alignを適用すると子要素のinline-block要素に適応される */
+}
+
+.card__content-tag-item {
+    display: inline-block;
+    /* 横並びにするためにinline-blockを指定 */
+    color: #008888;
+}
+
+.card__content-tag-item--last {
+    display: inline-block;
+    /* 横並びにするためにinline-blockを指定 */
+    margin-left: 20px;
+    color: #888888;
+}

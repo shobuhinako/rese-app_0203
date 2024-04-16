@@ -2,63 +2,62 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
+<header class="search__area">
+        <form class="search__form" action="{{ route('search') }}" method="post">
+            @csrf
+            <select name="area">
+                <option value="all">All area</option>
+                <option value="tokyo">東京都</option>
+                <option value="osaka">大阪府</option>
+                <option value="fukuoka">福岡県</option>
+            </select>
+            <select name="genre">
+                <option value="all">All genre</option>
+                <option value="italian">イタリアン</option>
+                <option value="ramen">ラーメン</option>
+                <option value="izakaya">居酒屋</option>
+                <option value="sushi">寿司</option>
+                <option value="yakiniku">焼肉</option>
+            </select>
+            <div class="search__box">
+                <button id="search-button" type="submit"><i class="fa-solid fa-search"></i></button>
+                <input type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
+            </div>
+        </form>
+    </header>
 
     <div class="main">
-        <div class="main__text">{{ $user->name }}さんお疲れ様です！</div>
-        <p>{{session('message')}}</p>
-
-        <div class="main__attendance-button">
-            <form class="main__attendance-item" action="{{ route('punchin') }}" method="post">
-            @csrf
-                @if($punchin==null)
-                <input type="submit" name="" value="勤務開始" style="background-color:yellow;" />
-                @else
-                <input type="submit" disabled name="" value="勤務開始" style="background-color:gray;" />
-                @endif
-            </form>
-
-            <form class="main__attendance-item" action="{{ route('punchout') }}" method="post">
-            @csrf
-                <!-- 休憩取得しない場合 -->
-                @if($punchin<>null && $punchout==null && $breakin==null && $breakout==null)
-                <input type="submit" name="" value="勤務終了" style="background-color:yellow;" />
-                <!-- 休憩取得する場合 -->
-                @elseif($punchin<>null && $punchout==null && $breakin<>null && $breakout<>null)
-                <input type="submit" name="" value="勤務終了" style="background-color:yellow;" />
-                @else
-                <input type="submit" disabled name="" value="勤務終了" style="background-color:gray;" />
-                @endif
-            </form>
-
-            <form class="main__attendance-item" action="{{ route('breakin') }}" method="post">
-            @csrf
-                <!-- 1回目 -->
-                @if($punchin <> null && $punchout == null && $breakin == null && $breakout==null)
-                <input type="submit" name="" value="休憩開始" style="background-color:yellow;"  />
-                <!-- n回目 -->
-                @elseif($punchin <> null && $punchout == null && $breakin <> null && $breakout<>null)
-                <input type="submit" name="" value="休憩開始" style="background-color:yellow;"  />
-                @else
-                <input type="submit" disabled name="" value="休憩開始" style="background-color:gray;" />
-                @endif
-            </form>
-
-            <form class="main__attendance-item" action="{{ route('breakout') }}" method="post">
-            @csrf
-                <!-- 1回目 -->
-                @if($punchin <> null && $punchout == null && $breakin <> null && $breakout==null)
-                <input type="submit" name="" value="休憩終了" style="background-color:yellow;"  />
-                <!-- n回目 -->
-                @elseif($punchin <> null && $punchout == null && $breakin > $breakout)
-                <input type="submit" name="" value="休憩終了" style="background-color:yellow;"  />
-                @else
-                <input type="submit" disabled name="" value="休憩終了" style="background-color:gray;" />
-                @endif
-            </form>
-
+        @foreach($shops as $shop)
+        <div class="card">
+            <div class="card__img">
+                <img src="{{ asset($shop->image_path) }}" alt="店舗画像" />
+            </div>
+            <div class="card__content">
+                <h2 class="card__content-ttl">{{ $shop->name }}</h2>
+            </div>
+            <div class="card__content-tag">
+                <p class="card__content-tag-item">#{{ $shop->area }}</p>
+                <p class="card__content-tag-item">#{{$shop->genre }}</p>
+            </div>
+            <div class="detail">
+                <form class="detail__button" action="{{ route('shop_detail', $shop->id) }}" method="get">
+                @csrf
+                <input type="submit" name="submit" value="詳しくみる">
+                </form>
+            </div>
+            <div class="favorite">
+                <form class="favorite__content" action="" method="post">
+                @csrf
+                <button id="favorite__button">
+                    <i class="fa-solid fa-heart" style="color: #aeb1b7;"></i>
+                </button>
+                </form>
+            </div>
         </div>
+        @endforeach
     </div>
 @endsection
