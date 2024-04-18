@@ -206,7 +206,7 @@ public function search(Request $request)
         'tokyo' => '東京都',
         'osaka' => '大阪府',
         'fukuoka' => '福岡県',
-        // 'all' => ['東京都', '大阪府','福岡県']
+    // //     // 'all' => ['東京都', '大阪府','福岡県']
     );
 
     $genreMapping = [

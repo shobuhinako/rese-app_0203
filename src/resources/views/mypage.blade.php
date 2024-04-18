@@ -15,13 +15,19 @@
         <table class="reservation__content">
             <tr class="reservation__content-row">
                 <th class="reservation__item-name">Shop</th>
-                <tr class="reservation__item">仙人</tr>
+                <td class="reservation__item">仙人</td>
+            </tr>
+            <tr class="reservation__content-row">
                 <th class="reservation__item-name">Date</th>
-                <tr class="reservation__item">2021-04-01</tr>
+                <td class="reservation__item">2021-04-01</td>
+            </tr>
+            <tr class="reservation__content-row">
                 <th class="reservation__item-name">Time</th>
-                <tr class="reservation__item">17:00</tr>
+                <td class="reservation__item">17:00</td>
+            </tr>
+            <tr class="reservation__content-row">
                 <th class="reservation__item-name">Number</th>
-                <tr class="reservation__item">1人</tr>
+                <td class="reservation__item">1人</td>
             </tr>
         </table>
     </div>

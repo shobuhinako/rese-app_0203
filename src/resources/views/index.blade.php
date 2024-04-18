@@ -49,13 +49,31 @@
                 <input type="submit" name="submit" value="詳しくみる">
                 </form>
             </div>
-            <div class="favorite">
-                <form class="favorite__content" action="" method="post">
+            <!-- <div class="favorite">
+                <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
                 @csrf
-                <button id="favorite__button">
-                    <i class="fa-solid fa-heart" style="color: #aeb1b7;"></i>
+                <button class="favorite__button" type="submit">
+                @if(isset($isFavorite) && $isFavorite == false)
+                    <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
+                @else
+                    <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
+                @endif
                 </button>
                 </form>
+            </div> -->
+            <div class="favorite">
+            <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
+            @csrf
+            <!-- <button class="favorite__button" type="submit" style="color: {{ session('isFavorite') ? '#ec0426' : '#a7a0a1' }}"> -->
+            <!-- <button class="favorite__button" type="submit" style="color: {{ session('isFavorite') && session('favoriteShopId') == $shop->id ? '#ec0426' : '#a7a0a1' }}"> -->
+            <button class="favorite__button" type="submit">
+            @if($shop->is_bookmarked_by_auth_user())
+            <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
+            @else
+            <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
+            @endif
+            </button>
+            </form>
             </div>
         </div>
         @endforeach

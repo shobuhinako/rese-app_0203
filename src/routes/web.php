@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/', [SearchController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage']);
+    Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/auth/login', [AuthController::class, 'logout']);
