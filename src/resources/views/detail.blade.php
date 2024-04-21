@@ -26,10 +26,12 @@
     <div class="reservation__title">
         <p class="reservation__title-white">予約</p>
     </div>
-    <form class="reservation__form" action="/done" method="post">
+    <form class="reservation__form" id="reservation-form" action="/done" method="post">
     @csrf
-        <input type="date" name="date" id="date-input">
-        <select name="time">
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+        <input type="date" name="reservation_date" id="date-input" onchange="showSelected()">
+        <select name="reservation_time" id="time-input" onchange="showSelected()">
                 <option value="10:00">10:00</option>
                 <option value="10:30">10:30</option>
                 <option value="11:00">11:00</option>
@@ -54,7 +56,7 @@
                 <option value="20:30">20:30</option>
                 <option value="21:00">21:00</option>
         </select>
-        <select name="number of people">
+        <select name="number_of_people" id="number-input" onchange="showSelected()">
             <option value="1人">1人</option>
             <option value="2人">2人</option>
             <option value="3人">3人</option>
@@ -66,34 +68,68 @@
             <option value="9人">9人</option>
             <option value="10人">10人</option>
         </select>
-    </form>
 
-    <div class="reservation__content">
+    <div class="reservation__content" id="reservation-content" >
         <table class="reservation__detail">
             <tr class="reservation__detail-row">
                 <th class="reservation__item-name">Shop</th>
-                <td class="reservation__item">仙人</td>
+                <td class="reservation__item" id="shop-name">{{ $shop->name }}</td>
             </tr>
-            <tr class="reservation__detail-row">
+            <tr class="reservation__detail-row" id="date-row">
                 <th class="reservation__item-name">Date</th>
-                <td class="reservation__item">2021-04-01</td>
+                <td class="reservation__item"></td>
             </tr>
-            <tr class="reservation__detail-row">
+            <tr class="reservation__detail-row" id="time-row">
                 <th class="reservation__item-name">Time</th>
-                <td class="reservation__item">17:00</td>
+                <td class="reservation__item"></td>
             </tr>
-            <tr class="reservation__detail-row">
+            <tr class="reservation__detail-row" id="number-row">
                 <th class="reservation__item-name">Number</th>
-                <td class="reservation__item">1人</td>
+                <td class="reservation__item"></td>
             </tr>
         </table>
     </div>
+    
+    <script>
+    function updateDate() {
+    var selectedDate = document.getElementById("date-input").value;
+    var content = "<table class='reservation__detail'>";
+    content += "<tr><th>Date</th><td>" + selectedDate + "</td></tr>";
+    content += "</table>";
+    document.getElementById("date-row").innerHTML = content;
+    }
+
+    // 時間が選択された時の処理
+    function updateTime() {
+    var selectedTime = document.getElementById("time-input").value;
+    var content = "<table class='reservation__detail'>";
+    content += "<tr><th>Time</th><td>" + selectedTime + "</td></tr>";
+    content += "</table>";
+    document.getElementById("time-row").innerHTML = content;
+    }
+
+    // 人数が選択された時の処理
+    function updateNumberOfPeople() {
+    var selectedNumberOfPeople = document.getElementById("number-input").value;
+    var content = "<table class='reservation__detail'>";
+    content += "<tr><th>Number of People</th><td>" + selectedNumberOfPeople + "</td></tr>";
+    content += "</table>";
+    document.getElementById("number-row").innerHTML = content;
+    }
+
+    // 日付、時間、人数が選択された時に呼び出される関数
+    function showSelected() {
+    updateDate();
+    updateTime();
+    updateNumberOfPeople();
+    }
+    </script>
 
     <div class="reservation__footer">
-        <form class="reservation__button" action="" method="post">
-        @csrf
-            <input type="submit" name="button" value="予約する">
-        </form>
+        <!-- <form class="reservation__button" action="/done" method="post">
+        @csrf -->
+            <input type="submit" value="予約する">
     </div>
+    </form>
 
 @endsection

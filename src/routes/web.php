@@ -23,6 +23,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage']);
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
+    Route::post('/done', [ShopController::class, 'reservation']);
+    // Route::get('/done', [ShopController::class, 'done'])->name('done');
+    // Route::get('/shop/detail', [ShopController::class, 'back'])->name('back');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/auth/login', [AuthController::class, 'logout']);
