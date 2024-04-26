@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Shop;
+use App\Models\Reservation;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -75,8 +78,31 @@ class AuthController extends Controller
 
     public function mypage()
     {
-        $auth=auth()->user()->id;
-        $user=User::find($auth);
-        return view ('mypage', ['user' => $user]);
+        $auth = auth()->user()->id;
+
+    // ログインユーザーが予約した店舗の情報を取得
+    $reservationShops = Shop::whereIn('id', function ($query) use ($auth) {
+        $query->select('shop_id')
+            ->from('reservations')
+            ->where('user_id', $auth);
+    })->get();
+
+    $reservationContents = Reservation::where('user_id', $auth)->get()->map(function ($reservation) {
+    $reservation->formatted_reservation_time = Carbon::parse($reservation->reservation_time)->format('H:i');
+    return $reservation;
+    });
+
+
+    // ログインユーザーがお気に入りに登録した店舗の情報を取得
+    $favoriteShops = Shop::whereIn('id', function ($query) use ($auth) {
+        $query->select('shop_id')
+            ->from('favorites')
+            ->where('user_id', $auth);
+    })->get();
+
+    // ログインユーザー情報を取得
+    $user = User::find($auth);
+
+    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents'));
     }
 }

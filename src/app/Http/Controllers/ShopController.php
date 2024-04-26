@@ -8,13 +8,16 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\Reservation;
+use App\Http\Requests\ReservationRequest;
+
 
 class ShopController extends Controller
 {
     public function showDetail($id)
     {
         $shop = Shop::find($id);
-        $user = User::find($id);
+        $userId = auth()->id();
+        $user = User::find($userId);
         return view('detail', compact('shop', 'user'));
     }
 
@@ -42,7 +45,6 @@ class ShopController extends Controller
             $favorite->save();
             $isFavorite = true;
         }
-        // return redirect()->back()->with('isFavorite', $isFavorite);
 
         session()->put('isFavorite', $isFavorite);
         session()->put('favoriteShopId', $shop->id);
@@ -50,67 +52,66 @@ class ShopController extends Controller
         return redirect()->back();
     }
 
-    // public function showReservation(Request $request) {
-    // $selectedDate = $request->input('date');
-    // $selectedTime = $request->input('time');
-    // $selectedNumberOfPeople = $request->input('number of people');
-    // return view('reservation', [
-    //     'selectedDate' => $selectedDate,
-    //     'selectedTime' => $selectedTime,
-    //     'selectedNumberOfPeople' => $selectedNumberOfPeople,
-    // ]);
-    // }
-
-    public function reservation(Request $request){
-        $form = $request->all();
+    public function reservation(ReservationRequest $request){
+        // $form = $request->all();
         // $shop = Shop::find($id);
 
+        // $reservation = Reservation::create([
+        //     'user_id' => $form['user_id'],
+        //     'shop_id' => $form['shop_id'],
+        //     'reservation_date' => $form['reservation_date'],
+        //     'reservation_time' => $form['reservation_time'],
+        //     'number_of_people' => $form['number_of_people'],
+        // ]);
+
         $reservation = Reservation::create([
-            'user_id' => $form['user_id'],
-            'shop_id' => $form['shop_id'],
-            'reservation_date' => $form['reservation_date'],
-            'reservation_time' => $form['reservation_time'],
-            'number_of_people' => $form['number_of_people'],
+        'user_id' => $request->user_id,
+        'shop_id' => $request->shop_id,
+        'reservation_date' => $request->reservation_date,
+        'reservation_time' => $request->reservation_time,
+        'number_of_people' => $request->number_of_people,
         ]);
 
         $previousUrl = $request->session()->get('previous_url');
 
-        // return view('done')->with('previous_page', $request->previous_page);
-        // return view('done')->route('done', ['previous_page' => url()->current()]);
-        //
         return view ('done', compact('previousUrl'));
     }
 
-    // public function done(Request $request){
-
-    // $shop_id = $shop->id;
-    // // 元いたページのURLを取得
-    // $previous_page = $request->session()->get('previous_page');
-
-    // // 元いたページのURLが存在する場合は、そのページにリダイレクト
-    // if ($previous_page) {
-    //     return redirect($previous_page)->with('shop_id', $shop_id);
-    // }
-
-    // // 元いたページのURLが存在しない場合は、デフォルトのURLにリダイレクト
-    // return redirect('/');
-    // }
-
-    // public function back(){
-    //     return back()->withInput();
-    // }
-
-    // public function back(Request $request)
+    // public function destroy($id)
     // {
+    //     $reservation = Reservation::find($id);
+    
+    // if (!$reservation) {
+    //     // レコードが見つからない場合は何らかのエラー処理を行う
+    //     // 例えば、リダイレクトやエラーメッセージの表示など
+    // }
 
-    // // ミドルウェアが保存してくれてるsessionからURLを取得する
-    // $previousUrl = $request->session()->get('previous_url');
-    // if ($previousUrl) {
-    //     // セッションから前のURLを削除（次回のリクエストで同じURLにリダイレクトしないように）
-    //     $request->session()->forget('previous_url');
-    //     return redirect($previousUrl);
+    // // レコードが見つかった場合は削除を実行する
+    // $reservation->delete();
+
+    // // 成功したらリダイレクトするなど適切な処理を行う
+    // return redirect()->back()->with('success', '予約が削除されました');
     // }
-    // return redirect(route('shop_detail'));
+
+    public function remove(Request $request)
+    {
+        Reservation::find($request->id)->delete();
+        return redirect()->back();
+    }
+
+    // public function destroy(Request $request)
+    // {
+    //     Favorite::find($request->id)->delete();
+    //     return redirect()->back();
     // }
+
+    public function destroy(Request $request)
+{
+    $favorite = Favorite::where('shop_id', $request->shop_id)->first();
+    if ($favorite) {
+        $favorite->delete();
+    }
+    return redirect()->back();
+}
 
 }

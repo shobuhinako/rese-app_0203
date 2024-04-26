@@ -5,6 +5,15 @@
 @endsection
 
 @section('content')
+
+@if (count($errors) > 0)
+<ul>
+    @foreach ($errors->all() as $error)
+    <li>{{$error}}</li>
+    @endforeach
+</ul>
+@endif
+
 <div class="detail">
     <form class="return__button" action="/" method="get">
         @csrf
@@ -98,6 +107,7 @@
     content += "</table>";
     document.getElementById("date-row").innerHTML = content;
     }
+
 
     // 時間が選択された時の処理
     function updateTime() {

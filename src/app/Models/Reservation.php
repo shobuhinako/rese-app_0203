@@ -17,4 +17,11 @@ class Reservation extends Model
     public function shops() {
         return $this->belongsTo(Shop::class);
     }
+
+    public static function checkExistingReservation($shopId, $date)
+    {
+        return Reservation::where('shop_id', $shopId)
+            ->where('reservation_date', $date)
+            ->exists();
+    }
 }
