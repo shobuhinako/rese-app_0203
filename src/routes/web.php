@@ -16,12 +16,12 @@ use App\Http\Controllers\ShopController;
 */
 
 Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::get('/', [SearchController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
-    Route::get('/mypage', [AuthController::class, 'mypage']);
+    Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
     Route::post('/done', [ShopController::class, 'reservation']);
     Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
