@@ -16,6 +16,7 @@
     @php
     $reservationShop = $reservationShops[$key];
     @endphp
+
     <div class="reservation__status">
         <p class="reservation__title">予約{{ $key + 1 }}</p>
         <form class="delete__reservation" action="{{ route('reservation.remove', ['id'=>$reservationContent->id]) }}" method="post">
@@ -41,6 +42,10 @@
                 <td class="reservation__item">{{ $reservationContent->number_of_people }}</td>
             </tr>
         </table>
+        <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationShop->name]) }}" method="get">
+        @csrf
+        <input type="submit" value="予約変更">
+        </form>
     </div>
     @endforeach
 </div>

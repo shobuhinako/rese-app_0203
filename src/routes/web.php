@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ChangeReservationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/done', [ShopController::class, 'reservation']);
     Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
+    Route::get('/reservation/{id}/edit/{shop_name}', [ChangeReservationController::class, 'edit'])->name('reservation.edit');
+    Route::put('/reservation/update/{id}', [ChangeReservationController::class, 'update'])->name('reservation.update');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/auth/login', [AuthController::class, 'logout']);
