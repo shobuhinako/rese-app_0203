@@ -12,13 +12,10 @@
 </div>
 <div class="main__content-left">
     <h2 class="main__title">予約状況</h2>
-    @foreach($reservationContents as $key => $reservationContent)
-    @php
-    $reservationShop = $reservationShops[$key];
-    @endphp
+    @foreach($reservationContents as $index => $reservationContent)
 
     <div class="reservation__status">
-        <p class="reservation__title">予約{{ $key + 1 }}</p>
+        <p class="reservation__title">予約{{ $index + 1 }}</p>
         <form class="delete__reservation" action="{{ route('reservation.remove', ['id'=>$reservationContent->id]) }}" method="post">
         @csrf
         @method('DELETE')
@@ -27,7 +24,7 @@
         <table class="reservation__content">
             <tr class="reservation__content-row">
                 <th class="reservation__item-name">Shop</th>
-                <td class="reservation__item">{{ $reservationShop->name }}</td>
+                <td class="reservation__item">{{ $reservationContent->shop->name }}</td>
             </tr>
             <tr class="reservation__content-row">
                 <th class="reservation__item-name">Date</th>
@@ -42,7 +39,7 @@
                 <td class="reservation__item">{{ $reservationContent->number_of_people }}</td>
             </tr>
         </table>
-        <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationShop->name]) }}" method="get">
+        <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationContent->shop->name]) }}" method="get">
         @csrf
         <input type="submit" value="予約変更">
         </form>

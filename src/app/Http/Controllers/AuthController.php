@@ -89,6 +89,7 @@ class AuthController extends Controller
 
     $reservationContents = Reservation::where('user_id', $auth)->get()->map(function ($reservation) {
     $reservation->formatted_reservation_time = Carbon::parse($reservation->reservation_time)->format('H:i');
+    $reservation->shop = Shop::find($reservation->shop_id);
     return $reservation;
     });
 
@@ -103,6 +104,6 @@ class AuthController extends Controller
     // ログインユーザー情報を取得
     $user = User::find($auth);
 
-    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents'));
+    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents',));
     }
 }

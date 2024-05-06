@@ -18,8 +18,8 @@ class ChangeReservationController extends Controller
 
         for ($hour = $startHour; $hour <= $endHour; $hour++) {
         // 各時間の30分前を追加します
-        $timeOptions[] = sprintf('%02d:00', $hour); // 例: '10:00', '11:00', ...
-        $timeOptions[] = sprintf('%02d:30', $hour); // 例: '10:30', '11:30', ...
+        $timeOptions[] = sprintf('%02d:00:00', $hour); // 例: '10:00', '11:00', ...
+        $timeOptions[] = sprintf('%02d:30:00', $hour); // 例: '10:30', '11:30', ...
         }
 
         // 人数の選択肢の配列の初期化
@@ -31,13 +31,16 @@ class ChangeReservationController extends Controller
         $reservationContent = Reservation::find($id);
 
         // // 予約された時間が選択肢の中にあるかどうかをチェックして、あればそれを選択されたものにする
-        $selectedTime = \Carbon\Carbon::parse($reservationContent->reservation_time)->format('H:i');
-        if (!in_array($selectedTime, $timeOptions)) {
-        // // 予約された時間が選択肢の中にない場合、最初の時間をデフォルトで選択する
-        $selectedTime = $timeOptions[0];
-        }
+        $selectedTime = \Carbon\Carbon::parse($reservationContent->reservation_time);
+        // if (!in_array($selectedTime, $timeOptions)) {
+        // // // 予約された時間が選択肢の中にない場合、最初の時間をデフォルトで選択する
+        // $selectedTime = $timeOptions[0];
 
-        return view ('/reservation_change', compact('shop_name', 'reservationContent', 'timeOptions','selectedTime', 'numberOfPeopleOptions'));
+        $timeOptions[] = $selectedTime->format('H:i');
+
+
+
+        return view ('/reservation_change', compact('shop_name', 'reservationContent', 'timeOptions', 'numberOfPeopleOptions', 'selectedTime'));
     }
 
     public function update(ChangeReservationRequest $request, $id)
