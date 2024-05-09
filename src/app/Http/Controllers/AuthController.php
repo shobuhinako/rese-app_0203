@@ -87,12 +87,29 @@ class AuthController extends Controller
             ->where('user_id', $auth);
     })->get();
 
+    if ($reservationShops->isNotEmpty()) {
+        session(['shop_id' => $reservationShops->first()->id]);
+    }
+
     $reservationContents = Reservation::where('user_id', $auth)->get()->map(function ($reservation) {
     $reservation->formatted_reservation_time = Carbon::parse($reservation->reservation_time)->format('H:i');
     $reservation->shop = Shop::find($reservation->shop_id);
     return $reservation;
     });
 
+    if ($reservationContents->isNotEmpty()) {
+        session(['reservation_id' => $reservationContents->first()->id]);
+    }
+
+
+    // $currentDateTime = Carbon::now();
+    // $reservationContents->each(function ($reservation) use ($currentDateTime) {
+    //     $reservationDateTime = Carbon::parse($reservation->reservation_time);
+    //     $reservation->isPastReservation = $currentDateTime->gt($reservationDateTime);
+    // });
+
+    // $currentDateTime = Carbon::now();
+    // $reservationDateTime = Carbon::parse($reservationContents->reservation_time);
 
     // ログインユーザーがお気に入りに登録した店舗の情報を取得
     $favoriteShops = Shop::whereIn('id', function ($query) use ($auth) {
@@ -104,6 +121,10 @@ class AuthController extends Controller
     // ログインユーザー情報を取得
     $user = User::find($auth);
 
-    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents',));
+    $currentDateTime = Carbon::now();
+    $currentDate = $currentDateTime->toDateString(); // 日付のみ取得
+    $currentTime = $currentDateTime->toTimeString(); // 時間のみ取得
+
+    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents', 'currentDate', 'currentTime'));
     }
 }

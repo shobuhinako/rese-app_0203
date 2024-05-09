@@ -39,10 +39,19 @@
                 <td class="reservation__item">{{ $reservationContent->number_of_people }}</td>
             </tr>
         </table>
-        <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationContent->shop->name]) }}" method="get">
-        @csrf
-        <input type="submit" value="予約変更">
-        </form>
+        @if ($reservationContent->reservation_date < $currentDate || ($reservationContent->reservation_date == $currentDate && $reservationContent->reservation_time < $currentTime))
+
+            <form class="review" action="{{ route('review', ['shop_name' => $reservationContent->shop->name]) }}" method="get">
+            @csrf
+                <input type="submit" value="レビュー">
+            </form>
+
+        @else
+            <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationContent->shop->name]) }}" method="get">
+            @csrf
+                <input type="submit" value="予約変更">
+            </form>
+        @endif
     </div>
     @endforeach
 </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChangeReservationController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,8 @@ Route::middleware('auth')->group(function(){
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
     Route::get('/reservation/{id}/edit/{shop_name}', [ChangeReservationController::class, 'edit'])->name('reservation.edit');
     Route::put('/reservation/update/{id}', [ChangeReservationController::class, 'update'])->name('reservation.update');
+    Route::get('/review/{shop_name}', [ReviewController::class, 'review'])->name('review');
+    Route::post('/done/review', [ReviewController::class, 'createReview']);
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/auth/login', [AuthController::class, 'logout']);
