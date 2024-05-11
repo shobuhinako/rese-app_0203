@@ -13,6 +13,7 @@
     <div class="review__content">
         <form class="review__form" action="/done/review" method="post">
         @csrf
+            <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
             <table class="review__content-detail">
                 <tr class="review__content-row">
                     <th class="review__item-name">店舗名

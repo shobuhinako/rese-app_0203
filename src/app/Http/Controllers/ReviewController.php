@@ -9,17 +9,22 @@ use App\Models\Reservation;
 
 class ReviewController extends Controller
 {
-    public function review($shop_name)
+    public function review($reservation_id)
     {
-        return view('review', ['shop_name' => $shop_name]);
+        $reservation = Reservation::findOrFail($reservation_id);
+        $shop_name = $reservation->shop->name;
+
+        return view('review', ['reservation' => $reservation, 'shop_name' => $shop_name]);
     }
+
 
     public function createReview(Request $request){
 
         $user_id = auth()->id();
+        $reservation_id = $request->input('reservation_id');
 
-        $shop_id = session('shop_id');
-        $reservation_id = session('reservation_id');
+        $reservation = Reservation::findOrFail($reservation_id);
+        $shop_id = $reservation->shop->id;
 
         $review = Review::create([
         'user_id' => $user_id,
@@ -28,10 +33,6 @@ class ReviewController extends Controller
         'point' => $request->point,
         'comment' => $request->comment,
         ]);
-
-        // $previousUrl = $request->session()->get('previous_url');
-
-        // return view ('done', compact('previousUrl'));
 
         return redirect ('/mypage');
     }

@@ -34,10 +34,18 @@
                 <th class="reservation__item-name">Time</th>
                 <td class="reservation__item">
                     <select name="reservation_time" id="time-input">
-                        @foreach ($timeOptions as $timeOption)
-                        <option value="{{ $timeOption }}" @if (\Carbon\Carbon::parse($timeOption)->format('H:i') === $selectedTime->format('H:i')) selected @endif>{{ \Carbon\Carbon::parse($timeOption)->format('H:i') }}</option>
-                        @endforeach
-                        
+                    @foreach ($timeOptions as $index => $timeOption)
+                    @php
+                        $formattedTime = \Carbon\Carbon::parse($timeOption)->format('H:i');
+                        $nextIndex = $index + 1;
+                        $nextTimeOption = $timeOptions[$nextIndex] ?? null;
+                        $nextFormattedTime = \Carbon\Carbon::parse($nextTimeOption)->format('H:i');
+                    @endphp
+                    @if ($nextTimeOption && $formattedTime !== $nextFormattedTime)
+                        <option value="{{ $timeOption }}" @if ($formattedTime === $selectedTime->format('H:i')) selected @endif>{{ $formattedTime }}</option>
+                    @endif
+                    @endforeach
+
 
                         <!-- <option value="10:00:00">10:00</option>
                         <option value="10:30:00">10:30</option>

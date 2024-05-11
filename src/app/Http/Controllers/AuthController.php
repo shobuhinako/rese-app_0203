@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\Reservation;
 use App\Models\Favorite;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +102,9 @@ class AuthController extends Controller
         session(['reservation_id' => $reservationContents->first()->id]);
     }
 
+    $reviews = Review::all();
+    $reviewedReservations= $reviews->pluck('reservation_id')->toArray();
+    $reservationsWithReviews = Reservation::whereIn('id', $reviewedReservations)->get();
 
     // $currentDateTime = Carbon::now();
     // $reservationContents->each(function ($reservation) use ($currentDateTime) {
@@ -125,6 +129,6 @@ class AuthController extends Controller
     $currentDate = $currentDateTime->toDateString(); // 日付のみ取得
     $currentTime = $currentDateTime->toTimeString(); // 時間のみ取得
 
-    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents', 'currentDate', 'currentTime'));
+    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents', 'currentDate', 'currentTime', 'reviewedReservations'));
     }
 }

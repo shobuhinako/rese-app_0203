@@ -41,10 +41,15 @@
         </table>
         @if ($reservationContent->reservation_date < $currentDate || ($reservationContent->reservation_date == $currentDate && $reservationContent->reservation_time < $currentTime))
 
-            <form class="review" action="{{ route('review', ['shop_name' => $reservationContent->shop->name]) }}" method="get">
-            @csrf
-                <input type="submit" value="レビュー">
-            </form>
+            @if (in_array($reservationContent->id, $reviewedReservations))
+                <button class="review" disabled>レビュー済み</button>
+            @else
+
+                <form class="review" action="{{ route('review', ['reservation_id' => $reservationContent->id]) }}" method="get">
+                @csrf
+                    <input type="submit" value="レビュー">
+                </form>
+            @endif
 
         @else
             <form class="reservation__change" action="{{ route('reservation.edit', ['id' => $reservationContent->id, 'shop_name'=>$reservationContent->shop->name]) }}" method="get">
@@ -54,6 +59,7 @@
         @endif
     </div>
     @endforeach
+
 </div>
 <div class="main__content-right">
     <h2 class="main__title">お気に入り店舗</h2>
