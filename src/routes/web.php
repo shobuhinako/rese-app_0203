@@ -6,6 +6,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChangeReservationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\VerificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +19,7 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('show.login');
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::get('/', [SearchController::class, 'search'])->name('search');
@@ -34,7 +35,12 @@ Route::middleware('auth')->group(function(){
     Route::post('/done/review', [ReviewController::class, 'createReview']);
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
-Route::post('/auth/login', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/thanks', function () {
     return view('thanks');
 });
+Route::get('/email/verify', function () {
+    // メールの確認ビューを返す
+})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');

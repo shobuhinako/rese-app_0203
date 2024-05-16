@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+    @if (count($errors) > 0)
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    @endif
     <div class="register__content">
         <div class="register__title">Registration</div>
         <div class="main__form">

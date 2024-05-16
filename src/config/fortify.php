@@ -147,7 +147,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
@@ -156,5 +156,9 @@ return [
             // 'window' => 0,
         ]),
     ],
+
+    'requests' => [
+    'login' => App\Http\Requests\LoginRequest::class,
+],
 
 ];

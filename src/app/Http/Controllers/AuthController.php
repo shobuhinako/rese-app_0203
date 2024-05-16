@@ -8,9 +8,15 @@ use App\Models\Reservation;
 use App\Models\Favorite;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -20,7 +26,7 @@ class AuthController extends Controller
         return view('/auth/register');
     }
 
-    public function login()
+    public function showLoginForm()
     {
         return view('/auth/login');
     }
@@ -36,10 +42,10 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/auth/login');
+        return redirect('/login');
     }
 
-    public function create(Request $request)
+    public function create(RegisterRequest $request)
     {
         $form = $request->only('name', 'email', 'password');
         $user = User::create([
@@ -48,27 +54,54 @@ class AuthController extends Controller
             'password' => bcrypt($form['password']),
         ]);
 
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        session()->flash('success_message', '本人確認メールを送信しました。');
+
         return redirect('/thanks');
     }
 
 
-    public function authenticate(Request $request): RedirectResponse
+    // public function authenticate(LoginRequest $request): RedirectResponse
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => ['required', 'email'],
+    //         'password' => ['required'],
+    //     ]);
+
+    //     if (Auth::attempt($credentials)) {
+    //             $request->session()->regenerate();
+    //     return redirect()->intended('dashboard');
+    // }
+
+    //     return back()->withErrors([
+    //         'email' => 'The provided credentials do not match our records.',
+    //     ])->onlyInput('email');
+    // }
+
+    public function login(LoginRequest $request):RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            // ログイン成功時の処理
+            $user = Auth::user();
 
-            return redirect()->intended('dashboard');
+            if ($user->hasVerifiedEmail()) {
+                // 本人確認が完了している場合
+                $request->session()->regenerate();
+                return redirect('/');
+            } else {
+                // 本人確認が未完了の場合
+                Auth::logout();
+                return back()->withErrors(['email' => '本人確認が完了していません。'])->onlyInput('email');
+            }
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        // ログイン失敗時の処理
+        return back()->withErrors(['email' => 'The provided credentials do not match our records.'])->onlyInput('email');
     }
+
 
     public function index()
     {
