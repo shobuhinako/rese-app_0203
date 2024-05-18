@@ -164,4 +164,9 @@ class AuthController extends Controller
 
     return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents', 'currentDate', 'currentTime', 'reviewedReservations'));
     }
+
+    public function adminPage(){
+        $user = auth()->user();
+        return view('admin-mypage', ['user' => $user]);
+    }
 }

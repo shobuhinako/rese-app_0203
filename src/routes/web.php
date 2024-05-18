@@ -8,6 +8,7 @@ use App\Http\Controllers\ChangeReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/', [SearchController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
+    Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
     Route::post('/done', [ShopController::class, 'reservation']);
     Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
@@ -36,6 +38,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/done/review', [ReviewController::class, 'createReview']);
     Route::post('/upload-image', [ImageUploadController::class, 'uploadImage'])->name('upload.image');
     Route::get('/upload-form', [ImageUploadController::class, 'showUploadForm'])->name('upload.form');
+    Route::post('/create/admin', [AdminController::class, 'createAdmin'])->name('admin.create');
+    Route::get('/create/admin', [AdminController::class, 'showAdmin'])->name('show.admin');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
