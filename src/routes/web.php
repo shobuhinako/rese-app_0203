@@ -7,6 +7,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChangeReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\ImageUploadController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function(){
     Route::put('/reservation/update/{id}', [ChangeReservationController::class, 'update'])->name('reservation.update');
     Route::get('/review/{reservation_id}', [ReviewController::class, 'review'])->name('review');
     Route::post('/done/review', [ReviewController::class, 'createReview']);
+    Route::post('/upload-image', [ImageUploadController::class, 'uploadImage'])->name('upload.image');
+    Route::get('/upload-form', [ImageUploadController::class, 'showUploadForm'])->name('upload.form');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -44,3 +47,4 @@ Route::get('/email/verify', function () {
 })->middleware(['auth', 'signed'])->name('verification.verify');
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/thanks', [VerificationController::class, 'resendVerificationEmail'])->name('verification.resend');

@@ -30,7 +30,13 @@
                     <button class="logout__button">Logout</button>
                 </form>
             </li>
-            <li class="navigation__list-item"><a href="{{ route('mypage') }}" class="navigation__link">Mypage</a></li>
+            <!-- <li class="navigation__list-item"><a href="{{ route('mypage') }}" class="navigation__link">Mypage</a></li> -->
+            @if(Auth::user()->role_id == 1) <!-- ユーザーが管理者権限を持っているかどうかを確認 -->
+                <li class="navigation__list-item"><a href="{{ route('admin.mypage') }}" class="navigation__link">Admin Mypage</a></li>
+            @else <!-- 管理者以外のユーザーの場合 -->
+                <li class="navigation__list-item"><a href="{{ route('mypage') }}" class="navigation__link">Mypage</a></li>
+            @endif
+
             @else
             <li class="navigation__list-item"><a href="{{ route('register') }}" class="navigation__link">Registration</a></li>
             <li class="navigation__list-item"><a href="{{ route('show.login') }}" class="navigation__link">Login</a></li>
