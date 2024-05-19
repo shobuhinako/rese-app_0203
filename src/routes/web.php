@@ -9,6 +9,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ManagerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +41,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/upload-form', [ImageUploadController::class, 'showUploadForm'])->name('upload.form');
     Route::post('/create/admin', [AdminController::class, 'createAdmin'])->name('admin.create');
     Route::get('/create/admin', [AdminController::class, 'showAdmin'])->name('show.admin');
+    Route::get('/create/manager', [ManagerController::class, 'showManager'])->name('show.manager');
+    Route::post('/create/manager', [ManagerController::class, 'createManager'])->name('manager.create');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
