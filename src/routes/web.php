@@ -10,6 +10,9 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\ShopCreateController;
+use App\Http\Controllers\ShopUpdateController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +32,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
     Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');
+    Route::get('/manager/mypage', [AuthController::class, 'managerPage'])->name('manager.mypage');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
     Route::post('/done', [ShopController::class, 'reservation']);
     Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
@@ -43,6 +47,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/create/admin', [AdminController::class, 'showAdmin'])->name('show.admin');
     Route::get('/create/manager', [ManagerController::class, 'showManager'])->name('show.manager');
     Route::post('/create/manager', [ManagerController::class, 'createManager'])->name('manager.create');
+    Route::get('/create/shop', [ShopCreateController::class, 'showCreateStorePage'])->name('shop.create.show');
+    Route::post('/create/shop', [ShopCreateController::class, 'createStore'])->name('shop.create');
+    Route::get('/update/shop', [ShopUpdateController::class, 'showUpdateStorePage'])->name('shop.update.show');
+    Route::put('/update/shop', [ShopUpdateController::class, 'updateStore'])->name('shop.update');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

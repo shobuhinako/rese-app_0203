@@ -10,6 +10,15 @@ class Shop extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'name',
+        'area',
+        'genre',
+        'detail',
+        'image_path',
+    ];
+
     /**
      * エリアに基づいて店舗を取得するメソッド
      *

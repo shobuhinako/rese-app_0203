@@ -21,7 +21,7 @@
     </form>
         <h2>{{ $shop->name }}</h2>
     <div class="card__img">
-        <img src="{{ asset($shop->image_path) }}" alt="店舗画像" />
+        <img src="{{ Storage::url($shop->image_path) }}" alt="店舗画像" />
     </div>
     <div class="card__content-tag">
         <p class="card__content-tag-item">#{{ $shop->area }}</p>

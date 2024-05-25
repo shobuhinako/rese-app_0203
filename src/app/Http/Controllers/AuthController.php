@@ -169,4 +169,35 @@ class AuthController extends Controller
         $user = auth()->user();
         return view('admin-mypage', ['user' => $user]);
     }
+
+    public function managerPage(){
+        $user = auth()->user();
+        $userId = Auth::id();
+
+        $shops = Shop::where('user_id', $userId)->get();
+
+        $reservations = collect();
+        foreach ($shops as $shop) {
+            $shopReservations = Reservation::with('user')
+                ->where('shop_id', $shop->id)
+                ->where(function ($query) {
+                    $query->where('reservation_date', '>', now()->toDateString()) // 今日以降の日付
+                          ->orWhere(function ($query) {
+                            $query->where('reservation_date', now()->toDateString())
+                                  ->where('reservation_time', '>=', now()->format('H:i:s')); // 今の時刻以降の時間
+                        });
+            })
+            ->orderBy('reservation_date')
+            ->orderBy('reservation_time')
+            ->get();
+
+            foreach ($shopReservations as $reservation) {
+            $tempReservations[$reservation->id] = $reservation;
+            }
+        }
+
+        $reservations = collect($tempReservations);
+
+        return view('manager-mypage', ['user' => $user], ['reservations' => $reservations]);
+    }
 }

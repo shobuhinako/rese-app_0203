@@ -34,7 +34,8 @@
         @foreach($shops as $shop)
         <div class="card">
             <div class="card__img">
-                <img src="{{ asset($shop->image_path) }}" alt="店舗画像" />
+                <!-- <img src="{{ asset($shop->image_path) }}" alt="店舗画像" /> -->
+                <img src="{{ Storage::url($shop->image_path) }}" alt="店舗画像" />
             </div>
             <div class="card__content">
                 <h2 class="card__content-ttl">{{ $shop->name }}</h2>
