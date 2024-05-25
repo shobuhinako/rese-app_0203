@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ShopCreateController;
 use App\Http\Controllers\ShopUpdateController;
+use App\Http\Controllers\SendNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/create/shop', [ShopCreateController::class, 'createStore'])->name('shop.create');
     Route::get('/update/shop', [ShopUpdateController::class, 'showUpdateStorePage'])->name('shop.update.show');
     Route::put('/update/shop', [ShopUpdateController::class, 'updateStore'])->name('shop.update');
+    Route::get('/send-notification', [SendNotificationController::class, 'showNotification'])->name('send.notification.show');
+    Route::post('/send-notification', [SendNotificationController::class, 'sendNotification'])->name('send-notification');
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
         $param = [
         'role_id' => '2',
         'name' => '代表者 太郎',
-        'email' => 'tarou@gmail.com',
+        'email' => 'hinako0714disney24@gmail.com',
         'email_verified_at' => Carbon::now(),
         'password' => bcrypt('password'),
         'created_at' => Carbon::now(),

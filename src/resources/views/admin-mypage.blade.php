@@ -24,4 +24,11 @@
             <input type="submit" value="店舗代表者作成">
         </form>
     </div>
+
+    <div class="send__notification">
+        <form class="notification__form-show" action="{{route('send.notification.show') }}" method="get">
+        @csrf
+            <input type="submit" value="お知らせメール作成">
+        </form>
+    </div>
 @endsection

@@ -176,7 +176,7 @@ class AuthController extends Controller
 
         $shops = Shop::where('user_id', $userId)->get();
 
-        $reservations = collect();
+        $tempReservations = [];
         foreach ($shops as $shop) {
             $shopReservations = Reservation::with('user')
                 ->where('shop_id', $shop->id)
