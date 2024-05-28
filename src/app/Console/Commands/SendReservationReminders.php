@@ -14,7 +14,7 @@ class SendReservationReminders extends Command
      *
      * @var string
      */
-    protected $signature = 'reminders:send';
+    protected $signature = 'send:email';
 
     /**
      * The console command description.

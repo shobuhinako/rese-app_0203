@@ -31,7 +31,9 @@
         <p class="shop__detail-item">{{ $shop->detail }}</p>
     </div>
 
-<div class="reservation">
+    <!-- QRコードの表示 -->
+
+    <div class="reservation">
     <div class="reservation__title">
         <p class="reservation__title-white">予約</p>
     </div>

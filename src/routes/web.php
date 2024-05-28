@@ -13,6 +13,7 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ShopCreateController;
 use App\Http\Controllers\ShopUpdateController;
 use App\Http\Controllers\SendNotificationController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::middleware('auth')->group(function(){
     Route::put('/update/shop', [ShopUpdateController::class, 'updateStore'])->name('shop.update');
     Route::get('/send-notification', [SendNotificationController::class, 'showNotification'])->name('send.notification.show');
     Route::post('/send-notification', [SendNotificationController::class, 'sendNotification'])->name('send-notification');
+    Route::get('/reservation/status/{id}', [ReservationController::class, 'showStatus'])->name('reservation.status');
+
 });
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
