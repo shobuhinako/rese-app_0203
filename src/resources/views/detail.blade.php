@@ -32,6 +32,19 @@
     </div>
 
     <!-- QRコードの表示 -->
+        <!-- @if ($user && $user->role_id === 2 && $shop->isOwner($user->id))
+                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
+        @else
+            <p>あなたはこの店舗の代表者ではないため、QR コードを表示できません。</p>
+        @endif -->
+
+        @if ($user && $user->role_id === 2)
+            @if ($shop->isOwner($user->id))
+                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
+            @else
+                <p>あなたはこの店舗の代表者ではないため、QRコードを表示できません。</p>
+            @endif
+        @endif
 
     <div class="reservation">
     <div class="reservation__title">

@@ -67,7 +67,7 @@ class Shop extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function favorites()
@@ -83,5 +83,10 @@ class Shop extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function isOwner($userId)
+    {
+        return $this->user_id === $userId;
     }
 }

@@ -9,8 +9,7 @@ use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\Reservation;
 use App\Http\Requests\ReservationRequest;
-// use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ShopController extends Controller
 {
@@ -21,14 +20,17 @@ class ShopController extends Controller
         $user = User::find($userId);
 
         // 店舗代表者の場合のみQRコードを生成
-        // $qrCode = null;
-        // if ($user && $user->role_id === 2) {
-        //     $url = route('reservation.status', ['id' => $shop->id]);
-        //     $qrCode = QrCode::size(200)->generate($url);
-        // }
+        $qrCode = null;
+        if ($user && $user->role_id === 2 && $shop->isOwner($userId)) {
+            $url = route('reservation.status', ['id' => $shop->id]);
+            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($url));
+        }
 
-        return view('detail', compact('shop', 'user'));
+        // QrCode::size(500)->generate('https://www.example.com');
+
+        return view('detail', compact('shop', 'user', 'qrCode'));
     }
+
 
     public function favorite(Request $request, Shop $shop){
         // 認証済みユーザーを取得
