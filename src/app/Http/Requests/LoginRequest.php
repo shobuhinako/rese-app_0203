@@ -25,9 +25,9 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required',
+            'email' => ['required', new EmailVerified($this->input('email'))],
             'password' => 'required',
-            'email_verified_at' => [new EmailVerified],
+            // 'email_verified_at' => [new EmailVerified],
         ];
     }
 
@@ -36,6 +36,7 @@ class LoginRequest extends FormRequest
         return [
             'email.required' => 'emailを入力してください',
             'password.required' => 'passwordを入力してください',
+            'email.email_verified' => '本人確認が完了していません。',
         ];
         }
 }

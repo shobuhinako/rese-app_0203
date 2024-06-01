@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->integer('role_id')->nullable(); //1:管理者 2:店舗代表者
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

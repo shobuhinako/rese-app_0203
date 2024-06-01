@@ -26,18 +26,18 @@ class VerificationController extends Controller
         return view('emails.verification_complete');
     }
 
-    public function resendVerificationEmail (Request $request)
-    {
-    $request->validate([
-        'email' => 'required|email|exists:users,email',
-    ]);
+    // public function resendVerificationEmail (Request $request)
+    // {
+    // $request->validate([
+    //     'email' => 'required|email|exists:users,email',
+    // ]);
 
-    $user = User::where('email', $request->email)->first();
+    // $user = User::where('email', $request->email)->first();
 
-    Mail::to($user->email)->send(new VerifyEmail($user));
+    // Mail::to($user->email)->send(new VerifyEmail($user));
 
-    session()->flash('success_message', '本人確認メールを再送しました。');
+    // session()->flash('success_message', '本人確認メールを再送しました。');
 
-    return redirect('/thanks');
-    }
+    // return redirect('/thanks');
+    // }
 }

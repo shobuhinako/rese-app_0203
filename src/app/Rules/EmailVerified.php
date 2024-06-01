@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class EmailVerified implements Rule
 {
@@ -12,9 +13,11 @@ class EmailVerified implements Rule
      *
      * @return void
      */
-    public function __construct()
+    protected $email;
+
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -26,7 +29,9 @@ class EmailVerified implements Rule
      */
     public function passes($attribute, $value)
     {
-        return User::where($attribute, $value)->whereNotNull('email_verified_at')->exists();
+        // return User::where($attribute, $value)->whereNotNull('email_verified_at')->exists();
+
+        return (new User)->where('email', $this->email)->whereNotNull('email_verified_at')->exists();
     }
 
     /**

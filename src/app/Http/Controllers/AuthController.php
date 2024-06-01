@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -87,19 +88,41 @@ class AuthController extends Controller
             // ログイン成功時の処理
             $user = Auth::user();
 
-            if ($user->hasVerifiedEmail()) {
+            Log::info("User logged in: " . $user->email);
+            Log::info("Email verified at: " . $user->email_verified_at);
+
+
+        //     if ($user->hasVerifiedEmail()) {
+        //         // 本人確認が完了している場合
+        //         $request->session()->regenerate();
+        //         return redirect('/');
+        //     } else {
+        //         // 本人確認が未完了の場合
+        //         Auth::logout();
+        //         return back()->withErrors(['email' => '本人確認が完了していません。'])->onlyInput('email');
+        //     }
+        // }
+
+        // // ログイン失敗時の処理
+        // return back()->withErrors(['email' => '認証情報が正しくありません。'])->onlyInput('email');
+
+
+        if ((new User)->where('email', $user->email)->whereNotNull('email_verified_at')->exists()) {
                 // 本人確認が完了している場合
+                Log::info("Email is verified for user: " . $user->email);
                 $request->session()->regenerate();
                 return redirect('/');
             } else {
                 // 本人確認が未完了の場合
+                Log::info("Email is not verified for user: " . $user->email);
                 Auth::logout();
                 return back()->withErrors(['email' => '本人確認が完了していません。'])->onlyInput('email');
             }
+        } else {
+            // 認証失敗時の処理
+            Log::info("Authentication failed for email: " . $request->input('email'));
+            return back()->withErrors(['email' => '認証情報が正しくありません。'])->onlyInput('email');
         }
-
-        // ログイン失敗時の処理
-        return back()->withErrors(['email' => 'The provided credentials do not match our records.'])->onlyInput('email');
     }
 
 

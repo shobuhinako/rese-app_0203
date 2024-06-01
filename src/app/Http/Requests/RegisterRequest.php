@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\UniqueEmailWithVerification;
 
 class RegisterRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => ['required', 'email', new UniqueEmailWithVerification()],
             'password' => 'required|min:8',
         ];
     }
@@ -35,7 +36,6 @@ class RegisterRequest extends FormRequest
             'name.required' => '名前を入力してください',
             'email.required' => 'emailを入力してください',
             'email.email' => 'メールアドレスは「ユーザー名@ドメイン」形式で入力してください',
-            'email.unique' => 'そのメールアドレスはすでに登録があります',
             'password.required' => 'passwordを入力してください',
             'password.min' => 'パスワードは8文字以上で設定してください'
         ];
