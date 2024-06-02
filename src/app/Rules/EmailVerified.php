@@ -14,10 +14,12 @@ class EmailVerified implements Rule
      * @return void
      */
     protected $email;
+    protected $userExists;
 
     public function __construct($email)
     {
         $this->email = $email;
+        $this->userExists = User::where('email', $this->email)->exists();
     }
 
     /**
@@ -31,6 +33,10 @@ class EmailVerified implements Rule
     {
         // return User::where($attribute, $value)->whereNotNull('email_verified_at')->exists();
 
+        if (!$this->userExists) {
+            return false;
+        }
+
         return (new User)->where('email', $this->email)->whereNotNull('email_verified_at')->exists();
     }
 
@@ -41,6 +47,10 @@ class EmailVerified implements Rule
      */
     public function message()
     {
+        if (!$this->userExists) {
+            return '登録情報が見つかりません。';
+        }
+
         return '本人確認が完了していません。';
     }
 }
