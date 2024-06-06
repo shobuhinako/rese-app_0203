@@ -5,9 +5,6 @@
 @endsection
 
 @section('content')
-<!-- @if(session()->has('success_message'))
-    <p>{{ session('success_message') }}</p>
-@endif -->
     <div class="thanks__content">
         <div class="thanks__message">会員登録ありがとうございます</div>
         @if(session()->has('success_message'))

@@ -34,13 +34,8 @@ class ChangeReservationController extends Controller
 
         // // 予約された時間が選択肢の中にあるかどうかをチェックして、あればそれを選択されたものにする
         $selectedTime = \Carbon\Carbon::parse($reservationContent->reservation_time);
-        // if (!in_array($selectedTime, $timeOptions)) {
-        // // // 予約された時間が選択肢の中にない場合、最初の時間をデフォルトで選択する
-        // $selectedTime = $timeOptions[0];
 
         $timeOptions[] = $selectedTime->format('H:i');
-
-
 
         return view ('/reservation_change', compact('shop_name', 'reservationContent', 'timeOptions', 'numberOfPeopleOptions', 'selectedTime'));
     }

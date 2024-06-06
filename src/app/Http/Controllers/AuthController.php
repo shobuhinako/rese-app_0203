@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -34,11 +33,11 @@ class AuthController extends Controller
     }
 
     /**
- * ユーザーをアプリケーションからログアウトさせる
- *
- * @param  \Illuminate\Http\Request  $request
- * @return \Illuminate\Http\Response
- */
+    * ユーザーをアプリケーションからログアウトさせる
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -64,23 +63,6 @@ class AuthController extends Controller
     }
 
 
-    // public function authenticate(LoginRequest $request): RedirectResponse
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => ['required', 'email'],
-    //         'password' => ['required'],
-    //     ]);
-
-    //     if (Auth::attempt($credentials)) {
-    //             $request->session()->regenerate();
-    //     return redirect()->intended('dashboard');
-    // }
-
-    //     return back()->withErrors([
-    //         'email' => 'The provided credentials do not match our records.',
-    //     ])->onlyInput('email');
-    // }
-
     public function login(LoginRequest $request):RedirectResponse
     {
         $credentials = $request->validated();
@@ -89,39 +71,17 @@ class AuthController extends Controller
             // ログイン成功時の処理
             $user = Auth::user();
 
-            Log::info("User logged in: " . $user->email);
-            Log::info("Email verified at: " . $user->email_verified_at);
-
-
-        //     if ($user->hasVerifiedEmail()) {
-        //         // 本人確認が完了している場合
-        //         $request->session()->regenerate();
-        //         return redirect('/');
-        //     } else {
-        //         // 本人確認が未完了の場合
-        //         Auth::logout();
-        //         return back()->withErrors(['email' => '本人確認が完了していません。'])->onlyInput('email');
-        //     }
-        // }
-
-        // // ログイン失敗時の処理
-        // return back()->withErrors(['email' => '認証情報が正しくありません。'])->onlyInput('email');
-
-
-        if ((new User)->where('email', $user->email)->whereNotNull('email_verified_at')->exists()) {
+            if ((new User)->where('email', $user->email)->whereNotNull('email_verified_at')->exists()) {
                 // 本人確認が完了している場合
-                Log::info("Email is verified for user: " . $user->email);
                 $request->session()->regenerate();
                 return redirect('/');
             } else {
                 // 本人確認が未完了の場合
-                Log::info("Email is not verified for user: " . $user->email);
                 Auth::logout();
                 return back()->withErrors(['email' => '本人確認が完了していません。'])->onlyInput('email');
             }
         } else {
             // 認証失敗時の処理
-            Log::info("Authentication failed for email: " . $request->input('email'));
             return back()->withErrors(['email' => '認証情報が正しくありません。'])->onlyInput('email');
         }
     }
@@ -150,11 +110,11 @@ class AuthController extends Controller
         $auth = auth()->user()->id;
 
     // ログインユーザーが予約した店舗の情報を取得
-    $reservationShops = Shop::whereIn('id', function ($query) use ($auth) {
+        $reservationShops = Shop::whereIn('id', function ($query) use ($auth) {
         $query->select('shop_id')
             ->from('reservations')
             ->where('user_id', $auth);
-    })->get();
+        })->get();
 
     if ($reservationShops->isNotEmpty()) {
         session(['shop_id' => $reservationShops->first()->id]);
@@ -173,15 +133,6 @@ class AuthController extends Controller
     $reviews = Review::all();
     $reviewedReservations= $reviews->pluck('reservation_id')->toArray();
     $reservationsWithReviews = Reservation::whereIn('id', $reviewedReservations)->get();
-
-    // $currentDateTime = Carbon::now();
-    // $reservationContents->each(function ($reservation) use ($currentDateTime) {
-    //     $reservationDateTime = Carbon::parse($reservation->reservation_time);
-    //     $reservation->isPastReservation = $currentDateTime->gt($reservationDateTime);
-    // });
-
-    // $currentDateTime = Carbon::now();
-    // $reservationDateTime = Carbon::parse($reservationContents->reservation_time);
 
     // ログインユーザーがお気に入りに登録した店舗の情報を取得
     $favoriteShops = Shop::whereIn('id', function ($query) use ($auth) {
@@ -217,7 +168,7 @@ class AuthController extends Controller
                 ->where('shop_id', $shop->id)
                 ->where(function ($query) {
                     $query->where('reservation_date', '>', now()->toDateString()) // 今日以降の日付
-                          ->orWhere(function ($query) {
+                        ->orWhere(function ($query) {
                             $query->where('reservation_date', now()->toDateString())
                                   ->where('reservation_time', '>=', now()->format('H:i:s')); // 今の時刻以降の時間
                         });

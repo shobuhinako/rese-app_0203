@@ -25,7 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Paginator::useBootstrap();
         View::addNamespace('mail', resource_path('views/emails'));
     }
 }

@@ -31,13 +31,6 @@
         <p class="shop__detail-item">{{ $shop->detail }}</p>
     </div>
 
-    <!-- QRコードの表示 -->
-        <!-- @if ($user && $user->role_id === 2 && $shop->isOwner($user->id))
-                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
-        @else
-            <p>あなたはこの店舗の代表者ではないため、QR コードを表示できません。</p>
-        @endif -->
-
         @if ($user && $user->role_id === 2)
             @if ($shop->isOwner($user->id))
                 <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
@@ -113,7 +106,7 @@
             </tr>
         </table>
     </div>
-    
+
     <script>
     function updateDate() {
     var selectedDate = document.getElementById("date-input").value;
@@ -151,8 +144,6 @@
     </script>
 
     <div class="reservation__footer">
-        <!-- <form class="reservation__button" action="/done" method="post">
-        @csrf -->
             <input type="submit" value="予約する">
     </div>
     </form>

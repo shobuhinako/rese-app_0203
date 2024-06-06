@@ -27,17 +27,11 @@ class UniqueEmailWithVerification implements Rule
      */
     public function passes($attribute, $value)
     {
-        \Log::info('Validating email: ' . $value);
         $user = DB::table('users')
             ->where('email', $value)
             ->whereNotNull('email_verified_at')
             ->first();
 
-        if ($user) {
-            \Log::info('User found with email_verified_at not null: ' . $value);
-        } else {
-            \Log::info('No user found or email_verified_at is null: ' . $value);
-        }
             return !$user;
     }
 

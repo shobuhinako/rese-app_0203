@@ -66,10 +66,4 @@ Route::middleware('auth')->group(function(){
     Route::get('/charge', [StripeController::class, 'showCharge'])->name('show.charge');
 
 });
-// Route::get('/thanks', function () {
-//     return view('thanks');
-// });
-// Route::get('/email/verify', function () {
-//     // メールの確認ビューを返す
-// })->middleware(['auth', 'signed'])->name('verification.verify');
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');

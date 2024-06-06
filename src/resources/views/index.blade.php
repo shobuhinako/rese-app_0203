@@ -34,7 +34,6 @@
         @foreach($shops as $shop)
         <div class="card">
             <div class="card__img">
-                <!-- <img src="{{ asset($shop->image_path) }}" alt="店舗画像" /> -->
                 <img src="{{ Storage::url($shop->image_path) }}" alt="店舗画像" />
             </div>
             <div class="card__content">
@@ -50,31 +49,17 @@
                 <input type="submit" name="submit" value="詳しくみる">
                 </form>
             </div>
-            <!-- <div class="favorite">
+            <div class="favorite">
                 <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
                 @csrf
-                <button class="favorite__button" type="submit">
-                @if(isset($isFavorite) && $isFavorite == false)
-                    <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
-                @else
-                    <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
-                @endif
-                </button>
+                    <button class="favorite__button" type="submit">
+                    @if($shop->is_bookmarked_by_auth_user())
+                        <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
+                    @else
+                        <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
+                    @endif
+                    </button>
                 </form>
-            </div> -->
-            <div class="favorite">
-            <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
-            @csrf
-            <!-- <button class="favorite__button" type="submit" style="color: {{ session('isFavorite') ? '#ec0426' : '#a7a0a1' }}"> -->
-            <!-- <button class="favorite__button" type="submit" style="color: {{ session('isFavorite') && session('favoriteShopId') == $shop->id ? '#ec0426' : '#a7a0a1' }}"> -->
-            <button class="favorite__button" type="submit">
-            @if($shop->is_bookmarked_by_auth_user())
-            <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
-            @else
-            <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
-            @endif
-            </button>
-            </form>
             </div>
         </div>
         @endforeach

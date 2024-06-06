@@ -13,8 +13,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ShopController extends Controller
 {
-    public function showDetail($id)
-    {
+    public function showDetail($id){
         $shop = Shop::find($id);
         $userId = auth()->id();
         $user = User::find($userId);
@@ -25,8 +24,6 @@ class ShopController extends Controller
             $url = route('reservation.status', ['id' => $shop->id]);
             $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($url));
         }
-
-        // QrCode::size(500)->generate('https://www.example.com');
 
         return view('detail', compact('shop', 'user', 'qrCode'));
     }
@@ -64,17 +61,6 @@ class ShopController extends Controller
     }
 
     public function reservation(ReservationRequest $request){
-        // $form = $request->all();
-        // $shop = Shop::find($id);
-
-        // $reservation = Reservation::create([
-        //     'user_id' => $form['user_id'],
-        //     'shop_id' => $form['shop_id'],
-        //     'reservation_date' => $form['reservation_date'],
-        //     'reservation_time' => $form['reservation_time'],
-        //     'number_of_people' => $form['number_of_people'],
-        // ]);
-
         $reservation = Reservation::create([
         'user_id' => $request->user_id,
         'shop_id' => $request->shop_id,
@@ -88,41 +74,18 @@ class ShopController extends Controller
         return view ('done', compact('previousUrl'));
     }
 
-    // public function destroy($id)
-    // {
-    //     $reservation = Reservation::find($id);
-    
-    // if (!$reservation) {
-    //     // レコードが見つからない場合は何らかのエラー処理を行う
-    //     // 例えば、リダイレクトやエラーメッセージの表示など
-    // }
-
-    // // レコードが見つかった場合は削除を実行する
-    // $reservation->delete();
-
-    // // 成功したらリダイレクトするなど適切な処理を行う
-    // return redirect()->back()->with('success', '予約が削除されました');
-    // }
-
     public function remove(Request $request)
     {
         Reservation::find($request->id)->delete();
         return redirect()->back();
     }
 
-    // public function destroy(Request $request)
-    // {
-    //     Favorite::find($request->id)->delete();
-    //     return redirect()->back();
-    // }
-
     public function destroy(Request $request)
-{
-    $favorite = Favorite::where('shop_id', $request->shop_id)->first();
-    if ($favorite) {
-        $favorite->delete();
+    {
+        $favorite = Favorite::where('shop_id', $request->shop_id)->first();
+        if ($favorite) {
+            $favorite->delete();
+        }
+        return redirect()->back();
     }
-    return redirect()->back();
-}
-
 }

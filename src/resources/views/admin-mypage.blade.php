@@ -17,7 +17,7 @@
             <input type="submit" value="管理者作成">
         </form>
     </div>
-    
+
     <div class="create__store-managers">
         <form class="create__form" action="{{ route('show.manager') }}" method="get">
         @csrf

@@ -44,8 +44,6 @@ class ChangeReservationRequest extends FormRequest
                     }
                 },
                 Rule::unique('reservations')->where(function ($query) use ($auth){
-                    // $selectedTime = Carbon::createFromFormat('H:i', $this->input('reservation_time'))->format('H:i:s');
-                    // dd('$selectedTime');
                     return $query->where('reservation_date', $this->input('reservation_date'))
                         ->where('reservation_time', $this->input('reservation_time'))
                         ->where('user_id', $auth);
@@ -63,5 +61,4 @@ class ChangeReservationRequest extends FormRequest
             'reservation_time.unique' => 'その日時の予約は既に存在します。別の日時を選択してください。',
         ];
     }
-
 }

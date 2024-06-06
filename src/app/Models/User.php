@@ -47,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasVerifiedEmail()
     {
-    return self::where('email', $this->email)->whereNotNull('email_verified_at')->exists();
+        return self::where('email', $this->email)->whereNotNull('email_verified_at')->exists();
     }
 
     public function shops() {

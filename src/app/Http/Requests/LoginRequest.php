@@ -27,17 +27,15 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'email', new EmailVerified($this->input('email'))],
             'password' => 'required',
-            // 'email_verified_at' => [new EmailVerified],
         ];
     }
 
     public function messages()
-        {
+    {
         return [
             'email.required' => 'emailを入力してください',
             'email.email' => '有効なメールアドレスを入力してください',
             'password.required' => 'passwordを入力してください',
-            // 'email.email_verified' => '本人確認が完了していません。',
         ];
-        }
+    }
 }

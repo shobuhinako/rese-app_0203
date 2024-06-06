@@ -31,8 +31,6 @@ class EmailVerified implements Rule
      */
     public function passes($attribute, $value)
     {
-        // return User::where($attribute, $value)->whereNotNull('email_verified_at')->exists();
-
         if (!$this->userExists) {
             return false;
         }

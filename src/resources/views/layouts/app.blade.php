@@ -30,7 +30,6 @@
                     <button class="logout__button">Logout</button>
                 </form>
             </li>
-            <!-- <li class="navigation__list-item"><a href="{{ route('mypage') }}" class="navigation__link">Mypage</a></li> -->
             @if(Auth::user()->role_id == 1) <!-- ユーザーが管理者権限を持っているかどうかを確認 -->
                 <li class="navigation__list-item"><a href="{{ route('admin.mypage') }}" class="navigation__link">Admin Mypage</a></li>
             @elseif(Auth::user()->role_id == 2) <!-- ユーザーが店舗代表者権限を持っているかどうかを確認 -->

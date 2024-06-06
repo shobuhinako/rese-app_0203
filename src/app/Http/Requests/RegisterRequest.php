@@ -30,8 +30,8 @@ class RegisterRequest extends FormRequest
             'password' => 'required|min:8',
         ];
     }
-        public function messages()
-        {
+    public function messages()
+    {
         return [
             'name.required' => '名前を入力してください',
             'email.required' => 'emailを入力してください',
@@ -39,5 +39,5 @@ class RegisterRequest extends FormRequest
             'password.required' => 'passwordを入力してください',
             'password.min' => 'パスワードは8文字以上で設定してください'
         ];
-        }
+    }
 }

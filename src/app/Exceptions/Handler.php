@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception) {
 		if ($exception instanceof TokenMismatchException) {
-			return redirect()->route('login')->with('message', 'セッションがタイムアウトしました。再度ログインしてください。');
+			return redirect()->route('login');
 		}
 
 		return parent::render($request, $exception);

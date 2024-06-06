@@ -22,7 +22,7 @@
                 @csrf
 
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                
+
                 <div>
                     <label for="name">店舗名:</label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="店舗名を入力してください" required>

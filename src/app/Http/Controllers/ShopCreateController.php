@@ -21,24 +21,6 @@ class ShopCreateController extends Controller
         return view ('create-shop', ['images' => $images, 'user_id' => $userId]);
     }
 
-    // public function showCreateStorePage(){
-    //     $imageFiles = Storage::disk('public')->files('images');
-    //     $images = [];
-    //     foreach ($imageFiles as $file) {
-    //     $images[] = 'public/storage/' . $file;
-    //     }
-        
-    //     return view ('create-shop', ['images' => $images]);
-    // }
-
-    // public function createShop()
-    // {
-    // // storage/app/public/imagesディレクトリ内の画像ファイルを取得する
-    // $images = Storage::files('public/images');
-
-    // return view('create-shop', compact('images'));
-    // }
-
     public function createStore(Request $request)
     {
         $form = $request->only('user_id', 'name', 'area', 'genre', 'detail', 'image_path');
@@ -58,5 +40,4 @@ class ShopCreateController extends Controller
 
         return redirect('/create/shop');
     }
-
 }
