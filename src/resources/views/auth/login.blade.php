@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+
+    @if(session('message'))
+        <div class="alert alert-warning">
+            {{ session('message') }}
+        </div>
+    @endif
     @if (count($errors) > 0)
         <ul>
             @foreach ($errors->all() as $error)

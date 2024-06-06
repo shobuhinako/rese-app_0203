@@ -80,26 +80,29 @@ class ReservationRequest extends FormRequest
                 'required',
                 'date',
                 'after_or_equal:today',
-                Rule::unique('reservations')->where(function ($query) use ($auth) {
-                        return $query->where('reservation_date', $this->input('reservation_date'))
-                        ->where('reservation_time', $this->input('reservation_time'))
-                        ->where('user_id', $auth);
-                }),
 
                 // Rule::unique('reservations')->where(function ($query) use ($auth) {
                 //     return $query->where('shop_id', $this->input('shop_id'))
                 //         ->whereDate('reservation_date', now())
                 //         ->where('user_id', $auth);
                 // }),
-    ],
+            ],
 
+            'reservation_time' => [
+                'required',
                 function ($attribute, $value, $fail) {
                     $reservationDateTime = $this->input('reservation_date') . ' ' . $this->input('reservation_time');
                     if (strtotime($reservationDateTime) <= time()) {
                         $fail('過去の時間は予約できません。');
                     }
                 },
-            'reservation_time' => 'required',
+                Rule::unique('reservations')->where(function ($query) use ($auth) {
+                        return $query->where('reservation_date', $this->input('reservation_date'))
+                        ->where('reservation_time', $this->input('reservation_time'))
+                        ->where('user_id', $auth);
+                }),
+            ],
+
             'number_of_people' => 'required',
         ];
     }

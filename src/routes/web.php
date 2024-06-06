@@ -28,7 +28,12 @@ use App\Http\Controllers\StripeController;
 */
 
 Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('show.login');
+Route::post('/register', [AuthController::class, 'create'])->name('register.post');
+Route::get('/thanks', [AuthController::class, 'showThanks'])->name('thanks');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::get('/', [SearchController::class, 'search'])->name('search');
@@ -61,14 +66,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/charge', [StripeController::class, 'showCharge'])->name('show.charge');
 
 });
-Route::post('/register', [AuthController::class, 'create'])->name('register.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/thanks', function () {
-    return view('thanks');
-});
-Route::get('/email/verify', function () {
-    // メールの確認ビューを返す
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Route::get('/thanks', function () {
+//     return view('thanks');
+// });
+// Route::get('/email/verify', function () {
+//     // メールの確認ビューを返す
+// })->middleware(['auth', 'signed'])->name('verification.verify');
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/thanks', [VerificationController::class, 'resendVerificationEmail'])->name('verification.resend');

@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -123,6 +124,17 @@ class AuthController extends Controller
             Log::info("Authentication failed for email: " . $request->input('email'));
             return back()->withErrors(['email' => '認証情報が正しくありません。'])->onlyInput('email');
         }
+    }
+
+    public function showThanks()
+    {
+        return view ('thanks');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        Session::put('lastActivityTime', time());
+        return redirect()->intended($this->redirectPath());
     }
 
 

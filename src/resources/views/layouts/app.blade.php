@@ -41,7 +41,7 @@
 
             @else
             <li class="navigation__list-item"><a href="{{ route('register') }}" class="navigation__link">Registration</a></li>
-            <li class="navigation__list-item"><a href="{{ route('show.login') }}" class="navigation__link">Login</a></li>
+            <li class="navigation__list-item"><a href="{{ route('login') }}" class="navigation__link">Login</a></li>
             @endif
         </ul>
     </nav>
