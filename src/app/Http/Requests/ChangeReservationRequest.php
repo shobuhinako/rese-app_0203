@@ -56,7 +56,7 @@ class ChangeReservationRequest extends FormRequest
     public function messages()
     {
         return [
-            'reservation_date.date' => '過去の時間は予約できません。',
+            'reservation_time.custom' => '過去の時間は予約できません。',
             'reservation_date.after_or_equal' => '過去の日付は予約できません。',
             'reservation_time.unique' => 'その日時の予約は既に存在します。別の日時を選択してください。',
         ];

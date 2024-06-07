@@ -212,6 +212,8 @@ class ShopsTableSeeder extends Seeder
             'detail' => '毎日店主自ら市場等に出向き、厳選した魚介類が、お鮨をはじめとした繊細な料理に仕立てられます。また、選りすぐりの種類豊富なドリンクもご用意しております。',
             'image_path' => 'images/0GqbgpW6U6JsWp2BhUSmSLBoJYcui8GvETrcd3Aa.jpg'
         ];
+
+        DB::table('shops')->insert($param);
     }
 }
 

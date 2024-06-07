@@ -21,11 +21,16 @@ class ManagerController extends Controller
         $form = $request->only('shop_id', 'name', 'email', 'password');
         $user = User::create([
             'role_id' => 2,
-            'shop_id' => $form['shop_id'],
             'name' => $form['name'],
             'email' => $form['email'],
             'password' => bcrypt($form['password']),
         ]);
+
+        $shop = Shop::find($form['shop_id']);
+        if ($shop) {
+            $shop->user_id = $user->id;
+            $shop->save();
+        }
 
         Mail::to($user->email)->send(new VerifyEmail($user));
 

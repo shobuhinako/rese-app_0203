@@ -66,7 +66,7 @@
     @foreach($favoriteShops as $favoriteShop)
         <div class="card">
             <div class="card__img">
-                <img src="{{ asset($favoriteShop->image_path) }}" alt="店舗画像" />
+                <img src="{{ Storage::url($favoriteShop->image_path) }}" alt="店舗画像" />
             </div>
             <div class="card__content">
                 <h2 class="card__content-ttl">{{ $favoriteShop->name }}</h2>

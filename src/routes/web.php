@@ -36,7 +36,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
-    Route::get('/', [SearchController::class, 'search'])->name('search');
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
     Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');

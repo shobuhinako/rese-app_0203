@@ -62,9 +62,9 @@ class ReservationRequest extends FormRequest
     public function messages()
     {
         return [
-            'reservation_date.unique' => 'その時間の予約は既に存在します。別の時間を選択してください。',
+            'reservation_time.unique' => 'その時間の予約は既に存在します。別の時間を選択してください。',
             'reservation_date.after_or_equal' => '過去の日付は選択できません。',
-            'reservation_date.custom' => '過去の時間は予約できません。',
+            'reservation_time.custom' => '過去の時間は予約できません。',
             'reservation_date.required' => '予約日を選択してください'
         ];
     }
