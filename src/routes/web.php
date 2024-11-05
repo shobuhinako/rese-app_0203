@@ -24,4 +24,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
+    Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
+    Route::get('/search', [ShopController::class, 'search'])->name('search');
 });

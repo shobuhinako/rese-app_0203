@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="search__area">
-        <form class="search__form" action="" method="">
+        <form class="search__form" action="{{ route('search') }}" method="get">
         @csrf
             <select class="area" name="area">
                 <option value="all">All area</option>
@@ -24,8 +24,8 @@
                 <option value="yakiniku">焼肉</option>
             </select>
             <button class="search__button" id="search-button" type="submit"><i class="fa-solid fa-search"></i>
-                <input class="search__text" type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
             </button>
+            <input class="search__text" type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
         </form>
     </div>
 
