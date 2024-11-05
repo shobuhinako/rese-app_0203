@@ -48,9 +48,14 @@
                 <input class="detail__button" type="submit" name="submit" value="詳しくみる">
                 </form>
                 <div class="favorite">
-                    <form class="favorite__content" action="" method="">
+                    <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
                     @csrf
                         <button class="favorite__button" type="submit">
+                            @if($shop->is_bookmarked_by_auth_user())
+                                <i class="fa-solid fa-heart" style="color: #ec0426;"></i>
+                            @else
+                                <i class="fa-solid fa-heart" style="color: #a7a0a1;"></i>
+                            @endif
                         </button>
                     </form>
                 </div>

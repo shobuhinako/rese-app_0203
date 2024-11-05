@@ -32,4 +32,12 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function shops() {
+        return $this->hasMany(Shop::class);
+    }
+
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
 }

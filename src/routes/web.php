@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
+    Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
 });
