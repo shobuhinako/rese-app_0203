@@ -17,3 +17,9 @@ use App\Http\Controllers\AuthController;
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('show.register');
 Route::post('/register', [AuthController::class, 'create'])->name('register');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('show.login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/', [AuthController::class, 'index'])->name('index');
+});

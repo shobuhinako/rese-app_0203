@@ -36,6 +36,26 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert($param);
 
         $param = [
+        'role_id' => '2',
+        'name' => '代表者 次郎',
+        'email' => 'jirou@gmail.com',
+        'password' => bcrypt('password'),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now(),
+        ];
+        DB::table('users')->insert($param);
+
+        $param = [
+        'role_id' => '2',
+        'name' => '代表者 三郎',
+        'email' => 'sabrou@gmail.com',
+        'password' => bcrypt('password'),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now(),
+        ];
+        DB::table('users')->insert($param);
+
+        $param = [
         'name' => 'テスト 太郎',
         'email' => 'testtarou@gmail.com',
         'password' => bcrypt('password'),

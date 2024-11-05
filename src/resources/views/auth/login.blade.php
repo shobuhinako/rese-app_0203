@@ -5,14 +5,8 @@
 @endsection
 
 @section('content')
-
-    @if(session('message'))
-        <div class="alert alert-warning">
-            {{ session('message') }}
-        </div>
-    @endif
     @if (count($errors) > 0)
-        <ul>
+        <ul class="error__message">
             @foreach ($errors->all() as $error)
             <li>{{$error}}</li>
             @endforeach
@@ -23,9 +17,15 @@
         <div class="main__form">
             <form class="main__form-content" action="/login" method="post">
                 @csrf
-                <input type="email" name="email" value="" placeholder="Email">
-                <input type="text" name="password" value="" placeholder="Password">
-                <input type="submit" name="submit" value="ログイン">
+                <div class="email">
+                    <input class="text__box" type="email" name="email" value="" placeholder="Email">
+                </div>
+                <div class="password">
+                    <input class="text__box" type="text" name="password" value="" placeholder="Password">
+                </div>
+                <div class="submit">
+                    <input class="submit__button" type="submit" name="submit" value="ログイン">
+                </div>
             </form>
         </div>
     </div>
