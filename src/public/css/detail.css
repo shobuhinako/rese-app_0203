@@ -1,0 +1,152 @@
+.detail__header {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.shop__name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.return__button-item {
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 2px #808080;
+    height: 25px;
+    width: 25px;
+    border: #c0c0c0;
+}
+
+.return__button {
+    margin-right: 10px;
+}
+
+.detail {
+    display: flex;
+    width: 100%;
+}
+
+.detail__left {
+    width: 50%;
+    margin-left: 5%;
+}
+
+.detail-right {
+    width: 50%;
+    margin-right: 5%;
+}
+
+.shop__img {
+    width: 80%;
+}
+
+.card__content-tag-item {
+    display: inline-block
+}
+
+.card__img {
+    margin-bottom: 20px;
+}
+
+.shop__detail {
+    width: 80%;
+    margin-top: 20px;
+}
+
+.reservation {
+    background-color: #4169e1;
+    width: 500px;
+    height: 100%;
+    border-radius: 3px;
+}
+
+.reservation__title {
+    color: white;
+    display: inline-block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    padding-left: 20px;
+}
+
+.reservation__date {
+    width: 30%;
+    border-radius: 3px;
+    border: none;
+    height: 20px;
+}
+
+.reservation__time {
+    width: 70%;
+    border-radius: 3px;
+    border: none;
+    height: 20px;
+}
+
+.number_of_people {
+    width: 70%;
+    border-radius: 3px;
+    border: none;
+    height: 20px;
+}
+
+.date {
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.time {
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.number_of_people {
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.reservation__content {
+    background-color: rgba(144, 169, 243, 0.8);
+    width: 70%;
+    text-align: left;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+
+.reservation__item-name {
+    color: white;
+    font-weight: normal;
+    padding-right: 20px;
+}
+
+.reservation__item {
+    color: white;
+}
+
+.reservation__button {
+    background-color: #000080;
+    color: white;
+    border: none;
+    width: 500px;
+    height: 50px;
+    border-radius: 0px 0px 3px 3px;
+}
+
+.reservation__footer {
+    margin-top: 65%;
+}
+
+.link {
+    margin-top: 20px;
+}
+
+.link__button {
+    border: none;
+    background-color: white;
+    text-decoration: underline;
+}
+
+.link__button:hover {
+    color: blue;
+}

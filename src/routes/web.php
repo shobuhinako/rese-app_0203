@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
+    Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
+    Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
+    Route::post('/review/store', [ReviewController::class, 'store'])->name('review.store');
 });

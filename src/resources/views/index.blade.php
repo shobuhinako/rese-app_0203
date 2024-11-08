@@ -43,7 +43,7 @@
                 <div class="card__content-tag-item">#{{$shop->genre }}</div>
             </div>
             <div class="detail">
-                <form class="detail__button" action="" method="">
+                <form class="detail__button" action="{{ route('shop_detail', $shop->id) }}" method="get">
                 @csrf
                 <input class="detail__button" type="submit" name="submit" value="詳しくみる">
                 </form>

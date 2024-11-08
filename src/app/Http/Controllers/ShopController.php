@@ -126,4 +126,20 @@ class ShopController extends Controller
         // 検索結果をビューに渡して表示
         return view('index', ['shops' => $shops]);
     }
+
+    public function showDetail($id){
+        $shop = Shop::find($id);
+        $userId = auth()->id();
+        $user = User::find($userId);
+
+        return view('detail', compact('shop', 'user'));
+    }
+
+    public function showReview($id) {
+        $shop = Shop::find($id);
+        $userId = auth()->id();
+        $user = User::find($userId);
+
+        return view('review', compact('shop', 'user'));
+    }
 }

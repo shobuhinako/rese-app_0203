@@ -44,10 +44,6 @@
     font-size: 15px;
 }
 
-.card__content-ttl {
-    margin-bottom: 1px;
-}
-
 .detail {
     display: flex;
     margin-left: 25px;
@@ -83,6 +79,7 @@
 .card__content-ttl {
     font-size: 20px;
     margin-left: 25px;
+    margin-bottom: 1px;
 }
 
 .card__content-tag {
