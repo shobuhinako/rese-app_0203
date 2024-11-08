@@ -18,14 +18,23 @@ class ReviewController extends Controller
         $userId = auth()->id();
         $user = User::find($userId);
 
-        return view('review', compact('shop', 'user'));
+        $review = Review::where('user_id', $userId)->where('shop_id', $shop->id)->first();
+
+        return view('review', compact('shop', 'user', 'review'));
     }
 
     public function store(ReviewRequest $request)
     {
-        $review = new Review();
-        $review->shop_id = $request->shop_id;
-        $review->user_id = Auth::id();
+        $review = Review::where('shop_id', $request->shop_id)
+                        ->where('user_id', Auth::id())
+                        ->first();
+
+        if (!$review) {
+            $review = new Review();
+            $review->shop_id = $request->shop_id;
+            $review->user_id = Auth::id();
+        }
+
         $review->rating = $request->rating;
         $review->comment = $request->comment;
 
@@ -37,5 +46,16 @@ class ReviewController extends Controller
         $review->save();
 
         return redirect()->route('shop_detail', $review->shop_id);
+    }
+
+    public function remove(Request $request, $shop_id)
+    {
+        $review = Review::where('shop_id', $request->shop_id)
+                        ->where('user_id', Auth::id())
+                        ->first();
+
+        $review->delete();
+
+        return redirect()->route('shop_detail', $shop_id);
     }
 }

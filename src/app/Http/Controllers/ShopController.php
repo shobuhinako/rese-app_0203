@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Shop;
 use App\Models\Favorite;
+use App\Models\Review;
 
 class ShopController extends Controller
 {
@@ -132,7 +133,9 @@ class ShopController extends Controller
         $userId = auth()->id();
         $user = User::find($userId);
 
-        return view('detail', compact('shop', 'user'));
+        $review = Review::where('user_id', $userId)->where('shop_id', $shop->id)->first();
+
+        return view('detail', compact('shop', 'user', 'review'));
     }
 
     public function showReview($id) {

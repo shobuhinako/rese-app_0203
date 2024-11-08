@@ -150,3 +150,28 @@
 .link__button:hover {
     color: blue;
 }
+
+.link__area {
+    display: flex;
+    margin-left: 50%;
+}
+
+.edit__link-button {
+    border: none;
+    background-color: white;
+    text-decoration: underline;
+}
+
+.delete__link-button {
+    border: none;
+    background-color: white;
+    text-decoration: underline;
+}
+
+.edit__link-button:hover {
+    color: blue;
+}
+
+.delete__link-button:hover {
+    color: blue;
+}

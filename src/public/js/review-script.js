@@ -98,7 +98,7 @@ $(document).ready(function() {
         if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                $("#preview").html(`<img src="${e.target.result}" alt="プレビュー画像">`).show();
+                $("#preview").html(`<img class="uploaded__image" src="${e.target.result}" alt="プレビュー画像">`).show();
                 $("#upload-button").addClass("image-uploaded"); // テキストを非表示にする
             };
             reader.readAsDataURL(file);

@@ -171,6 +171,18 @@
     display: none;
 }
 
+/* #preview img.uploaded__image {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+} */
+
+.uploaded__image {
+    width: 60%;
+    height: 70%;
+    object-fit: cover;
+}
+
 .upload__button .upload__text {
     position: absolute;
     top: 50%;

@@ -34,10 +34,33 @@
         </div>
         <div class="shop__detail">{{ $shop->detail }}</div>
 
-        <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
+        <!-- <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
         @csrf
             <input class="link__button" type="submit" value="口コミを投稿する">
+        </form> -->
+
+        <form class="all__review-link" action="" method="">
+        @csrf
+            <input class="all__review-button" type="submit" value="全ての口コミ情報">
         </form>
+
+        @if (!$review)
+            <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
+            @csrf
+                <input class="link__button" type="submit" value="口コミを投稿する">
+            </form>
+        @else
+            <div class="link__area">
+                <form class="edit__link" action="{{ route('show.review', $shop->id) }}" method="get">
+                @csrf
+                    <input class="edit__link-button" type="submit" value="口コミを編集">
+                </form>
+                <form class="delete__link" action="{{ route('remove.review', ['shop_id' => $review->shop_id]) }}" method="post">
+                @csrf
+                    <input class="delete__link-button" type="submit" value="口コミを削除">
+                </form>
+            </div>
+        @endif
     </div>
 
     <div class="detail__right">
