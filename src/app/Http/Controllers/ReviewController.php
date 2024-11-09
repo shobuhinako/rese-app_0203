@@ -58,4 +58,26 @@ class ReviewController extends Controller
 
         return redirect()->route('shop_detail', $shop_id);
     }
+
+    public function showShopReviews($shop_id)
+    {
+        $reviews = Review::where('shop_id', $shop_id)->get();
+        return view('display-reviews', compact('reviews'));
+    }
+
+    public function deleteReview(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $shopId = $request->input('shop_id');
+
+        $review = Review::where('user_id', $userId)->where('shop_id', $shopId)->first();
+
+        if ($review->image_path) {
+            Storage::disk('public')->delete('images/' . $review->image_path);
+        }
+
+        $review->delete();
+
+        return redirect()->back()->with('success', '口コミが削除されました');
+    }
 }

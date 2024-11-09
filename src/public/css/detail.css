@@ -57,7 +57,7 @@
 .reservation {
     background-color: #4169e1;
     width: 500px;
-    height: 100%;
+    height: 900px;
     border-radius: 3px;
 }
 
@@ -129,12 +129,12 @@
     color: white;
     border: none;
     width: 500px;
-    height: 50px;
+    height: 70px;
     border-radius: 0px 0px 3px 3px;
 }
 
 .reservation__footer {
-    margin-top: 65%;
+    margin-top: 600px;
 }
 
 .link {
@@ -174,4 +174,47 @@
 
 .delete__link-button:hover {
     color: blue;
+}
+
+.all__review-button {
+    width: 80%;
+    height: 30px;
+    margin-top: 20px;
+    background-color: #4169e1;
+    border: none;
+    color: white;
+}
+
+.line {
+    border-bottom: 1px solid gray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+}
+
+.stars {
+    display: inline-block;
+}
+
+.star {
+    font-size: 30px;
+    /* 星のサイズ */
+    color: gray;
+    /* グレーの色 */
+    transition: color 0.2s;
+    /* ホバー時の色変更を滑らかに */
+}
+
+.star.filled {
+    color: #4169e1;
+    /* 塗りつぶされた星の色（青） */
+}
+
+.star.unfilled {
+    color: lightgray;
+    /* 塗りつぶされていない星の色（薄い灰色） */
+}
+
+.review__comment {
+    width: 80%;
 }

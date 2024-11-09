@@ -31,4 +31,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
     Route::post('/review/store', [ReviewController::class, 'store'])->name('store.review');
     Route::post('/review/delete/{shop_id}', [ReviewController::class, 'remove'])->name('remove.review');
+    Route::get('/display/reviews/{shop_id}', [ReviewController::class, 'showShopReviews'])->name('display.reviews');
+    Route::post('/display/reviews/delete/{shop_id}', [ReviewController::class, 'deleteReview'])->name('delete.review');
 });

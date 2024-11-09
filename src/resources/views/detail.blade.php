@@ -39,10 +39,12 @@
             <input class="link__button" type="submit" value="口コミを投稿する">
         </form> -->
 
-        <form class="all__review-link" action="" method="">
+        <form class="all__review-link" action="{{ route('display.reviews', ['shop_id' => $shop->id]) }}" method="get">
         @csrf
             <input class="all__review-button" type="submit" value="全ての口コミ情報">
         </form>
+
+        <div class="line"></div>
 
         @if (!$review)
             <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
@@ -61,6 +63,27 @@
                 </form>
             </div>
         @endif
+
+        @if ($review)
+            <div class="review">
+                <div class="review__rating">
+                    <div class="stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="star {{ $i <= $review->rating ? 'filled' : 'unfilled' }}">★</span>
+                        @endfor
+                    </div>
+                </div>
+
+                <div class="review__comment">
+                    <p class="comment">{{ $review->comment}}</p>
+                </div>
+            </div>
+        @else
+            <div class="no__review">
+                <p class="no__review-message">まだ口コミは投稿されていません</p>
+            </div>
+        @endif
+        <div class="line"></div>
     </div>
 
     <div class="detail__right">
