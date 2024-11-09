@@ -91,3 +91,27 @@
 .review {
     margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+    .star {
+        font-size: 14px;
+    }
+
+    .comment {
+        display: inline-block;
+        font-size: 14px;
+    }
+
+    .image__item {
+        flex: 1 1 calc(33.3% - 10px);
+        max-width: calc(33.3% - 10px);
+    }
+
+    .image__item img {
+        height: auto;
+    }
+
+    .message {
+        font-size: 14px;
+    }
+}

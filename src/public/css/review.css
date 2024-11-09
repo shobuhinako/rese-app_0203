@@ -214,3 +214,112 @@
     color: red;
     list-style-type: none;
 }
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .card {
+        width: 70%;
+        margin-left: 20px;
+    }
+
+    .top__message {
+        width: 90%;
+        text-align: center;
+    }
+
+    .top__message-content {
+        font-size: 20px;
+    }
+
+    .img {
+        height: auto;
+    }
+
+    .card__content-ttl {
+        font-size: 18px;
+        margin-left: 15px;
+    }
+
+    .card__content-tag,
+    .card__content-tag-item {
+        margin-left: 7px;
+        font-size: 14px;
+    }
+
+    .detail {
+        margin-left: 15px;
+    }
+
+    .detail__button {
+        font-size: 14px;
+    }
+
+    .rate__message {
+        font-size: 18px;
+    }
+
+    .stars label {
+        font-size: 25px;
+        padding: 0 3px;
+    }
+
+    .comment {
+        width: 90%;
+        margin-top: 15px;
+        margin-left: 20px;
+    }
+
+    .comment__title {
+        font-size: 18px;
+    }
+
+    .comment__text {
+        width: 90%;
+        box-sizing: border-box;
+    }
+
+    .count {
+        margin-right: 5%;
+    }
+
+    .image__title {
+        font-size: 18px;
+    }
+
+    .upload__button {
+        width: 90%;
+        height: 250px;
+    }
+
+    .submit__button {
+        width: 90%;
+        font-size: 16px;
+        margin-left: 20px;
+    }
+
+    .button {
+        text-align: center;
+    }
+
+    .left::after {
+        display: none;
+    }
+
+    .rate {
+        margin-left: 20px;
+    }
+
+    .image {
+        margin-left: 20px;
+    }
+}

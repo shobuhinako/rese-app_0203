@@ -218,3 +218,112 @@
 .review__comment {
     width: 80%;
 }
+
+@media (max-width: 768px) {
+    .shop__name {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .return__button-item{
+        height: 20px;
+        padding-top: 3px;
+    }
+
+    .card__content-tag-item {
+        font-size: 10px;
+    }
+
+    .shop__detail {
+        font-size: 10px;
+        width: 100%;
+    }
+
+    .all__review-button {
+        font-size: 8px;
+        height: 25px;
+        width: 100%;
+    }
+
+    .edit__link-button {
+        font-size: 10px;
+        padding-right: 1px;
+    }
+
+    .delete__link-button {
+        font-size: 10px;
+    }
+
+    .link__button {
+        font-size: 10px;
+    }
+
+    .link__area {
+        margin-left: 1px;
+        flex-direction: column;
+    }
+
+    .star {
+        font-size: 10px;
+    }
+
+    .comment {
+        font-size: 10px;
+    }
+
+    .reservation__title {
+        font-size: 15px;
+    }
+
+    .reservation__date {
+        font-size: 10px;
+    }
+
+    .reservation__time {
+        font-size: 10px;
+    }
+
+    .number_of_people {
+        font-size: 10px;
+    }
+
+    .reservation__detail {
+        font-size: 10px;
+    }
+
+    .detail__left {
+        margin-left: 5px;
+        margin-right: 10px;
+    }
+
+    .reservation__content {
+        height: 100px;
+        /* display: flex; */
+        width: 80%;
+    }
+
+    .reservation {
+        height: 600px;
+        width: 100%;
+    }
+
+    .shop__img {
+        width: 100%;
+    }
+
+    .line {
+        width: 100%;
+    }
+
+    .reservation__footer {
+        margin-top: 300px;
+    }
+
+    .reservation__button {
+        width: 250px;
+    }
+
+    .no__review-message {
+        font-size: 10px;
+    }
+}

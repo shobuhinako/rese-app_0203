@@ -45,7 +45,7 @@
                 @endforeach
             </div>
         @else
-            <p>この店舗には口コミがありません。</P>
+            <p class="message">この店舗にはまだ口コミがありません。</P>
         @endif
 
         @if (!$reviews->isEmpty())
@@ -60,8 +60,6 @@
                     @endforeach
                 </div>
             </div>
-        @else
-            <p>この店舗には画像がありません。</p>
         @endif
     </div>
 

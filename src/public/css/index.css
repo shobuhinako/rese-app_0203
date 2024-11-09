@@ -27,7 +27,6 @@
     margin-right: 0px;
     border: 1px, solid, #c0c0c0;
     width: 30%;
-    /* margin-left: 70%; */
     border-radius: 3px;
     height: 30px;
     box-shadow: 2px 2px #a9a9a9;
@@ -69,6 +68,7 @@
     border-radius: 3px;
 }
 
+@media (max-width: 768px) {
 .card {
     border: 1px, solid, #c0c0c0;
     box-shadow: 2px 2px #808080;
@@ -108,4 +108,106 @@
 .custom {
     display: flex;
     justify-content: flex-end;
+}
+
+
+    .custom {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search__area {
+        margin-right: 0px;
+        border: 1px, solid, #c0c0c0;
+        width: 95%;
+        border-radius: 3px;
+        height: 30px;
+        box-shadow: 2px 2px #a9a9a9;
+        margin-top: 5px;
+        margin-left: 5px;
+    }
+
+    .sort__type {
+        font-size: 10px;
+    }
+
+    .area {
+        font-size: 10px;
+    }
+
+    .genre {
+        font-size: 10px;
+    }
+
+    .search__text {
+        font-size: 10px;
+    }
+
+    .search__button {
+        font-size: 10px;
+    }
+
+    .sort__area {
+        width: 25%;
+        margin-left: 5px;
+    }
+
+    .card {
+        border: 1px, solid, #c0c0c0;
+        box-shadow: 2px 2px #808080;
+        border-radius: 5px;
+        max-width: 30%;
+        flex: 1 0 30%;
+        margin-right: 10px;
+        margin-bottom: 20px;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: wrap;
+        margin-left: 5px;
+        margin-top: 50px;
+    }
+
+    .card__content-ttl {
+        font-size: 15px;
+        margin-left: 10px;
+        margin-bottom: 1px;
+    }
+
+    .card__content-tag {
+        font-size: 8px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .favorite__button {
+        border: none;
+        margin-left: 25px;
+        background-color: white;
+    }
+
+    .detail {
+        display: flex;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        justify-content: space-between;
+    }
+
+    .card__content-tag-item {
+        display: inline-block;
+        font-size: 8px;
+    }
+
+    .detail__button {
+        background-color: #4169e1;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        font-size: 8px;
+        height: 15px;
+    }
+
 }

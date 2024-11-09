@@ -161,37 +161,33 @@
                         </tr>
                     </table>
                 </div>
-
-                <script>
-
-
-                function updateDate() {
-                    var selectedDate = document.getElementById("date-input").value;
-                    document.querySelector("#date-row .reservation__item").textContent = selectedDate;
-                }
-
-                function updateTime() {
-                    var selectedTime = document.getElementById("time-input").value;
-                    document.querySelector("#time-row .reservation__item").textContent = selectedTime;
-                }
-
-                function updateNumberOfPeople() {
-                    var selectedNumberOfPeople = document.getElementById("number-input").value;
-                    document.querySelector("#number-row .reservation__item").textContent = selectedNumberOfPeople;
-                }
-
-                function showSelected() {
-                    updateDate();
-                    updateTime();
-                    updateNumberOfPeople();
-                }
-
-                </script>
-
                 <div class="reservation__footer">
-                    <input class="reservation__button" type="submit" value="予約する">
+                        <input class="reservation__button" type="submit" value="予約する">
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function updateDate() {
+            var selectedDate = document.getElementById("date-input").value;
+            document.querySelector("#date-row .reservation__item").textContent = selectedDate;
+        }
+
+        function updateTime() {
+            var selectedTime = document.getElementById("time-input").value;
+            document.querySelector("#time-row .reservation__item").textContent = selectedTime;
+        }
+
+        function updateNumberOfPeople() {
+            var selectedNumberOfPeople = document.getElementById("number-input").value;
+            document.querySelector("#number-row .reservation__item").textContent = selectedNumberOfPeople;
+        }
+
+        function showSelected() {
+            updateDate();
+            updateTime();
+            updateNumberOfPeople();
+        }
+    </script>
 @endsection
