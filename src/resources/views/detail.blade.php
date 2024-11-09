@@ -44,46 +44,49 @@
             <input class="all__review-button" type="submit" value="全ての口コミ情報">
         </form>
 
-        <div class="line"></div>
-
-        @if (!$review)
-            <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
-            @csrf
-                <input class="link__button" type="submit" value="口コミを投稿する">
-            </form>
-        @else
-            <div class="link__area">
-                <form class="edit__link" action="{{ route('show.review', $shop->id) }}" method="get">
+        @if (Auth::user()->role_id === null)
+            <div class="line"></div>
+            @if (!$review)
+                <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
                 @csrf
-                    <input class="edit__link-button" type="submit" value="口コミを編集">
+                    <input class="link__button" type="submit" value="口コミを投稿する">
                 </form>
-                <form class="delete__link" action="{{ route('remove.review', ['shop_id' => $review->shop_id]) }}" method="post">
-                @csrf
-                    <input class="delete__link-button" type="submit" value="口コミを削除">
-                </form>
-            </div>
+            @else
+                <div class="link__area">
+                    <form class="edit__link" action="{{ route('show.review', $shop->id) }}" method="get">
+                    @csrf
+                        <input class="edit__link-button" type="submit" value="口コミを編集">
+                    </form>
+                    <form class="delete__link" action="{{ route('remove.review', $shop->id) }}" method="post">
+                    @csrf
+                        <input class="delete__link-button" type="submit" value="口コミを削除">
+                    </form>
+                </div>
+            @endif
         @endif
 
-        @if ($review)
-            <div class="review">
-                <div class="review__rating">
-                    <div class="stars">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <span class="star {{ $i <= $review->rating ? 'filled' : 'unfilled' }}">★</span>
-                        @endfor
+        @if (Auth::user()->role_id === null)
+            @if ($review)
+                <div class="review">
+                    <div class="review__rating">
+                        <div class="stars">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="star {{ $i <= $review->rating ? 'filled' : 'unfilled' }}">★</span>
+                            @endfor
+                        </div>
+                    </div>
+
+                    <div class="review__comment">
+                        <p class="comment">{{ $review->comment}}</p>
                     </div>
                 </div>
-
-                <div class="review__comment">
-                    <p class="comment">{{ $review->comment}}</p>
+            @else
+                <div class="no__review">
+                    <p class="no__review-message">まだ口コミは投稿されていません</p>
                 </div>
-            </div>
-        @else
-            <div class="no__review">
-                <p class="no__review-message">まだ口コミは投稿されていません</p>
-            </div>
+            @endif
+            <div class="line"></div>
         @endif
-        <div class="line"></div>
     </div>
 
     <div class="detail__right">

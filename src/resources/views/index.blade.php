@@ -6,27 +6,43 @@
 @endsection
 
 @section('content')
-    <div class="search__area">
-        <form class="search__form" action="{{ route('search') }}" method="get">
-        @csrf
-            <select class="area" name="area">
-                <option value="all">All area</option>
-                <option value="tokyo">東京都</option>
-                <option value="osaka">大阪府</option>
-                <option value="fukuoka">福岡県</option>
-            </select>
-            <select class="genre" name="genre">
-                <option value="all">All genre</option>
-                <option value="italian">イタリアン</option>
-                <option value="ramen">ラーメン</option>
-                <option value="izakaya">居酒屋</option>
-                <option value="sushi">寿司</option>
-                <option value="yakiniku">焼肉</option>
-            </select>
-            <button class="search__button" id="search-button" type="submit"><i class="fa-solid fa-search"></i>
-            </button>
-            <input class="search__text" type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
-        </form>
+    <div class="custom">
+        @if (Auth::user()->role_id === null)
+            <div class="sort__area">
+                <form class="sort__form" action="{{ route('sort') }}" method="get">
+                @csrf
+                    <select class="sort__type" name="sort__type" onchange="this.form.submit()">
+                        <option value="">並び替え</option>
+                        <option value="random" {{ request('sort__type') === 'random' ? 'selected' : '' }}>ランダム</option>
+                        <option value="rating_asc" {{ request('sort__type') === 'rating_asc' ? 'selected' : '' }}>評価が高い順</option>
+                        <option value="rating_desc" {{ request('sort__type') === 'rating_desc' ? 'selected' : '' }}>評価が低い順</option>
+                    </select>
+                </form>
+            </div>
+        @endif
+
+        <div class="search__area">
+            <form class="search__form" action="{{ route('search') }}" method="get">
+            @csrf
+                <select class="area" name="area">
+                    <option value="all">All area</option>
+                    <option value="tokyo">東京都</option>
+                    <option value="osaka">大阪府</option>
+                    <option value="fukuoka">福岡県</option>
+                </select>
+                <select class="genre" name="genre">
+                    <option value="all">All genre</option>
+                    <option value="italian">イタリアン</option>
+                    <option value="ramen">ラーメン</option>
+                    <option value="izakaya">居酒屋</option>
+                    <option value="sushi">寿司</option>
+                    <option value="yakiniku">焼肉</option>
+                </select>
+                <button class="search__button" id="search-button" type="submit"><i class="fa-solid fa-search"></i>
+                </button>
+                <input class="search__text" type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
+            </form>
+        </div>
     </div>
 
     <div class="main">

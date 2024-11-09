@@ -30,17 +30,19 @@
 //         $(this).removeClass("dragover");
 //         const files = event.originalEvent.dataTransfer.files;
 //         if (files.length > 0) {
+//             // ファイルを<input>に渡す
+//             $(".file__input")[0].files = files;
 //             handleFile(files[0]);
 //         }
 //     });
 
-//     ファイルのプレビューを表示する関数
+//     // ファイルのプレビューを表示する関数
 //     function handleFile(file) {
 //         // MIMEタイプを使用してJPEGまたはPNGかをバリデーション
 //         if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
 //             const reader = new FileReader();
 //             reader.onload = function(e) {
-//                 $("#preview").html(`<img src="${e.target.result}" alt="プレビュー画像">`).show();
+//                 $("#preview").html(`<img class="uploaded__image" src="${e.target.result}" alt="プレビュー画像">`).show();
 //                 $("#upload-button").addClass("image-uploaded"); // テキストを非表示にする
 //             };
 //             reader.readAsDataURL(file);
@@ -50,13 +52,18 @@
 //             $(".file__input").val(''); // 選択をクリア
 //         }
 //     }
-
 // });
 
 
 $(document).ready(function() {
     // クリックでファイル選択ダイアログを開く
     $("#upload-button").on("click", function(event) {
+        event.stopPropagation();
+        $(".file__input").trigger("click");
+    });
+
+    // プレビューエリアをクリックしてもファイル選択を開く
+    $("#preview").on("click", function(event) {
         event.stopPropagation();
         $(".file__input").trigger("click");
     });
@@ -98,6 +105,7 @@ $(document).ready(function() {
         if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
             const reader = new FileReader();
             reader.onload = function(e) {
+                // プレビューを更新するために、既存のプレビュー画像をクリア
                 $("#preview").html(`<img class="uploaded__image" src="${e.target.result}" alt="プレビュー画像">`).show();
                 $("#upload-button").addClass("image-uploaded"); // テキストを非表示にする
             };
@@ -109,12 +117,3 @@ $(document).ready(function() {
         }
     }
 });
-
-
-
-
-
-
-
-
-

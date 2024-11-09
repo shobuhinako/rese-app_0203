@@ -64,9 +64,9 @@
 
                 <div class="image">
                     <div class="image__title">画像の追加</div>
-                    <button class="upload__button" id="upload-button">クリックして写真を追加</br>またはドラッグアンドドロップ
-                        <input class="file__input" type="file" accept="image/jpeg, image/png" name="image">
-                        <div id="preview"></div>
+                    <button class="upload__button" id="upload-button" type="button">クリックして写真を追加</br>またはドラッグアンドドロップ
+                        <input class="file__input" type="file" accept="image/jpeg, image/png" name="image" id="image-input">
+                        <div class="preview" id="preview"></div>
                         @if($review && $review->image_path)
                             <img class="uploaded__image" src="{{ Storage::url('images/' . $review->image_path) }}">
                         @endif

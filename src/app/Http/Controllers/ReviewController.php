@@ -54,6 +54,10 @@ class ReviewController extends Controller
                         ->where('user_id', Auth::id())
                         ->first();
 
+        if ($review->image_path) {
+            Storage::disk('public')->delete('images/' . $review->image_path);
+        }
+
         $review->delete();
 
         return redirect()->route('shop_detail', $shop_id);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Shop;
 use App\Models\Favorite;
@@ -144,5 +145,40 @@ class ShopController extends Controller
         $user = User::find($userId);
 
         return view('review', compact('shop', 'user'));
+    }
+
+    public function sort(Request $request){
+        $sortType = $request->input('sort__type');
+
+        $query = Shop::query()
+            // ->withCount(['reviews as average_rating' => function ($query){
+            //     $query->select(DB::raw('coalesce(avg(rating), 0)'));
+            ->withCount(['reviews as average_rating' => function ($query) {
+                $query->select(DB::raw('avg(rating)'));
+            }]);
+
+        switch ($sortType) {
+            case 'random':
+                $query->inRandomOrder();
+                break;
+
+            case 'rating_asc':
+                $query->orderbyDesc('average_rating')->orderBy('id');
+                break;
+
+            case 'rating_desc':
+                $query->orderByRaw('average_rating IS NULL')
+                    ->orderBy('average_rating')
+                    ->orderBy('id');
+                break;
+
+            default:
+                $query->orderBy('id');
+                break;
+        }
+
+        $shops = $query->get();
+
+        return view('index', compact('shops', 'sortType'));
     }
 }
