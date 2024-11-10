@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ImageUploadRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -181,4 +183,216 @@ class ShopController extends Controller
 
         return view('index', compact('shops', 'sortType'));
     }
+
+    // public function importCsv(ImportCsvRequest $request)
+    // {
+
+    //     $file = $request->file('csv_file');
+
+    //     $filePath = $file->getRealPath();
+
+    //     $csvData = array_map('str_getcsv', file($filePath));
+
+    //     // CSVのヘッダーを取り除く
+    //     $header = array_shift($csvData);
+    //     $errors = [];
+
+    //     foreach ($csvData as $index => $row) {
+    //         $data = array_combine($header, $row);
+
+    //         // 各行のデータを個別にバリデーション
+    //         $validator = \Validator::make($data, $request->rules(), $request->messages());
+    //         if ($validator->fails()) {
+    //             $errors[$index + 1] = $validator->errors()->all();
+    //             continue;
+    //         }
+
+    //         // データベースに保存
+    //         Shop::create([
+    //             'user_id' => $data['ユーザーID'],
+    //             'name' => $data['店舗名'],
+    //             'area' => $data['地域'],
+    //             'genre' => $data['ジャンル'],
+    //             'detail' => $data['店舗概要'],
+    //             'image_path' => $data['画像URL'],
+    //         ]);
+    //     }
+
+    //     if (!empty($errors)) {
+    //         return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
+    //     }
+
+    //     return redirect()->route('shop.import.form')->with('success', 'CSVのインポートが完了しました。');
+    // }
+
+    public function showImportForm()
+    {
+        return view ('import');
+    }
+
+    // public function importCsv(ImportCsvRequest $request)
+    // {
+    //     $file = $request->file('csv_file');
+
+    //     // ファイルをShift-JISからUTF-8に変換しつつ読み込む
+    //     $filePath = $file->getRealPath();
+    //     $fileContents = file_get_contents($filePath);  // ファイル全体を読み込む
+
+    //     // Shift-JIS -> UTF-8に変換
+    //     $fileContents = mb_convert_encoding($fileContents, 'UTF-8', 'SJIS-win');
+
+    //     // 改行コードで分割（\n または \r\n）
+    //     $lines = preg_split('/\r\n|\n/', $fileContents);
+
+    //     // 空行を除去
+    //     $lines = array_filter($lines, fn($line) => !empty(trim($line)));
+
+    //     // CSVデータを正しく分割 (タブ区切りを指定)
+    //     $csvData = array_map(function($line) {
+    //         return str_getcsv($line, ","); // カンマ区切りとして処理
+    //     }, $lines);
+    //     // dd($csvData);
+
+    //     // ヘッダー行とデータ行を分ける
+    //     $header = array_shift($csvData); // 最初の行をヘッダーとして取得
+
+    //     // データを処理
+    //     $errors = [];
+    //     foreach ($csvData as $index => $row) {
+    //         $data = array_combine($header, $row);
+
+    //     try {
+    //         // データベースに保存
+    //         Shop::create([
+    //             'user_id' => $data['user_id'],
+    //             'name' => $data['name'],
+    //             'area' => $data['area'],
+    //             'genre' => $data['genre'],
+    //             'detail' => $data['detail'],
+    //             'image_path' => $data['image_path'], // 保存した画像パスを格納
+    //         ]);
+    //         } catch (\Exception $e) {
+    //             $errors[$index + 1][] = 'データの保存に失敗しました: ' . $e->getMessage();
+    //         }
+    //     }
+
+    //     if (!empty($errors)) {
+    //         return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
+    //     }
+
+    //     return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
+    // }
+
+    public function uploadImage(ImageUploadRequest $request)
+    {
+        $image = $request->file('image');
+
+        $path = Storage::disk('public')->putFile('images', $image);
+
+        $fileName = basename($path);
+
+        return back()->with('success','画像情報を保存しました')->with('fileName', $fileName);
+    }
+
+    public function importCsv(Request $request)
+    {
+        $file = $request->file('csv_file');
+
+        // ファイルをShift-JISからUTF-8に変換して読み込む
+        $filePath = $file->getRealPath();
+        $fileContents = file_get_contents($filePath);
+        $fileContents = mb_convert_encoding($fileContents, 'UTF-8', 'SJIS-win');
+
+        // 改行コードで分割
+        $lines = preg_split('/\r\n|\n/', $fileContents);
+        $lines = array_filter($lines, fn($line) => !empty(trim($line)));
+
+        // CSVデータを配列に変換
+        // $csvData = array_map(function($line) {
+        //     return str_getcsv($line, ",");
+        // }, $lines);
+        $csvData = array_map(fn($line) => str_getcsv($line, ","), $lines);
+
+        // ヘッダー行とデータ行を分ける
+        $header = array_shift($csvData);
+
+        $headerMapping = [
+            'ユーザーID' => 'user_id',
+            '店舗名' => 'name',
+            'エリア' => 'area',
+            'ジャンル' => 'genre',
+            '店舗情報' => 'detail',
+            '画像ファイル名' => 'image_path',
+        ];
+
+        $errors = [];
+        foreach ($csvData as $index => $row) {
+            // $data = array_combine($header, $row);
+            $mappedData = [];
+            foreach ($header as $key => $columnName) {
+                if (isset($headerMapping[$columnName])) {
+                    $mappedData[$headerMapping[$columnName]] = $row[$key];
+                }
+            }
+
+            // 行データにバリデーションを適用
+            $validator = \Validator::make($mappedData, [
+                'user_id' => 'required',
+                'name' => 'required|string|max:50',
+                'area' => 'required|in:東京都,大阪府,福岡県',
+                'genre' => 'required|in:寿司,焼肉,イタリアン,居酒屋,ラーメン',
+                'detail' => 'required|string|max:400',
+                'image_path' => ['required', 'regex:/.(jpeg|jpg|png)$/'],
+            ], [
+                'user_id.required' => 'ユーザーIDは必須項目です。',
+                'name.required' => '店舗名は必須項目です。',
+                'name.max' => '店舗名は50文字以内で入力してください。',
+                'area.required' => 'エリアは必須項目です。',
+                'area.in' => 'エリアは「東京都」「大阪府」「福岡県」のいずれかを指定してください。',
+                'genre.required' => 'ジャンルは必須項目です。',
+                'genre.in' => 'ジャンルは「寿司」「焼肉」「イタリアン」「居酒屋」「ラーメン」のいずれかを指定してください。',
+                'detail.required' => '店舗情報は必須項目です。',
+                'detail.max' => '店舗情報は400文字以内で入力してください。',
+                'image_path.required' => '画像ファイル名は必須項目です。',
+                'image_path.regex' => '画像ファイル名はjpeg、jpgまたはpng形式のURLを指定してください。',
+            ], [
+                'attributes' => [
+                    'user_id' => 'ユーザーID',
+                    'name' => '店舗名',
+                    'area' => 'エリア',
+                    'genre' => 'ジャンル',
+                    'detail' => '店舗情報',
+                    'image_path' => '画像ファイル名',
+                ],
+            ]);
+
+            if ($validator->fails()) {
+                // エラーがある場合、エラーメッセージを収集
+                $errors[$index + 2] = $validator->errors()->all();
+                continue;
+            }
+
+            Shop::create($mappedData);
+        }
+
+        if (!empty($errors)) {
+            // エラーメッセージを整形して出力
+            $formattedErrors = [];
+            foreach ($errors as $line => $lineErrors) {
+                $formattedErrors[] = "行 {$line}：" . implode(' / ', $lineErrors);
+            }
+
+
+            return redirect()->back()->withErrors(['csv_errors' => $formattedErrors])->withInput();
+        }
+        //     return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
+        // }
+
+
+        return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
+    }
 }
+
+
+
+
