@@ -45,7 +45,7 @@
 
 
 ## テーブル設計
-  ![2024-11-11 16 51のイメージ](https://github.com/user-attachments/assets/97d2f0ae-8055-4239-a18e-fe58328c65eb)
+  ![D6CF2C84-D24F-4207-BE48-B4DD34FD9BC2](https://github.com/user-attachments/assets/8d20c9df-4395-40db-b120-f05bd85280dd)
 
 
 
