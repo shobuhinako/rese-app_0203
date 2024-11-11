@@ -12,9 +12,9 @@ class Shop extends Model
 
     protected $fillable = [
         'user_id',
+        'area_id',
+        'genre_id',
         'name',
-        'area',
-        'genre',
         'detail',
         'image_path',
     ];
