@@ -32,8 +32,8 @@
             </div>
 
             <div class="card__content-tag">
-                <div class="card__content-tag-item">#{{ $shop->area }}</div>
-                <div class="card__content-tag-item">#{{ $shop->genre }}</div>
+                <div class="card__content-tag-item">#{{ $area }}</div>
+                <div class="card__content-tag-item">#{{ $genre }}</div>
             </div>
             <div class="shop__detail">{{ $shop->detail }}</div>
 

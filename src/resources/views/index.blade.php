@@ -26,17 +26,17 @@
                 @csrf
                 <select class="area" name="area">
                     <option value="all">All area</option>
-                    <option value="tokyo">東京都</option>
-                    <option value="osaka">大阪府</option>
-                    <option value="fukuoka">福岡県</option>
+                    <option value="1">東京都</option>
+                    <option value="2">大阪府</option>
+                    <option value="3">福岡県</option>
                 </select>
                 <select class="genre" name="genre">
                     <option value="all">All genre</option>
-                    <option value="italian">イタリアン</option>
-                    <option value="ramen">ラーメン</option>
-                    <option value="izakaya">居酒屋</option>
-                    <option value="sushi">寿司</option>
-                    <option value="yakiniku">焼肉</option>
+                    <option value="3">イタリアン</option>
+                    <option value="5">ラーメン</option>
+                    <option value="4">居酒屋</option>
+                    <option value="1">寿司</option>
+                    <option value="2">焼肉</option>
                 </select>
                 <button class="search__button" id="search-button" type="submit"><i class="fa-solid fa-search"></i>
                 </button>
@@ -64,8 +64,8 @@
                 <h2 class="card__content-ttl">{{ $shop->name }}</h2>
             </div>
             <div class="card__content-tag">
-                <div class="card__content-tag-item">#{{ $shop->area }}</div>
-                <div class="card__content-tag-item">#{{$shop->genre }}</div>
+                <div class="card__content-tag-item">#{{ $shop->area->area }}</div>
+                <div class="card__content-tag-item">#{{$shop->genre->genre }}</div>
             </div>
             <div class="detail">
                 <div class="detail__content">

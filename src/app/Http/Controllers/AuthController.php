@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\Genre;
+
 use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
@@ -49,7 +52,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        $shops = Shop::all();
+        $shops = Shop::with(['area', 'genre'])->get();
 
         return view('index', ['shops' => $shops]);
     }

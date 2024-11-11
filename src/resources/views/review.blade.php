@@ -26,8 +26,8 @@
                     <div class="card__content-ttl">{{ $shop->name }}</div>
                 </div>
                 <div class="card__content-tag">
-                    <div class="card__content-tag-item">#{{ $shop->area }}</div>
-                    <div class="card__content-tag-item">#{{$shop->genre }}</div>
+                    <div class="card__content-tag-item">#{{ $area }}</div>
+                    <div class="card__content-tag-item">#{{ $genre }}</div>
                 </div>
                 <div class="detail">
                     <form class="detail__button" action="{{ route('shop_detail', $shop->id) }}" method="get">

@@ -49,4 +49,14 @@ class Shop extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
 }

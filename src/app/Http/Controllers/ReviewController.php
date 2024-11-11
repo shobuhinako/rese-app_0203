@@ -20,7 +20,10 @@ class ReviewController extends Controller
 
         $review = Review::where('user_id', $userId)->where('shop_id', $shop->id)->first();
 
-        return view('review', compact('shop', 'user', 'review'));
+        $area = $shop->area->area;
+        $genre = $shop->genre->genre;
+
+        return view('review', compact('shop', 'user', 'review', 'area', 'genre'));
     }
 
     public function store(ReviewRequest $request)

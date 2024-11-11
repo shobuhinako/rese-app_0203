@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\Genre;
 use App\Models\Favorite;
 use App\Models\Review;
 use App\Models\Reservation;
@@ -56,65 +58,46 @@ class ShopController extends Controller
 
     public function search(Request $request)
     {
-        $areaMapping = [
-            'tokyo' => '東京都',
-            'osaka' => '大阪府',
-            'fukuoka' => '福岡県',
-        ];
-
-        $genreMapping = [
-            'sushi' => '寿司',
-            'italian' => 'イタリアン',
-            'ramen' => 'ラーメン',
-            'izakaya' => '居酒屋',
-            'yakiniku' => '焼肉',
-        ];
-
         $areaInput = $request->input('area');
         $genreInput = $request->input('genre');
         $name = $request->input('name');
 
-        $area = $areaMapping[$areaInput] ?? null;
-        $genre = $genreMapping[$genreInput] ?? null;
-
         $query = Shop::query();
 
         switch (true) {
-            case (!empty($area) && !empty($genre) && !empty($name)):
+            case ($areaInput !== 'all' && $genreInput !== 'all' && !empty($name)):
                 // エリア、ジャンル、店舗名がすべて指定されている場合
-                $query->where('area', $area)
-                      ->where('genre', $genre)
+                $query->where('area_id', $areaInput)
+                      ->where('genre_id', $genreInput)
                       ->where('name', 'like', "%$name%");
                 break;
 
-            case (!empty($area) && !empty($genre)):
+            case ($areaInput !== 'all' && $genreInput !== 'all'):
                 // エリアとジャンルが指定されている場合
-                $query->where('area', $area)
-                      ->where('genre', $genre);
+                $query->where('area_id', $areaInput)
+                      ->where('genre_id', $genreInput);
                 break;
 
-            case (!empty($area) && !empty($name)):
+            case ($areaInput !== 'all' && !empty($name)):
                 // エリアと店舗名が指定されている場合
-                $query->where('area', $area)
+                $query->where('area_id', $areaInput)
                       ->where('name', 'like', "%$name%");
                 break;
 
-            case (!empty($genre) && !empty($name)):
+            case ($genreInput !== 'all' && !empty($name)):
                 // ジャンルと店舗名が指定されている場合
-                $query->where('genre', $genre)
+                $query->where('genre_id', $genreInput)
                       ->where('name', 'like', "%$name%");
                 break;
 
-            case (!empty($genre) && $area !== 'tokyo' && $area !== 'osaka' && $area !== 'fukuoka'):
-                // ジャンルが指定されていて、エリアが全ての場合
-                $query->where('genre', $genre)
-                      ->whereIn('area', ['東京都', '大阪府', '福岡県']);
+            case ($genreInput !== 'all'):
+                // ジャンルが指定されていて、エリアが「すべて」の場合
+                $query->where('genre_id', $genreInput);
                 break;
 
-            case (!empty($area) && $genre !== 'sushi' && $genre !== 'italian' && $genre !== 'ramen' && $genre !== 'izakaya' && $genre !== 'yakiniku'):
-                // エリアが指定されていて、ジャンルが全ての場合
-                $query->where('area', $area)
-                      ->whereIn('genre', ['寿司', 'イタリアン', 'ラーメン', '居酒屋', '焼肉']);
+            case ($areaInput !== 'all'):
+                // エリアが指定されていて、ジャンルが「すべて」の場合
+                $query->where('area_id', $areaInput);
                 break;
 
             case (!empty($name)):
@@ -123,8 +106,8 @@ class ShopController extends Controller
                 break;
 
             default:
-                // 条件が指定されていない場合はすべての店舗を取得
-                $query->whereNotNull('id');
+                // エリアとジャンルが「すべて」で店舗名も指定されていない場合
+                // すべての店舗を取得する
                 break;
         }
 
@@ -150,16 +133,10 @@ class ShopController extends Controller
             $isPastReservation = $currentDateTime->greaterThan($reservationDateTime);
         }
 
-        return view('detail', compact('shop', 'user', 'review', 'isPastReservation'));
-    }
+        $area = $shop->area->area;
+        $genre = $shop->genre->genre;
 
-    public function showReview($id)
-    {
-        $shop = Shop::find($id);
-        $userId = auth()->id();
-        $user = User::find($userId);
-
-        return view('review', compact('shop', 'user'));
+        return view('detail', compact('shop', 'user', 'review', 'isPastReservation', 'area', 'genre'));
     }
 
     public function sort(Request $request)
@@ -216,7 +193,6 @@ class ShopController extends Controller
     public function importCsv(Request $request)
     {
         $file = $request->file('csv_file');
-
         $filePath = $file->getRealPath();
         $fileContents = file_get_contents($filePath);
         $fileContents = mb_convert_encoding($fileContents, 'UTF-8', 'SJIS-win');
@@ -238,41 +214,81 @@ class ShopController extends Controller
         ];
 
         $errors = [];
+        $insertData = [];
+
         foreach ($csvData as $index => $row) {
             $mappedData = [];
+
             foreach ($header as $key => $columnName) {
                 if (isset($headerMapping[$columnName])) {
                     $mappedData[$headerMapping[$columnName]] = $row[$key];
                 }
             }
 
-            $validator = \Validator::make($mappedData, [
-                'user_id' => ['required'],
-                'name' => ['required', 'max:50'],
-                'area' => ['required', 'in:東京都,大阪府,福岡県'],
-                'genre' => ['required', 'in:寿司,焼肉,イタリアン,居酒屋,ラーメン'],
-                'detail' => ['required', 'max:400'],
-                'image_path' => ['required', 'regex:/.(jpeg|jpg|png)$/'],
-            ], [
-                'user_id.required' => 'ユーザーIDは必須項目です。',
-                'name.required' => '店舗名は必須項目です。',
-                'name.max' => '店舗名は50文字以内で入力してください。',
-                'area.required' => 'エリアは必須項目です。',
-                'area.in' => 'エリアは「東京都」「大阪府」「福岡県」のいずれかを指定してください。',
-                'genre.required' => 'ジャンルは必須項目です。',
-                'genre.in' => 'ジャンルは「寿司」「焼肉」「イタリアン」「居酒屋」「ラーメン」のいずれかを指定してください。',
-                'detail.required' => '店舗情報は必須項目です。',
-                'detail.max' => '店舗情報は400文字以内で入力してください。',
-                'image_path.required' => '画像ファイル名は必須項目です。',
-                'image_path.regex' => '画像ファイル名はjpeg、jpgまたはpng形式のURLを指定してください。',
-            ]);
+            $rowErrors = [];
 
-            if ($validator->fails()) {
-                $errors[$index + 2] = $validator->errors()->all();
-                continue;
+            // user_idのバリデーション
+            if (empty($mappedData['user_id']) || !User::find($mappedData['user_id'])) {
+                $rowErrors[] = 'ユーザーIDは必須項目です。';
             }
 
-            Shop::create($mappedData);
+            // 店舗名のバリデーション
+            if (empty($mappedData['name'])) {
+                $rowErrors[] = '店舗名は必須項目です。';
+            } elseif (strlen($mappedData['name']) > 50) {
+                $rowErrors[] = '店舗名は50文字以内で入力してください。';
+            }
+
+            // エリアのバリデーション
+            if (empty($mappedData['area'])) {
+                $rowErrors[] = 'エリアは必須項目です。';
+            } else {
+                $area = Area::where('area', $mappedData['area'])->first();
+                if (!$area) {
+                    $rowErrors[] = "エリアは「東京都」「大阪府」「福岡県」のいずれかを指定してください。";
+                } else {
+                    $mappedData['area_id'] = $area->id;
+                }
+            }
+
+            // ジャンルのバリデーション
+            if (empty($mappedData['genre'])) {
+                $rowErrors[] = 'ジャンルは必須項目です。';
+            } else {
+                $genre = Genre::where('genre', $mappedData['genre'])->first();
+                if (!$genre) {
+                    $rowErrors[] = "ジャンルは「寿司」「焼肉」「イタリアン」「居酒屋」「ラーメン」のいずれかを指定してください。";
+                } else {
+                    $mappedData['genre_id'] = $genre->id;
+                }
+            }
+
+            // 店舗情報のバリデーション
+            if (empty($mappedData['detail'])) {
+                $rowErrors[] = '店舗情報は必須項目です。';
+            } elseif (strlen($mappedData['detail']) > 400) {
+                $rowErrors[] = '店舗情報は400文字以内で入力してください。';
+            }
+
+            // 画像ファイル名のバリデーション
+            if (empty($mappedData['image_path'])) {
+                $rowErrors[] = '画像ファイル名は必須項目です。';
+            } elseif (!preg_match('/\.(jpeg|jpg|png)$/i', $mappedData['image_path'])) {
+                $rowErrors[] = '画像ファイル名はjpeg、jpg、またはpng形式の画像ファイル名である必要があります。';
+            }
+
+            if (!empty($rowErrors)) {
+                $errors[$index + 2] = $rowErrors;
+            } else {
+                $insertData[] = [
+                    'user_id' => $mappedData['user_id'],
+                    'name' => $mappedData['name'],
+                    'detail' => $mappedData['detail'],
+                    'image_path' => $mappedData['image_path'],
+                    'area_id' => $mappedData['area_id'],
+                    'genre_id' => $mappedData['genre_id'],
+                ];
+            }
         }
 
         if (!empty($errors)) {
@@ -282,6 +298,10 @@ class ShopController extends Controller
             }
 
             return redirect()->back()->withErrors(['csv_errors' => $formattedErrors])->withInput();
+        }
+
+        if (!empty($insertData)) {
+            Shop::insert($insertData);
         }
 
         return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
