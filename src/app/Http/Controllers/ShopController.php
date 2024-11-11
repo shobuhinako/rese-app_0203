@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ImageUploadRequest;
+use App\Http\Requests\UploadImageRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,34 +14,32 @@ use App\Models\Review;
 
 class ShopController extends Controller
 {
-    public function favorite(Request $request, Shop $shop){
-        // 認証済みユーザーを取得
+    public function favorite(Request $request, Shop $shop)
+    {
         $user = Auth::user();
 
         if ($user) {
-            // Userのid取得
             $user_id = Auth::id();
 
-        // 既にいいねしているかチェック
-        $existingFavorite = Favorite::where('shop_id', $shop->id)
-            ->where('user_id', $user_id)
-            ->first();
+            $existingFavorite = Favorite::where('shop_id', $shop->id)
+                ->where('user_id', $user_id)
+                ->first();
 
-        // 既にいいねしている場合は削除し、そうでない場合は新しいいいねを作成する
-        if ($existingFavorite) {
-            $existingFavorite->delete();
-            $isFavorite = false;
-        } else {
-            $favorite = new Favorite();
-            $favorite->shop_id = $shop->id;
-            $favorite->user_id = $user_id;
-            $favorite->save();
-            $isFavorite = true;
+            if ($existingFavorite) {
+                $existingFavorite->delete();
+                $isFavorite = false;
+            } else {
+                $favorite = new Favorite();
+                $favorite->shop_id = $shop->id;
+                $favorite->user_id = $user_id;
+                $favorite->save();
+                $isFavorite = true;
+            }
+
+            session()->put('isFavorite', $isFavorite);
+            session()->put('favoriteShopId', $shop->id);
         }
 
-        session()->put('isFavorite', $isFavorite);
-        session()->put('favoriteShopId', $shop->id);
-        }
         return redirect()->back();
     }
 
@@ -56,11 +54,11 @@ class ShopController extends Controller
 
     public function search(Request $request)
     {
-        $areaMapping = array(
+        $areaMapping = [
             'tokyo' => '東京都',
             'osaka' => '大阪府',
             'fukuoka' => '福岡県',
-        );
+        ];
 
         $genreMapping = [
             'sushi' => '寿司',
@@ -70,47 +68,51 @@ class ShopController extends Controller
             'yakiniku' => '焼肉',
         ];
 
-        // フォームから送信されたデータを取得
         $areaInput = $request->input('area');
         $genreInput = $request->input('genre');
-        $name = $request->input('name'); // テキストボックスから送信されたお店の名前
+        $name = $request->input('name');
 
-        // エリアとジャンルをマッピング
         $area = $areaMapping[$areaInput] ?? null;
         $genre = $genreMapping[$genreInput] ?? null;
 
-        // クエリビルダーを使用して、検索条件に基づいて店舗を取得
         $query = Shop::query();
 
         switch (true) {
             case (!empty($area) && !empty($genre) && !empty($name)):
                 // エリア、ジャンル、店舗名がすべて指定されている場合
-                $query->where('area', $area)->where('genre', $genre)->where('name', 'like', "%$name%");
+                $query->where('area', $area)
+                      ->where('genre', $genre)
+                      ->where('name', 'like', "%$name%");
                 break;
 
             case (!empty($area) && !empty($genre)):
                 // エリアとジャンルが指定されている場合
-                $query->where('area', $area)->where('genre', $genre);
+                $query->where('area', $area)
+                      ->where('genre', $genre);
                 break;
 
             case (!empty($area) && !empty($name)):
                 // エリアと店舗名が指定されている場合
-                $query->where('area', $area)->where('name', 'like', "%$name%");
+                $query->where('area', $area)
+                      ->where('name', 'like', "%$name%");
                 break;
 
             case (!empty($genre) && !empty($name)):
                 // ジャンルと店舗名が指定されている場合
-                $query->where('genre', $genre)->where('name', 'like', "%$name%");
+                $query->where('genre', $genre)
+                      ->where('name', 'like', "%$name%");
                 break;
 
-            case (!empty($genre) && $area <> 'tokyo' && 'osaka' && 'fukuoka'):
+            case (!empty($genre) && $area !== 'tokyo' && $area !== 'osaka' && $area !== 'fukuoka'):
                 // ジャンルが指定されていて、エリアが全ての場合
-                $query->where('genre', $genre)->whereIn('area', ['東京都', '大阪府', '福岡県']);
+                $query->where('genre', $genre)
+                      ->whereIn('area', ['東京都', '大阪府', '福岡県']);
                 break;
 
-            case (!empty($area) && $genre <> 'sushi' && 'italian' && 'ramen' && 'izakaya' && 'yakiniku'):
+            case (!empty($area) && $genre !== 'sushi' && $genre !== 'italian' && $genre !== 'ramen' && $genre !== 'izakaya' && $genre !== 'yakiniku'):
                 // エリアが指定されていて、ジャンルが全ての場合
-                $query->where('area', $area)->whereIn('genre', ['寿司', 'イタリアン', 'ラーメン', '居酒屋', '焼肉']);
+                $query->where('area', $area)
+                      ->whereIn('genre', ['寿司', 'イタリアン', 'ラーメン', '居酒屋', '焼肉']);
                 break;
 
             case (!empty($name)):
@@ -124,14 +126,13 @@ class ShopController extends Controller
                 break;
         }
 
-        // 店舗を取得
         $shops = $query->get();
 
-        // 検索結果をビューに渡して表示
         return view('index', ['shops' => $shops]);
     }
 
-    public function showDetail($id){
+    public function showDetail($id)
+    {
         $shop = Shop::find($id);
         $userId = auth()->id();
         $user = User::find($userId);
@@ -141,7 +142,8 @@ class ShopController extends Controller
         return view('detail', compact('shop', 'user', 'review'));
     }
 
-    public function showReview($id) {
+    public function showReview($id)
+    {
         $shop = Shop::find($id);
         $userId = auth()->id();
         $user = User::find($userId);
@@ -149,12 +151,11 @@ class ShopController extends Controller
         return view('review', compact('shop', 'user'));
     }
 
-    public function sort(Request $request){
+    public function sort(Request $request)
+    {
         $sortType = $request->input('sort__type');
 
         $query = Shop::query()
-            // ->withCount(['reviews as average_rating' => function ($query){
-            //     $query->select(DB::raw('coalesce(avg(rating), 0)'));
             ->withCount(['reviews as average_rating' => function ($query) {
                 $query->select(DB::raw('avg(rating)'));
             }]);
@@ -165,13 +166,14 @@ class ShopController extends Controller
                 break;
 
             case 'rating_asc':
-                $query->orderbyDesc('average_rating')->orderBy('id');
+                $query->orderbyDesc('average_rating')
+                      ->orderBy('id');
                 break;
 
             case 'rating_desc':
                 $query->orderByRaw('average_rating IS NULL')
-                    ->orderBy('average_rating')
-                    ->orderBy('id');
+                      ->orderBy('average_rating')
+                      ->orderBy('id');
                 break;
 
             default:
@@ -184,106 +186,12 @@ class ShopController extends Controller
         return view('index', compact('shops', 'sortType'));
     }
 
-    // public function importCsv(ImportCsvRequest $request)
-    // {
-
-    //     $file = $request->file('csv_file');
-
-    //     $filePath = $file->getRealPath();
-
-    //     $csvData = array_map('str_getcsv', file($filePath));
-
-    //     // CSVのヘッダーを取り除く
-    //     $header = array_shift($csvData);
-    //     $errors = [];
-
-    //     foreach ($csvData as $index => $row) {
-    //         $data = array_combine($header, $row);
-
-    //         // 各行のデータを個別にバリデーション
-    //         $validator = \Validator::make($data, $request->rules(), $request->messages());
-    //         if ($validator->fails()) {
-    //             $errors[$index + 1] = $validator->errors()->all();
-    //             continue;
-    //         }
-
-    //         // データベースに保存
-    //         Shop::create([
-    //             'user_id' => $data['ユーザーID'],
-    //             'name' => $data['店舗名'],
-    //             'area' => $data['地域'],
-    //             'genre' => $data['ジャンル'],
-    //             'detail' => $data['店舗概要'],
-    //             'image_path' => $data['画像URL'],
-    //         ]);
-    //     }
-
-    //     if (!empty($errors)) {
-    //         return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
-    //     }
-
-    //     return redirect()->route('shop.import.form')->with('success', 'CSVのインポートが完了しました。');
-    // }
-
     public function showImportForm()
     {
         return view ('import');
     }
 
-    // public function importCsv(ImportCsvRequest $request)
-    // {
-    //     $file = $request->file('csv_file');
-
-    //     // ファイルをShift-JISからUTF-8に変換しつつ読み込む
-    //     $filePath = $file->getRealPath();
-    //     $fileContents = file_get_contents($filePath);  // ファイル全体を読み込む
-
-    //     // Shift-JIS -> UTF-8に変換
-    //     $fileContents = mb_convert_encoding($fileContents, 'UTF-8', 'SJIS-win');
-
-    //     // 改行コードで分割（\n または \r\n）
-    //     $lines = preg_split('/\r\n|\n/', $fileContents);
-
-    //     // 空行を除去
-    //     $lines = array_filter($lines, fn($line) => !empty(trim($line)));
-
-    //     // CSVデータを正しく分割 (タブ区切りを指定)
-    //     $csvData = array_map(function($line) {
-    //         return str_getcsv($line, ","); // カンマ区切りとして処理
-    //     }, $lines);
-    //     // dd($csvData);
-
-    //     // ヘッダー行とデータ行を分ける
-    //     $header = array_shift($csvData); // 最初の行をヘッダーとして取得
-
-    //     // データを処理
-    //     $errors = [];
-    //     foreach ($csvData as $index => $row) {
-    //         $data = array_combine($header, $row);
-
-    //     try {
-    //         // データベースに保存
-    //         Shop::create([
-    //             'user_id' => $data['user_id'],
-    //             'name' => $data['name'],
-    //             'area' => $data['area'],
-    //             'genre' => $data['genre'],
-    //             'detail' => $data['detail'],
-    //             'image_path' => $data['image_path'], // 保存した画像パスを格納
-    //         ]);
-    //         } catch (\Exception $e) {
-    //             $errors[$index + 1][] = 'データの保存に失敗しました: ' . $e->getMessage();
-    //         }
-    //     }
-
-    //     if (!empty($errors)) {
-    //         return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
-    //     }
-
-    //     return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
-    // }
-
-    public function uploadImage(ImageUploadRequest $request)
+    public function uploadImage(UploadImageRequest $request)
     {
         $image = $request->file('image');
 
@@ -298,22 +206,15 @@ class ShopController extends Controller
     {
         $file = $request->file('csv_file');
 
-        // ファイルをShift-JISからUTF-8に変換して読み込む
         $filePath = $file->getRealPath();
         $fileContents = file_get_contents($filePath);
         $fileContents = mb_convert_encoding($fileContents, 'UTF-8', 'SJIS-win');
 
-        // 改行コードで分割
         $lines = preg_split('/\r\n|\n/', $fileContents);
         $lines = array_filter($lines, fn($line) => !empty(trim($line)));
 
-        // CSVデータを配列に変換
-        // $csvData = array_map(function($line) {
-        //     return str_getcsv($line, ",");
-        // }, $lines);
         $csvData = array_map(fn($line) => str_getcsv($line, ","), $lines);
 
-        // ヘッダー行とデータ行を分ける
         $header = array_shift($csvData);
 
         $headerMapping = [
@@ -327,7 +228,6 @@ class ShopController extends Controller
 
         $errors = [];
         foreach ($csvData as $index => $row) {
-            // $data = array_combine($header, $row);
             $mappedData = [];
             foreach ($header as $key => $columnName) {
                 if (isset($headerMapping[$columnName])) {
@@ -335,13 +235,12 @@ class ShopController extends Controller
                 }
             }
 
-            // 行データにバリデーションを適用
             $validator = \Validator::make($mappedData, [
-                'user_id' => 'required',
-                'name' => 'required|string|max:50',
-                'area' => 'required|in:東京都,大阪府,福岡県',
-                'genre' => 'required|in:寿司,焼肉,イタリアン,居酒屋,ラーメン',
-                'detail' => 'required|string|max:400',
+                'user_id' => ['required'],
+                'name' => ['required', 'max:50'],
+                'area' => ['required', 'in:東京都,大阪府,福岡県'],
+                'genre' => ['required', 'in:寿司,焼肉,イタリアン,居酒屋,ラーメン'],
+                'detail' => ['required', 'max:400'],
                 'image_path' => ['required', 'regex:/.(jpeg|jpg|png)$/'],
             ], [
                 'user_id.required' => 'ユーザーIDは必須項目です。',
@@ -355,19 +254,9 @@ class ShopController extends Controller
                 'detail.max' => '店舗情報は400文字以内で入力してください。',
                 'image_path.required' => '画像ファイル名は必須項目です。',
                 'image_path.regex' => '画像ファイル名はjpeg、jpgまたはpng形式のURLを指定してください。',
-            ], [
-                'attributes' => [
-                    'user_id' => 'ユーザーID',
-                    'name' => '店舗名',
-                    'area' => 'エリア',
-                    'genre' => 'ジャンル',
-                    'detail' => '店舗情報',
-                    'image_path' => '画像ファイル名',
-                ],
             ]);
 
             if ($validator->fails()) {
-                // エラーがある場合、エラーメッセージを収集
                 $errors[$index + 2] = $validator->errors()->all();
                 continue;
             }
@@ -376,18 +265,13 @@ class ShopController extends Controller
         }
 
         if (!empty($errors)) {
-            // エラーメッセージを整形して出力
             $formattedErrors = [];
             foreach ($errors as $line => $lineErrors) {
                 $formattedErrors[] = "行 {$line}：" . implode(' / ', $lineErrors);
             }
 
-
             return redirect()->back()->withErrors(['csv_errors' => $formattedErrors])->withInput();
         }
-        //     return redirect()->back()->withErrors(['csv_errors' => $errors])->withInput();
-        // }
-
 
         return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
     }

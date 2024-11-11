@@ -32,9 +32,9 @@ class ReviewRequest extends FormRequest
     public function messages()
     {
         return [
-            'rating.required' => 'レートを選択してください',
-            'comment.required' => 'コメントを入力してください',
-            'comment.max' => 'コメントは400文字以内で入力ください',
+            'rating.required' => 'レートを選択してください。',
+            'comment.required' => 'コメントを入力してください。',
+            'comment.max' => 'コメントは400文字以内で入力ください。',
         ];
     }
 }
