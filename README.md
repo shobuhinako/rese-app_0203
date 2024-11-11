@@ -95,6 +95,6 @@
 
 
 ## csvファイル例
-  ![2024-11-11 17 21のイメージ](https://github.com/user-attachments/assets/3fee8a0f-7605-4cd8-bd42-486841060ca9)
+  ![2DEA7BEB-2DD0-4407-B397-C3A66083F5A6_4_5005_c](https://github.com/user-attachments/assets/90afd348-56b8-463d-887b-420e47343909)
 
         
