@@ -13,6 +13,10 @@
         </ul>
     @endif
 
+    @if(session()->has('success'))
+            <p>{{ session('success') }}</p><br>
+    @endif
+
     <div class="detail">
         <div class="detail__left">
             <div class="detail__header">
@@ -40,22 +44,25 @@
 
             @if (Auth::user()->role_id === null)
                 <div class="line"></div>
-                @if (!$review)
-                    <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
-                        @csrf
-                        <input class="link__button" type="submit" value="口コミを投稿する">
-                    </form>
-                @else
-                    <div class="link__area">
-                        <form class="edit__link" action="{{ route('show.review', $shop->id) }}" method="get">
+
+                @if ($isPastReservation)
+                    @if (!$review)
+                        <form class="link" action="{{ route('show.review', $shop->id) }}" method="get">
                             @csrf
-                            <input class="edit__link-button" type="submit" value="口コミを編集">
+                            <input class="link__button" type="submit" value="口コミを投稿する">
                         </form>
-                        <form class="delete__link" action="{{ route('remove.review', $shop->id) }}" method="post">
-                            @csrf
-                            <input class="delete__link-button" type="submit" value="口コミを削除">
-                        </form>
-                    </div>
+                    @else
+                        <div class="link__area">
+                            <form class="edit__link" action="{{ route('show.review', $shop->id) }}" method="get">
+                                @csrf
+                                <input class="edit__link-button" type="submit" value="口コミを編集">
+                            </form>
+                            <form class="delete__link" action="{{ route('remove.review', $shop->id) }}" method="post">
+                                @csrf
+                                <input class="delete__link-button" type="submit" value="口コミを削除">
+                            </form>
+                        </div>
+                    @endif
                 @endif
             @endif
 
@@ -86,7 +93,7 @@
         <div class="detail__right">
             <div class="reservation">
                 <div class="reservation__title">予約</div>
-                <form class="reservation__form" id="reservation-form" action="/done" method="post">
+                <form class="reservation__form" id="reservation-form" action="{{ route('make.reservation') }}" method="post">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <input type="hidden" name="shop_id" value="{{ $shop->id }}">

@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\Favorite;
 use App\Models\Review;
+use App\Models\Reservation;
+use Carbon\Carbon;
 
 class ShopController extends Controller
 {
@@ -139,7 +141,16 @@ class ShopController extends Controller
 
         $review = Review::where('user_id', $userId)->where('shop_id', $shop->id)->first();
 
-        return view('detail', compact('shop', 'user', 'review'));
+        $reservation = Reservation::where('user_id', $userId)->where('shop_id', $shop->id)->first();
+
+        $isPastReservation = false;
+        if ($reservation) {
+            $reservationDateTime = Carbon::parse($reservation->reservation_date . ' ' . $reservation->reservation_time);
+            $currentDateTime = Carbon::now();
+            $isPastReservation = $currentDateTime->greaterThan($reservationDateTime);
+        }
+
+        return view('detail', compact('shop', 'user', 'review', 'isPastReservation'));
     }
 
     public function showReview($id)
@@ -274,6 +285,19 @@ class ShopController extends Controller
         }
 
         return redirect()->route('show.import.form')->with('success', 'CSVのインポートが完了しました。');
+    }
+
+    public function reservation(Request $request)
+    {
+        $reservation = Reservation::create([
+            'user_id' => $request->user_id,
+            'shop_id' => $request->shop_id,
+            'reservation_date' => $request->reservation_date,
+            'reservation_time' => $request->reservation_time,
+            'number_of_people' => $request->number_of_people,
+        ]);
+
+        return redirect()->back()->with('success', '予約が完了しました。');
     }
 }
 

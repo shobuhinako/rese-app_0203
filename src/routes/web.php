@@ -38,4 +38,5 @@ Route::middleware('auth')->group(function()
     Route::get('/admin/import', [ShopController::class, 'showImportForm'])->name('show.import.form');
     Route::post('/admin/import', [ShopController::class, 'importCsv'])->name('shop.import.csv');
     Route::post('/upload/image', [ShopController::class, 'uploadImage'])->name('upload.image');
+    Route::post('/reservation/complete', [ShopController::class, 'reservation'])->name('make.reservation');
 });
