@@ -59,6 +59,7 @@
     3. 依存パッケージのインストール
        composer install
     4. .env.exampleファイルから.envを作成し、環境変数を変更
+       cp .env.example .env
     5. アプリケーションキーの生成
        php artisan key:generate
     6. シンボリックリンクの作成
