@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Shop;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
         return view ('/auth/login');
     }
 
-    public function create(Request $request)
+    public function create(RegisterRequest $request)
     {
         $form = $request->only('name', 'email', 'password');
         $user = User::create([

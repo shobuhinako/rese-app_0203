@@ -30,3 +30,7 @@
 .text__box {
     width: 200px;
 }
+
+.error__message {
+    color: red;
+}
