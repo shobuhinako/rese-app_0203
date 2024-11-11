@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/display-reviews.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/display-reviews.css') }}">
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
                         @if(Auth::user()->role_id == 1)
                             <div class="delete__review">
                                 <form class="delete__link" action="{{ route('delete.review', ['shop_id' => $review->shop_id]) }}" method="post">
-                                @csrf
+                                    @csrf
                                     <input type="hidden" name="user_id" value="{{ $review->user_id }}">
                                     <input type="hidden" name="shop_id" value="{{ $review->shop_id }}">
                                     <input class="delete__link-button" type="submit" value="口コミを削除">

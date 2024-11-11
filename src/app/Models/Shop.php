@@ -21,11 +21,9 @@ class Shop extends Model
 
     public function is_bookmarked_by_auth_user()
     {
-        // 認証されたユーザーを取得
         $user = Auth::user();
 
         if ($user) {
-            // ユーザーがこの店舗をお気に入りにしているかどうかを確認
             return $this->favorites()->where('user_id', $user->id)->exists();
         }
 

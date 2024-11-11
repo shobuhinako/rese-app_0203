@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/index.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         @if (Auth::user()->role_id === null)
             <div class="sort__area">
                 <form class="sort__form" action="{{ route('sort') }}" method="get">
-                @csrf
+                    @csrf
                     <select class="sort__type" name="sort__type" onchange="this.form.submit()">
                         <option value="">並び替え</option>
                         <option value="random" {{ request('sort__type') === 'random' ? 'selected' : '' }}>ランダム</option>
@@ -23,7 +23,7 @@
 
         <div class="search__area">
             <form class="search__form" action="{{ route('search') }}" method="get">
-            @csrf
+                @csrf
                 <select class="area" name="area">
                     <option value="all">All area</option>
                     <option value="tokyo">東京都</option>
@@ -43,6 +43,15 @@
                 <input class="search__text" type="text" name="name" value="{{ old('text') }}" placeholder="Search ...">
             </form>
         </div>
+
+        @if (Auth::user()->role_id === 1)
+            <div class="csv__import">
+                <form class="csv__import-form" action="{{ route('show.import.form') }}" method="get">
+                    @csrf
+                    <input class="csv__import-button" type="submit" value="CSVインポート">
+                </form>
+            </div>
+        @endif
     </div>
 
     <div class="main">
@@ -61,13 +70,13 @@
             <div class="detail">
                 <div class="detail__content">
                     <form class="detail__button" action="{{ route('shop_detail', $shop->id) }}" method="get">
-                    @csrf
+                        @csrf
                         <input class="detail__button" type="submit" name="submit" value="詳しくみる">
                     </form>
                 </div>
                 <div class="favorite">
                     <form class="favorite__content" action="{{ route('favorite', ['shop' => $shop->id]) }}" method="post">
-                    @csrf
+                        @csrf
                         <button class="favorite__button" type="submit">
                             @if($shop->is_bookmarked_by_auth_user())
                                 <i class="fa-solid fa-heart" style="color: #ec0426;"></i>

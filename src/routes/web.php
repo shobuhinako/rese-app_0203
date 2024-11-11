@@ -22,10 +22,11 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('show.login
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function()
+{
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
-    Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
+    Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('destroy.favorite');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
@@ -34,4 +35,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/display/reviews/{shop_id}', [ReviewController::class, 'showShopReviews'])->name('display.reviews');
     Route::post('/display/reviews/delete/{shop_id}', [ReviewController::class, 'deleteReview'])->name('delete.review');
     Route::get('/sort', [ShopController::class, 'sort'])->name('sort');
+    Route::get('/admin/import', [ShopController::class, 'showImportForm'])->name('show.import.form');
+    Route::post('/admin/import', [ShopController::class, 'importCsv'])->name('shop.import.csv');
+    Route::post('/upload/image', [ShopController::class, 'uploadImage'])->name('upload.image');
 });

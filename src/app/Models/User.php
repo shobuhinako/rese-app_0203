@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,11 +32,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function shops() {
+    public function shops()
+    {
         return $this->hasMany(Shop::class);
     }
 
-    public function favorites() {
+    public function favorites()
+    {
         return $this->hasMany(Favorite::class);
     }
 }

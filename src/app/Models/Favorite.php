@@ -9,11 +9,13 @@ class Favorite extends Model
 {
     use HasFactory;
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function shops() {
+    public function shops()
+    {
         return $this->belongsTo(Shop::class);
     }
 }

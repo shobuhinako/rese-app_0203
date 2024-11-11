@@ -43,6 +43,7 @@ class ShopsTableSeeder extends Seeder
             'image_path' => 'izakaya.jpg'
         ];
         DB::table('shops')->insert($param);
+
         $param = [
             'user_id' => '4',
             'name' => 'ルーク',

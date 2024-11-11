@@ -198,21 +198,16 @@
 
 .star {
     font-size: 30px;
-    /* 星のサイズ */
     color: gray;
-    /* グレーの色 */
     transition: color 0.2s;
-    /* ホバー時の色変更を滑らかに */
 }
 
 .star.filled {
     color: #4169e1;
-    /* 塗りつぶされた星の色（青） */
 }
 
 .star.unfilled {
     color: lightgray;
-    /* 塗りつぶされていない星の色（薄い灰色） */
 }
 
 .review__comment {
@@ -298,7 +293,6 @@
 
     .reservation__content {
         height: 100px;
-        /* display: flex; */
         width: 80%;
     }
 

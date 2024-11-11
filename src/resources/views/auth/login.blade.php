@@ -1,17 +1,18 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @endsection
 
 @section('content')
     @if (count($errors) > 0)
         <ul class="error__message">
             @foreach ($errors->all() as $error)
-            <li>{{$error}}</li>
+                <li>{{$error}}</li>
             @endforeach
         </ul>
     @endif
+
     <div class="main">
         <div class="main__title">Login</div>
         <div class="main__form">

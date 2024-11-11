@@ -37,34 +37,27 @@
 
 .star {
     font-size: 30px;
-    /* 星のサイズ */
     color: gray;
-    /* グレーの色 */
     transition: color 0.2s;
-    /* ホバー時の色変更を滑らかに */
 }
 
 .star.filled {
     color: #4169e1;
-    /* 塗りつぶされた星の色（青） */
 }
 
 .star.unfilled {
     color: lightgray;
-    /* 塗りつぶされていない星の色（薄い灰色） */
 }
 
 .images-gallery {
     display: flex;
     flex-wrap: wrap;
     gap: 3px;
-    /* 画像間のスペース */
     justify-content: flex-start;
 }
 
 .image__item {
     flex: 1 1 calc(20% - 10px);
-    /* 横に5つ表示 */
     max-width: calc(20% - 10px);
     box-sizing: border-box;
     margin: 3px;
@@ -75,7 +68,6 @@
     height: 200px;;
     display: block;
     object-fit: cover;
-    /* 画像の切り抜き */
 }
 
 .delete__link-button {
