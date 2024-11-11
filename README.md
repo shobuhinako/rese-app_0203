@@ -64,6 +64,10 @@
        php artisan key:generate
     6. シンボリックリンクの作成
        php artisan storage:link
+    7. マイグレーションの実施
+       php artisan migrate
+    8. シーディングの実施
+       php artisan db:seed
 
 
 
