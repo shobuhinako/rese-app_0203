@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\Genre;
 use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
