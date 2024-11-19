@@ -82,10 +82,10 @@
 .main {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 90%;
     flex-wrap: wrap;
-    margin-left: 5%;
-    margin-top: 50px;
+    margin: 50px auto;
+    box-sizing: border-box;
 }
 
 .card__content-ttl {
@@ -101,7 +101,7 @@
 
 .favorite__button {
     border: none;
-    margin-left: 130px;
+    margin-left: 100px;
     background-color: white;
 }
 
@@ -164,11 +164,6 @@
         flex: 1 0 30%;
     }
 
-    .main {
-        margin-left: 5px;
-        margin-top: 50px;
-    }
-
     .card__content-ttl {
         font-size: 15px;
         margin-left: 10px;
@@ -180,7 +175,7 @@
     }
 
     .favorite__button {
-        margin-left: 25px;
+        margin-left: 15px;
     }
 
     .detail {
