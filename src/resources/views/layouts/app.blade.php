@@ -7,11 +7,17 @@
     <title>Rese</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @yield('css')
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 </head>
 
+=======
+    @yield('css')
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+</head>
+>>>>>>> coachtech-pro-test_1105/main
 <body>
 
 <header class="header">
@@ -30,6 +36,7 @@
                 @endif
             </li>
             @if(Auth::check())
+<<<<<<< HEAD
             <li class="navigation__list-item">
                 <form class="navigation__link" action="{{ route('logout') }}" method="post">
                 @csrf
@@ -57,6 +64,34 @@
             <li class="navigation__list-item">
                 <a href="{{ route('login') }}" class="navigation__link">Login</a>
             </li>
+=======
+                <li class="navigation__list-item">
+                    <form class="navigation__link" action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button class="logout__button">Logout</button>
+                    </form>
+                </li>
+                @if(Auth::user()->role_id == 1) <!-- ユーザーが管理者権限を持っているかどうかを確認 -->
+                    <li class="navigation__list-item">
+                        <a href="" class="navigation__link">Admin Mypage</a>
+                    </li>
+                @elseif(Auth::user()->role_id == 2) <!-- ユーザーが店舗代表者権限を持っているかどうかを確認 -->
+                    <li class="navigation__list-item">
+                        <a href="" class="navigation__link">Manager Mypage</a>
+                    </li>
+                @else <!-- 管理者以外のユーザーの場合 -->
+                    <li class="navigation__list-item">
+                        <a href="" class="navigation__link">Mypage</a>
+                    </li>
+                @endif
+            @else
+                <li class="navigation__list-item">
+                    <a href="{{ route('show.register') }}" class="navigation__link">Registration</a>
+                </li>
+                <li class="navigation__list-item">
+                    <a href="{{ route('show.login') }}" class="navigation__link">Login</a>
+                </li>
+>>>>>>> coachtech-pro-test_1105/main
             @endif
         </ul>
     </nav>
@@ -68,6 +103,7 @@
     @yield('content')
 </main>
 
+<<<<<<< HEAD
 <script>
     $(function () {
         $('#js-hamburger-menu, .navigation__link').on('click', function () {
@@ -79,4 +115,10 @@
 
 </body>
 
+=======
+<script src="{{ asset('js/hamburger-script.js') }}"></script>
+
+
+</body>
+>>>>>>> coachtech-pro-test_1105/main
 </html>

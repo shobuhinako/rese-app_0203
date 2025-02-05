@@ -2,12 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChangeReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ShopCreateController;
@@ -27,7 +25,7 @@ use App\Http\Controllers\StripeController;
 |
 */
 
-Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
+Route::get('/auth/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'create'])->name('register.post');
 Route::get('/thanks', [AuthController::class, 'showThanks'])->name('thanks');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -36,7 +34,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
-    Route::get('/search', [SearchController::class, 'search'])->name('search');
+    Route::get('/search', [ShopController::class, 'search'])->name('search');
     Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
     Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');
@@ -47,10 +45,11 @@ Route::middleware('auth')->group(function(){
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
     Route::get('/reservation/{id}/edit/{shop_name}', [ChangeReservationController::class, 'edit'])->name('reservation.edit');
     Route::put('/reservation/update/{id}', [ChangeReservationController::class, 'update'])->name('reservation.update');
-    Route::get('/review/{reservation_id}', [ReviewController::class, 'review'])->name('review');
-    Route::post('/done/review', [ReviewController::class, 'createReview']);
-    Route::post('/upload-image', [ImageUploadController::class, 'uploadImage'])->name('upload.image');
-    Route::get('/upload-form', [ImageUploadController::class, 'showUploadForm'])->name('upload.form');
+    Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
+    Route::post('/review/store', [ReviewController::class, 'store'])->name('store.review');
+    Route::post('/review/delete/{shop_id}', [ReviewController::class, 'remove'])->name('remove.review');
+    Route::get('/display/reviews/{shop_id}', [ReviewController::class, 'showShopReviews'])->name('display.reviews');
+    Route::post('/display/reviews/delete/{shop_id}', [ReviewController::class, 'deleteReview'])->name('delete.review');
     Route::post('/create/admin', [AdminController::class, 'createAdmin'])->name('admin.create');
     Route::get('/create/admin', [AdminController::class, 'showAdmin'])->name('show.admin');
     Route::get('/create/manager', [ManagerController::class, 'showManager'])->name('show.manager');
@@ -64,6 +63,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/reservation/status/{id}', [ReservationController::class, 'showStatus'])->name('reservation.status');
     Route::post('/charge', [StripeController::class, 'charge'])->name('stripe.charge');
     Route::get('/charge', [StripeController::class, 'showCharge'])->name('show.charge');
+    Route::get('/sort', [ShopController::class, 'sort'])->name('sort');
+    Route::get('/admin/import', [ShopController::class, 'showImportForm'])->name('show.import.form');
+    Route::post('/upload/image', [ShopController::class, 'uploadImage'])->name('upload.image');
+    Route::post('/admin/import', [ShopController::class, 'importCsv'])->name('shop.import.csv');
 
 });
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');

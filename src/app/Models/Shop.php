@@ -12,9 +12,9 @@ class Shop extends Model
 
     protected $fillable = [
         'user_id',
+        'area_id',
+        'genre_id',
         'name',
-        'area',
-        'genre',
         'detail',
         'image_path',
     ];
@@ -75,11 +75,6 @@ class Shop extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
-
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -88,5 +83,20 @@ class Shop extends Model
     public function isOwner($userId)
     {
         return $this->user_id === $userId;
+    }
+    
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\Genre;
 use App\Models\Reservation;
 use App\Models\Favorite;
 use App\Models\Review;
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Session;
 class AuthController extends Controller
 {
 
-    public function register()
+    public function showRegisterForm()
     {
         return view('/auth/register');
     }
@@ -100,7 +102,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        $shops = Shop::all();
+        $shops = Shop::with(['area', 'genre'])->get();
 
         return view('index', ['shops' => $shops]);
     }
