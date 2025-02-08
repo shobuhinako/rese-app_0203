@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/done.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/done.css') }}">
 @endsection
 
 @section('content')
@@ -10,11 +10,11 @@
 
         <form class="payment" action="/charge" method="get">
         @csrf
-            <input type="submit" value="お支払い">
+            <input class="submit__button" type="submit" value="お支払い">
         </form>
 
         <div class="back">
-            <button type="submit" @if($previousUrl) onclick="location.href='{{ url($previousUrl ?? '') }}'" @else onclick="location.href='{{ url('/') }}'" @endif>戻る</button>
+            <button class="back__button" type="submit" @if($previousUrl) onclick="location.href='{{ url($previousUrl ?? '') }}'" @else onclick="location.href='{{ url('/') }}'" @endif>戻る</button>
         </div>
     </div>
 @endsection

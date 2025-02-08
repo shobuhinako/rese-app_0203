@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('css')
-<<<<<<< HEAD
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @endsection
 
@@ -19,30 +18,11 @@
             @endforeach
         </ul>
     @endif
-=======
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-@endsection
-
-@section('content')
-    @if (count($errors) > 0)
-        <ul class="error__message">
-            @foreach ($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
-        </ul>
-    @endif
-
->>>>>>> coachtech-pro-test_1105/main
     <div class="main">
         <div class="main__title">Login</div>
         <div class="main__form">
             <form class="main__form-content" action="/login" method="post">
                 @csrf
-<<<<<<< HEAD
-                <input type="email" name="email" value="" placeholder="Email">
-                <input type="text" name="password" value="" placeholder="Password">
-                <input type="submit" name="submit" value="ログイン">
-=======
                 <div class="email">
                     <input class="text__box" type="email" name="email" value="" placeholder="Email">
                 </div>
@@ -52,7 +32,6 @@
                 <div class="submit">
                     <input class="submit__button" type="submit" name="submit" value="ログイン">
                 </div>
->>>>>>> coachtech-pro-test_1105/main
             </form>
         </div>
     </div>

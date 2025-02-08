@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\ChangeReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AdminController;
@@ -25,26 +24,26 @@ use App\Http\Controllers\StripeController;
 |
 */
 
-Route::get('/auth/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'create'])->name('register.post');
+Route::get('/auth/register', [AuthController::class, 'showRegisterForm'])->name('show.register');
+Route::post('/register', [AuthController::class, 'create'])->name('register');
 Route::get('/thanks', [AuthController::class, 'showThanks'])->name('thanks');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('show.login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [AuthController::class, 'index'])->name('index');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
-    Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop_detail');
+    Route::get('/shop_detail/{id}', [ShopController::class, 'showDetail'])->name('shop.detail');
     Route::get('/mypage', [AuthController::class, 'mypage'])->name('mypage');
     Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');
     Route::get('/manager/mypage', [AuthController::class, 'managerPage'])->name('manager.mypage');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
-    Route::post('/done', [ShopController::class, 'reservation']);
+    Route::post('/done', [ShopController::class, 'reservation'])->name('make.reservation');
     Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
-    Route::get('/reservation/{id}/edit/{shop_name}', [ChangeReservationController::class, 'edit'])->name('reservation.edit');
-    Route::put('/reservation/update/{id}', [ChangeReservationController::class, 'update'])->name('reservation.update');
+    Route::get('/reservation/{id}/edit/{shop_name}', [ShopController::class, 'edit'])->name('reservation.edit');
+    Route::put('/reservation/update/{id}', [ShopController::class, 'update'])->name('reservation.update');
     Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
     Route::post('/review/store', [ReviewController::class, 'store'])->name('store.review');
     Route::post('/review/delete/{shop_id}', [ReviewController::class, 'remove'])->name('remove.review');

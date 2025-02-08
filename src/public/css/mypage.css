@@ -1,0 +1,229 @@
+.user__name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 45%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.content {
+    display: flex;
+}
+
+.main__content-left {
+    width: 40%;
+    margin-left: 100px;
+}
+
+.main__content-right {
+    width: 60%;
+}
+
+.favorite__shops-lists {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+
+.card__content-tag-item {
+    display: inline-block;
+    font-size: 15px;
+}
+
+.detail {
+    display: flex;
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+.detail__button {
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.card {
+    border: 1px solid #c0c0c0;
+    box-shadow: 2px 2px #808080;
+    border-radius: 5px;
+    max-width: 45%;
+    flex: 1 0 22%;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.card__content-ttl {
+    font-size: 20px;
+    margin-left: 25px;
+    margin-bottom: 1px;
+}
+
+.card__content-tag {
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
+
+.favorite__button {
+    border: none;
+    margin-left: 100px;
+    background-color: white;
+}
+
+.main__title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.reservation__status {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reservation__card {
+    background-color: #4169e1;
+    border: 2px solid #4169e1;
+    border-radius: 5px;
+    box-shadow: 2px 2px #808080;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 75%;
+}
+
+.delete__button {
+    color: white;
+    background-color: #4169e1;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.reservation__title {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.reservation__item-name {
+    color: white;
+    text-align: left;
+}
+
+.reservation__item {
+    color: white;
+    padding-left: 20px;
+    font-size: 12px;
+}
+
+.reservation__content {
+    border-spacing: 0 10px;
+    border-collapse: separate;
+    font-size: 12px;
+}
+
+.reservation__number {
+    display: flex;
+}
+
+.reservation__change-button {
+    font-size: 12px;
+}
+
+.detail__button-item {
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.favorite__button-item {
+    border: none;
+    background-color: white;
+    margin-right: 20px;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+@media (max-width: 768px) {
+    .user__name {
+        font-size: 15px;
+        margin-left: 50%;
+    }
+
+    .main__title {
+        font-size: 13px;
+    }
+
+    .main__content-left {
+        margin-left: 10px;
+    }
+
+    .reservation__card {
+        padding: 3px;
+        width: 90%;
+    }
+
+    .reservation__title {
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+    .reservation__item-name {
+        font-size: 10px;
+    }
+
+    .reservation__item {
+        padding-left: 5px;
+        font-size: 10px;
+    }
+
+    .reservation__change-button {
+        font-size: 10px;
+    }
+
+    .card {
+        max-width: 85%;
+    }
+
+    .card__content-ttl {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    .card__content-tag {
+        margin-left: 10px;
+    }
+
+    .card__content-tag-item {
+        font-size: 10px;
+    }
+
+    .detail__button-item {
+        font-size: 10px;
+    }
+
+    .img {
+        height: 100px;
+    }
+
+    .detail {
+        margin-left: 3px;
+    }
+
+    .favorite__button {
+        margin-left: 0px;
+    }
+}
+

@@ -111,46 +111,42 @@ class AuthController extends Controller
     {
         $auth = auth()->user()->id;
 
-    // ログインユーザーが予約した店舗の情報を取得
+        // ログインユーザーが予約した店舗の情報を取得
         $reservationShops = Shop::whereIn('id', function ($query) use ($auth) {
         $query->select('shop_id')
             ->from('reservations')
             ->where('user_id', $auth);
         })->get();
 
-    if ($reservationShops->isNotEmpty()) {
-        session(['shop_id' => $reservationShops->first()->id]);
-    }
+        if ($reservationShops->isNotEmpty()) {
+            session(['shop_id' => $reservationShops->first()->id]);
+        }
 
-    $reservationContents = Reservation::where('user_id', $auth)->get()->map(function ($reservation) {
-    $reservation->formatted_reservation_time = Carbon::parse($reservation->reservation_time)->format('H:i');
-    $reservation->shop = Shop::find($reservation->shop_id);
-    return $reservation;
-    });
+        // ログインユーザーがお気に入りに登録した店舗の情報を取得
+        $favoriteShops = Shop::whereIn('id', function ($query) use ($auth) {
+            $query->select('shop_id')
+                ->from('favorites')
+                ->where('user_id', $auth);
+        })->get();
 
-    if ($reservationContents->isNotEmpty()) {
-        session(['reservation_id' => $reservationContents->first()->id]);
-    }
+        // ログインユーザー情報を取得
+        $user = User::find($auth);
 
-    $reviews = Review::all();
-    $reviewedReservations= $reviews->pluck('reservation_id')->toArray();
-    $reservationsWithReviews = Reservation::whereIn('id', $reviewedReservations)->get();
+        $currentDateTime = Carbon::now();
+        $currentDate = $currentDateTime->toDateString(); // 日付のみ取得
+        $currentTime = $currentDateTime->toTimeString(); // 時間のみ取得
 
-    // ログインユーザーがお気に入りに登録した店舗の情報を取得
-    $favoriteShops = Shop::whereIn('id', function ($query) use ($auth) {
-        $query->select('shop_id')
-            ->from('favorites')
-            ->where('user_id', $auth);
-    })->get();
+        $reservations = Auth::user()->reservations()
+            ->where(function ($query) use ($currentDate, $currentTime) {
+                $query->where('reservation_date', '>', $currentDate)
+                      ->orWhere(function ($query) use ($currentDate, $currentTime){
+                        $query->where('reservation_date', '=', $currentDate)
+                              ->where('reservation_time', '>', $currentTime);
+                      });
+            })
+            ->get();
 
-    // ログインユーザー情報を取得
-    $user = User::find($auth);
-
-    $currentDateTime = Carbon::now();
-    $currentDate = $currentDateTime->toDateString(); // 日付のみ取得
-    $currentTime = $currentDateTime->toTimeString(); // 時間のみ取得
-
-    return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'reservationContents', 'currentDate', 'currentTime', 'reviewedReservations'));
+        return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'currentDate', 'currentTime', 'reservations'));
     }
 
     public function adminPage(){

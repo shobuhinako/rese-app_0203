@@ -7,7 +7,6 @@
     <title>Rese</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @yield('css')
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 </head>
@@ -38,15 +37,15 @@
                 </li>
                 @if(Auth::user()->role_id == 1) <!-- ユーザーが管理者権限を持っているかどうかを確認 -->
                     <li class="navigation__list-item">
-                        <a href="" class="navigation__link">Admin Mypage</a>
+                        <a href="/admin/mypage" class="navigation__link">Admin Mypage</a>
                     </li>
                 @elseif(Auth::user()->role_id == 2) <!-- ユーザーが店舗代表者権限を持っているかどうかを確認 -->
                     <li class="navigation__list-item">
-                        <a href="" class="navigation__link">Manager Mypage</a>
+                        <a href="/manager/mypage" class="navigation__link">Manager Mypage</a>
                     </li>
                 @else <!-- 管理者以外のユーザーの場合 -->
                     <li class="navigation__list-item">
-                        <a href="" class="navigation__link">Mypage</a>
+                        <a href="/mypage" class="navigation__link">Mypage</a>
                     </li>
                 @endif
             @else

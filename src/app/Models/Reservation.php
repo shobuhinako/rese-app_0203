@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -23,5 +24,10 @@ class Reservation extends Model
         return Reservation::where('shop_id', $shopId)
             ->where('reservation_date', $date)
             ->exists();
+    }
+
+    public function getFormattedReservationTimeAttribute()
+    {
+        return Carbon::parse($this->reservation_time)->format('H:i');
     }
 }
