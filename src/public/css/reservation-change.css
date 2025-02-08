@@ -1,0 +1,17 @@
+.main__title {
+    margin-left: 60px;
+}
+
+.reservation__content {
+    margin-left: 60px;
+}
+
+.reservation__content-detail {
+    border-collapse: separate;
+    margin-bottom: 10px;
+}
+
+.reservation__item-name {
+    text-align: left;
+    padding-right: 20px;
+}

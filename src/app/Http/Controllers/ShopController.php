@@ -15,6 +15,7 @@ use App\Models\Favorite;
 use App\Models\Review;
 use App\Models\Reservation;
 use App\Http\Requests\ReservationRequest;
+use App\Http\Requests\ChangeReservationRequest;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 

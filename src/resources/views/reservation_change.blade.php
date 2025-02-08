@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/reservation_change.css') }}">
+<link rel="stylesheet" href="{{ asset('css/reservation-change.css') }}">
 @endsection
 
 @section('content')
@@ -58,7 +58,7 @@
                 </td>
             </tr>
         </table>
-        <input type="submit" value="予約変更">
+        <input class="submit__button" type="submit" value="予約変更">
         </form>
     </div>
 </div>
