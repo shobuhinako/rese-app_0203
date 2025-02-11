@@ -32,7 +32,7 @@
 
     <div class="container">
         <h2 class="title">店舗情報CSVインポート</h2>
-        <div class="image__upload">画像のアップロードが必要な場合はアップロード後、CSVファイルの取り込みを行ってください</div>
+        <div class="image__upload">画像アップロード</div>
         <form class="image__upload-form" action="{{ route('upload.image') }}" method="post" enctype="multipart/form-data">
             @csrf
             <input type="file" name="image">
@@ -44,6 +44,9 @@
             <div class="form-group">
                 <label class="label" for="csv_file">CSVファイルを選択</label>
                 <input type="file" name="csv_file" id="csv_file" class="form-control" required accept=".csv">
+            </div>
+            <div class="message">
+                ※画像のアップロードが必要な場合はアップロードしてからCSVファイルの取り込みを行ってください
             </div>
             <button class="submit__button" type="submit" class="btn btn-primary">インポート</button>
         </form>

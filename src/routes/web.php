@@ -8,7 +8,6 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ShopCreateController;
-use App\Http\Controllers\ShopUpdateController;
 use App\Http\Controllers\SendNotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StripeController;
@@ -55,8 +54,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/create/manager', [ManagerController::class, 'createManager'])->name('manager.create');
     Route::get('/create/shop', [ShopCreateController::class, 'showCreateStorePage'])->name('shop.create.show');
     Route::post('/create/shop', [ShopCreateController::class, 'createStore'])->name('shop.create');
-    Route::get('/update/shop', [ShopUpdateController::class, 'showUpdateStorePage'])->name('shop.update.show');
-    Route::put('/update/shop', [ShopUpdateController::class, 'updateStore'])->name('shop.update');
     Route::get('/send-notification', [SendNotificationController::class, 'showNotification'])->name('send.notification.show');
     Route::post('/send-notification', [SendNotificationController::class, 'sendNotification'])->name('send-notification');
     Route::get('/reservation/status/{id}', [ReservationController::class, 'showStatus'])->name('reservation.status');
@@ -66,6 +63,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/admin/import', [ShopController::class, 'showImportForm'])->name('show.import.form');
     Route::post('/upload/image', [ShopController::class, 'uploadImage'])->name('upload.image');
     Route::post('/admin/import', [ShopController::class, 'importCsv'])->name('shop.import.csv');
+    Route::get('/update/shop', [ShopController::class, 'showUpdateStorePage'])->name('shop.update.show');
+    Route::put('/update/shop', [ShopController::class, 'updateStore'])->name('shop.update');
 
 });
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');

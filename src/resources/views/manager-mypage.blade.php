@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/manager-mypage.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/manager-mypage.css') }}">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
 @endsection
 
 @section('content')
@@ -11,24 +11,17 @@
 </div>
 
 <div class="manage__shop">
-    <div class="create__shop-new">
-        <form class="create__form" action="{{ route('shop.create.show') }}" method="get">
-        @csrf
-            <input type="submit" value="店舗作成">
-        </form>
-    </div>
-
-    <div class="update__store-information">
+    <div class="update__shop-information">
         <form class="create__form" action="{{ route('shop.update.show') }}" method="get">
         @csrf
             <input type="submit" value="店舗情報更新">
         </form>
     </div>
 
-    <div class="upload__image">
-        <form class="upload__form" action="{{ route('upload.form') }}" method="get">
+    <div class="create__shop">
+        <form class="upload__form" action="{{ route('show.import.form') }}" method="get">
         @csrf
-            <input type="submit" value="画像アップロード">
+            <input type="submit" value="店舗作成、画像アップロード">
         </form>
     </div>
 
@@ -39,27 +32,19 @@
         @foreach ($reservations as $reservation)
         <table class="reservation__content">
             <tr class="reservation__content-row">
-                <th class="reservation__item-name">Name</th>
+                <th class="item__name">Name</th>
+                <th class="item__name">Shop</th>
+                <th class="item__name">Date</th>
+                <th class="item__name">Time</th>
+                <th class="item__name">Number</th>
+            </tr>
+            <tr class="reservation__content-detail">
                 <td class="reservation__item">{{ $reservation->user->name }}</td>
-            </tr>
-            <tr class="reservation__content-row">
-                <th class="reservation__item-name">Shop</th>
                 <td class="reservation__item">{{ $reservation->shop->name }}</td>
-            </tr>
-            <tr class="reservation__content-row">
-                <th class="reservation__item-name">Date</th>
                 <td class="reservation__item">{{ $reservation->reservation_date }}</td>
-            </tr>
-            <tr class="reservation__content-row">
-                <th class="reservation__item-name">Time</th>
                 <td class="reservation__item">{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</td>
-            </tr>
-            <tr class="reservation__content-row">
-                <th class="reservation__item-name">Number</th>
                 <td class="reservation__item">{{ $reservation->number_of_people }}</td>
             </tr>
-        </table>
-        <br />
         @endforeach
     </div>
 @endsection

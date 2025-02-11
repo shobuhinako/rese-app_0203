@@ -1,0 +1,55 @@
+.top__content {
+    margin-left: 50px;
+    font-size: 18px;
+}
+
+.update__shop-information {
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.create__shop {
+    margin-left: 50px;
+    margin-bottom:30px;
+}
+
+.reservation__status {
+    margin-left: 50px;
+}
+
+.reservation__status-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.item__name {
+    font-size: 15px;
+    padding-right: 80px;
+}
+
+@media (max-width: 768px) {
+    .top__content {
+        margin-left: 10px;
+    }
+
+    .update__shop-information {
+        margin-left: 10px;
+    }
+
+    .create__shop {
+        margin-left: 10px;
+    }
+
+    .reservation__status {
+        margin-left: 10px;
+    }
+
+    .item__name {
+        font-size: 8px;
+        padding-right: 40px;
+    }
+
+    .reservation__item {
+        font-size: 8px;
+    }
+}
