@@ -1,0 +1,42 @@
+.item__name {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.select__box {
+    margin-left: 50px;
+}
+
+.message__box {
+    margin-left: 50px;
+}
+
+.submit__button {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.submit__button-item {
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+    .item__name {
+        margin-left: 10px;
+    }
+
+    .select__box {
+        margin-left: 10px;
+    }
+
+    .message__box {
+        margin-left: 10px;
+    }
+
+    .submit__button {
+        margin-left: 10px;
+    }
+}
