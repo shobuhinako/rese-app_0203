@@ -214,6 +214,15 @@
     width: 80%;
 }
 
+.qr__code {
+    margin-top: 20px;
+}
+
+.qr__code-img {
+    max-width: 20%;
+    height: auto;
+}
+
 @media (max-width: 768px) {
     .shop__name {
         font-size: 15px;

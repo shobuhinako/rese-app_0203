@@ -1,0 +1,22 @@
+.top {
+    margin-left: 50px;
+}
+
+.top__content {
+    font-size: 25px;
+}
+
+.create__admin-users {
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.create__store-managers {
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.send__notification {
+    margin-left: 50px;
+}
+

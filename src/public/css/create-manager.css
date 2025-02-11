@@ -1,0 +1,31 @@
+.register__title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.main__form {
+    text-align: center;
+}
+
+.select__shop {
+    margin-bottom: 10px;
+}
+
+.text__box {
+    margin-bottom: 10px;
+}
+
+.text-box-item {
+    width: 200px;
+}
+
+.submit__button-item {
+    width: 200px;
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}

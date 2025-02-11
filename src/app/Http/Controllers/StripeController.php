@@ -17,7 +17,7 @@ class StripeController extends Controller
             'currency' => 'jpy',
             'source'=> request()->stripeToken,
         ));
-        return back();
+        return back()->with('success', 'お支払いが完了しました');;
     }
 
     public function showCharge(){

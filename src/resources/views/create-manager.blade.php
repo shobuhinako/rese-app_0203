@@ -22,7 +22,7 @@
             method="post">
                 @csrf
                 <input type="hidden" name="role_id" value="2">
-                <div>
+                <div class="select__shop">
                     <label for="shop_id">店舗を選択:</label>
                         <select name="shop_id" id="shop_id">
                             @foreach($shops as $shop)
@@ -30,13 +30,19 @@
                             @endforeach
                         </select>
                 </div>
-                <input type="text" name="name" value="{{ old('name') }}" placeholder="Username">
-                <input type="email" name="email" value="{{ old('email') }}" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" name="submit" value="登録">
+                <div class="text__box">
+                    <input class="text-box-item" type="text" name="name" value="{{ old('name') }}" placeholder="Username">
+                </div>
+                <div class="text__box">
+                    <input class="text-box-item" type="email" name="email" value="{{ old('email') }}" placeholder="Email">
+                </div>
+                <div class="text__box">
+                    <input class="text-box-item" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="submit__button">
+                    <input class="submit__button-item" type="submit" name="submit" value="登録">
+                </div>
             </form>
         </div>
     </div>
-
-
 @endsection

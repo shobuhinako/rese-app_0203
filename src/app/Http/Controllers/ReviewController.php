@@ -50,7 +50,7 @@ class ReviewController extends Controller
 
         $review->save();
 
-        return redirect()->route('shop_detail', $review->shop_id);
+        return redirect()->route('shop.detail', $review->shop_id);
     }
 
     public function remove(Request $request, $shop_id)
@@ -65,7 +65,7 @@ class ReviewController extends Controller
 
         $review->delete();
 
-        return redirect()->route('shop_detail', $shop_id);
+        return redirect()->route('shop.detail', $shop_id);
     }
 
     public function showShopReviews($shop_id)

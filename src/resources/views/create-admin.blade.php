@@ -21,10 +21,18 @@
             <form class="main__form-content" action="{{ route('admin.create') }}" method="post">
                 @csrf
                 <input type="hidden" name="role_id" value="1">
-                <input type="text" name="name" value="{{ old('name') }}" placeholder="Username">
-                <input type="email" name="email" value="{{ old('email') }}" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" name="submit" value="登録">
+                <div class="text__box">
+                    <input class="text__box-item" type="text" name="name" value="{{ old('name') }}" placeholder="Username">
+                </div>
+                <div class="text__box">
+                    <input class="text__box-item" type="email" name="email" value="{{ old('email') }}" placeholder="Email">
+                </div>
+                <div class="text__box">
+                    <input class="text__box-item" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="submit__button">
+                    <input class="submit__button-item" type="submit" name="submit" value="登録">
+                </div>
             </form>
         </div>
     </div>

@@ -38,7 +38,9 @@
 
             @if ($user && $user->role_id === 2)
                 @if ($shop->isOwner($user->id))
-                    <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
+                    <div class="qr__code">
+                        <img class="qr__code-img" src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
+                    </div>
                 @else
                     <p>あなたはこの店舗の代表者ではないため、QRコードを表示できません。</p>
                 @endif
@@ -176,41 +178,4 @@
         </div>
     </div>
     <script src="{{ asset('js/reservation-script.js') }}"></script>
-
-    <!-- <script>
-    function updateDate() {
-    var selectedDate = document.getElementById("date-input").value;
-    var content = "<table class='reservation__detail'>";
-    content += "<tr><th>Date</th><td>" + selectedDate + "</td></tr>";
-    content += "</table>";
-    document.getElementById("date-row").innerHTML = content;
-    }
-
-
-    // 時間が選択された時の処理
-    function updateTime() {
-    var selectedTime = document.getElementById("time-input").value;
-    var content = "<table class='reservation__detail'>";
-    content += "<tr><th>Time</th><td>" + selectedTime + "</td></tr>";
-    content += "</table>";
-    document.getElementById("time-row").innerHTML = content;
-    }
-
-    // 人数が選択された時の処理
-    function updateNumberOfPeople() {
-    var selectedNumberOfPeople = document.getElementById("number-input").value;
-    var content = "<table class='reservation__detail'>";
-    content += "<tr><th>Number of People</th><td>" + selectedNumberOfPeople + "</td></tr>";
-    content += "</table>";
-    document.getElementById("number-row").innerHTML = content;
-    }
-
-    // 日付、時間、人数が選択された時に呼び出される関数
-    function showSelected() {
-    updateDate();
-    updateTime();
-    updateNumberOfPeople();
-    }
-    </script> -->
-
 @endsection
