@@ -22,18 +22,18 @@
             <form class="main__form-content" action="{{ route('shop.update' , ['shop' => $shops->first()->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div>
+                <div class="item__name">
                     <label for="name">店舗名:</label>
-                    <select name="name" id="name">
+                    <select class="select__box" name="name" id="name">
                     @foreach($shops as $shop)
                         <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                     @endforeach
                     </select>
                 </div>
 
-                <div>
+                <div class="item__name">
                     <label for="area">エリア:</label>
-                    <select name="area" id="area" required>
+                    <select class="select__box" name="area" id="area" required>
                         <option value="">エリアを選択してください</option>
                         <option value="東京都" {{ old('area') == '東京都' ? 'selected' : '' }}>東京都</option>
                         <option value="大阪府" {{ old('area') == '大阪府' ? 'selected' : '' }}>大阪府</option>
@@ -41,9 +41,9 @@
                     </select>
                 </div>
 
-                <div>
+                <div class="item__name">
                     <label for="genre">ジャンル:</label>
-                    <select name="genre" id="genre" required>
+                    <select class="select__box" name="genre" id="genre" required>
                         <option value="">ジャンルを選択してください</option>
                         <option value="イタリアン" {{ old('area') == 'イタリアン' ? 'selected' : '' }}>イタリアン</option>
                         <option value="ラーメン" {{ old('area') == 'ラーメン' ? 'selected' : '' }}>ラーメン</option>
@@ -53,14 +53,14 @@
                     </select>
                 </div>
 
-                <div>
-                    <label for="detail">詳細情報:</label>
-                    <textarea name="detail" id="detail" placeholder="詳細情報を入力してください" required>{{ old('detail') }}</textarea>
+                <div class="item__name">
+                    <label class="label" for="detail">詳細情報:</label>
+                    <textarea  class="textarea" name="detail" id="detail" placeholder="詳細情報を入力してください" required cols="30" rows="10">{{ old('detail') }}</textarea>
                 </div>
 
-                <div>
+                <div class="item__name">
                     <label for="image_path">画像を選択してください:</label>
-                    <select name="image_path" id="image_path">
+                    <select class="select__box" name="image_path" id="image_path">
                         <option value="">画像を選択してください</option>
                         @foreach ($images as $image)
                         <option value="{{ asset('storage/' . str_replace('storage/app/public/', '', $image)) }}">{{ $image }}</option>
@@ -68,11 +68,11 @@
                     </select>
                 </div>
 
-                <div id="selected_image_container">
+                <div class="image" id="selected_image_container">
                 </div>
 
-                <div class="register__button">
-                    <input type="submit" name="submit" value="更新">
+                <div class="update__button">
+                    <input class="update__button-item" type="submit" name="submit" value="更新">
                 </div>
             </form>
         </div>

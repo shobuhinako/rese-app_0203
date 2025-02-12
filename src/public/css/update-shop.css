@@ -1,0 +1,69 @@
+.register__content {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.register__title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.item__name {
+    margin-bottom: 5px;
+}
+
+.label {
+    vertical-align: top;
+}
+
+.update__button-item {
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    width: 100px;
+}
+
+.update__button {
+    margin-top: 20px;
+}
+
+#selected_image_container img {
+    width: 300px;
+    height: auto;
+    max-height: 200px;
+    display: block;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .register__content {
+        margin-left: 10px;
+    }
+
+    .register__title {
+        font-size: 12px;
+    }
+
+    .main__form {
+        font-size: 10px;
+    }
+
+    .select__box {
+        font-size: 10px;
+        max-width: 70%;
+    }
+
+    .textarea {
+        font-size: 10px;
+    }
+
+    #selected_image_container img {
+        width: 150px;
+    }
+
+    .update__button-item {
+        font-size: 10px;
+    }
+}
