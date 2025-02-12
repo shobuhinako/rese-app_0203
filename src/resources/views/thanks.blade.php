@@ -15,7 +15,7 @@
         <div class="login__form">
             <form class="login__button" action="/login" method="get">
                 @csrf
-                <input type="submit" name="submit" value="ログインする">
+                <input class="login__button-item" type="submit" name="submit" value="ログインする">
             </form>
         </div>
     </div>

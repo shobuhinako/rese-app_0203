@@ -1,0 +1,17 @@
+.thanks__content {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.login__form {
+    margin-top: 20px;
+}
+
+.login__button-item {
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    width: 100px;
+}
+
