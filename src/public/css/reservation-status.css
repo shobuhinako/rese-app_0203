@@ -1,0 +1,37 @@
+.reservation__status {
+    margin-left: 50px;
+}
+
+.shop__name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.reservation__item-name {
+    padding-right: 20px;
+}
+
+.reservation__item {
+    padding-right: 20px;
+}
+
+@media (max-width: 768px) {
+    .reservation__status {
+        margin-left: 10px;
+    }
+
+    .shop__name {
+        font-size: 18px;
+    }
+
+    .reservation__item-name {
+        padding-right: 20px;
+        font-size: 14px;
+    }
+
+    .reservation__item {
+        font-size: 11px;
+    }
+}

@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ManagerController;
-use App\Http\Controllers\ShopCreateController;
 use App\Http\Controllers\SendNotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StripeController;
@@ -48,12 +44,10 @@ Route::middleware('auth')->group(function(){
     Route::post('/review/delete/{shop_id}', [ReviewController::class, 'remove'])->name('remove.review');
     Route::get('/display/reviews/{shop_id}', [ReviewController::class, 'showShopReviews'])->name('display.reviews');
     Route::post('/display/reviews/delete/{shop_id}', [ReviewController::class, 'deleteReview'])->name('delete.review');
-    Route::post('/create/admin', [AdminController::class, 'createAdmin'])->name('admin.create');
-    Route::get('/create/admin', [AdminController::class, 'showAdmin'])->name('show.admin');
-    Route::get('/create/manager', [ManagerController::class, 'showManager'])->name('show.manager');
-    Route::post('/create/manager', [ManagerController::class, 'createManager'])->name('manager.create');
-    Route::get('/create/shop', [ShopCreateController::class, 'showCreateStorePage'])->name('shop.create.show');
-    Route::post('/create/shop', [ShopCreateController::class, 'createStore'])->name('shop.create');
+    Route::post('/create/admin', [AuthController::class, 'createAdmin'])->name('admin.create');
+    Route::get('/create/admin', [AuthController::class, 'showAdmin'])->name('show.admin');
+    Route::get('/create/manager', [AuthController::class, 'showManager'])->name('show.manager');
+    Route::post('/create/manager', [AuthController::class, 'createManager'])->name('manager.create');
     Route::get('/send-notification', [SendNotificationController::class, 'showNotification'])->name('send.notification.show');
     Route::post('/send-notification', [SendNotificationController::class, 'sendNotification'])->name('send-notification');
     Route::get('/reservation/status/{id}', [ReservationController::class, 'showStatus'])->name('reservation.status');
@@ -67,4 +61,4 @@ Route::middleware('auth')->group(function(){
     Route::put('/update/shop', [ShopController::class, 'updateStore'])->name('shop.update');
 
 });
-Route::get('/email/verify/{id}/{hash}',[VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}',[AuthController::class, 'verify'])->name('verification.verify');

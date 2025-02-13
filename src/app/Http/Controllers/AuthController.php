@@ -18,6 +18,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Mail\VerifyEmail;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -183,5 +184,71 @@ class AuthController extends Controller
         $reservations = collect($tempReservations);
 
         return view('manager-mypage', ['user' => $user], ['reservations' => $reservations]);
+    }
+
+    public function showAdmin(){
+        return view ('create-admin');
+    }
+
+    public function createAdmin(RegisterRequest $request)
+    {
+        $form = $request->only('name', 'email', 'password');
+        $user = User::create([
+            'role_id' => 1,
+            'name' => $form['name'],
+            'email' => $form['email'],
+            'password' => bcrypt($form['password']),
+        ]);
+
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        session()->flash('success_message', '本人確認メールを送信しました。');
+
+        return redirect('/create/admin');
+    }
+
+    public function showManager(){
+        $shops = Shop::all();
+        return view ('create-manager', ['shops' => $shops]);
+    }
+
+    public function createManager(RegisterRequest $request)
+    {
+        $form = $request->only('shop_id', 'name', 'email', 'password');
+        $user = User::create([
+            'role_id' => 2,
+            'name' => $form['name'],
+            'email' => $form['email'],
+            'password' => bcrypt($form['password']),
+        ]);
+
+        $shop = Shop::find($form['shop_id']);
+        if ($shop) {
+            $shop->user_id = $user->id;
+            $shop->save();
+        }
+
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        session()->flash('success_message', '本人確認メールを送信しました。');
+
+        return redirect('/create/manager');
+    }
+
+    public function verify(Request $request, $id, $hash)
+    {
+        // ユーザーを取得
+        $user = User::findOrFail($id);
+
+        // メールアドレスのハッシュを検証
+        if (sha1($user->email) !== $hash) {
+            abort(403);
+        }
+
+        // ユーザーのメールアドレスを認証済みに設定
+        $user->markEmailAsVerified();
+
+        // 本人確認完了メッセージとログインURLを含むビューを返す
+        return view('emails.verification_complete');
     }
 }
