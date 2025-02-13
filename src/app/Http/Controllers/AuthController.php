@@ -18,6 +18,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Mail\VerifyEmail;
+use App\Mail\SendEmail;
+use App\Mail\Notification;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -145,6 +147,8 @@ class AuthController extends Controller
                               ->where('reservation_time', '>', $currentTime);
                       });
             })
+            ->orderBy ('reservation_date', 'asc')
+            ->orderBy ('reservation_time', 'asc')
             ->get();
 
         return view('mypage', compact('user', 'favoriteShops', 'reservationShops', 'currentDate', 'currentTime', 'reservations'));
@@ -250,5 +254,29 @@ class AuthController extends Controller
 
         // 本人確認完了メッセージとログインURLを含むビューを返す
         return view('emails.verification_complete');
+    }
+
+    public function showNotification(){
+        return view('send-notification');
+    }
+
+    public function sendNotification(Request $request) {
+        $destination = $request->input('destination');
+        $message = $request->input('message');
+
+        $users = collect();
+
+        if ($destination === 'all') {
+            $users = User::all();
+        } elseif ($destination === 'user') {
+            #rolesを持っていないuserを取得
+            $users = User::whereNull('role_id')->get();
+        }
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new SendEmail($user, $message));
+        }
+
+        return back()->with('success', 'お知らせを送信しました');
     }
 }

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\SendNotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StripeController;
 
@@ -34,11 +33,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/admin/mypage', [AuthController::class, 'adminPage'])->name('admin.mypage');
     Route::get('/manager/mypage', [AuthController::class, 'managerPage'])->name('manager.mypage');
     Route::post('/shops/{shop:id}/favorite', [ShopController::class, 'favorite'])->name('favorite');
-    Route::post('/done', [ShopController::class, 'reservation'])->name('make.reservation');
-    Route::delete('/mypage/reservation/{id}', [ShopController::class, 'remove'])->name('reservation.remove');
+    Route::post('/done', [ReservationController::class, 'reservation'])->name('make.reservation');
+    Route::delete('/mypage/reservation/{id}', [ReservationController::class, 'remove'])->name('reservation.remove');
     Route::delete('/mypage/favorite/{shop_id}', [ShopController::class, 'destroy'])->name('favorite.destroy');
-    Route::get('/reservation/{id}/edit/{shop_name}', [ShopController::class, 'edit'])->name('reservation.edit');
-    Route::put('/reservation/update/{id}', [ShopController::class, 'update'])->name('reservation.update');
+    Route::get('/reservation/{id}/edit/{shop_name}', [ReservationController::class, 'edit'])->name('reservation.edit');
+    Route::put('/reservation/update/{id}', [ReservationController::class, 'update'])->name('reservation.update');
     Route::get('/review/{id}', [ReviewController::class, 'showReview'])->name('show.review');
     Route::post('/review/store', [ReviewController::class, 'store'])->name('store.review');
     Route::post('/review/delete/{shop_id}', [ReviewController::class, 'remove'])->name('remove.review');
@@ -48,8 +47,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/create/admin', [AuthController::class, 'showAdmin'])->name('show.admin');
     Route::get('/create/manager', [AuthController::class, 'showManager'])->name('show.manager');
     Route::post('/create/manager', [AuthController::class, 'createManager'])->name('manager.create');
-    Route::get('/send-notification', [SendNotificationController::class, 'showNotification'])->name('send.notification.show');
-    Route::post('/send-notification', [SendNotificationController::class, 'sendNotification'])->name('send-notification');
+    Route::get('/send-notification', [AuthController::class, 'showNotification'])->name('send.notification.show');
+    Route::post('/send-notification', [AuthController::class, 'sendNotification'])->name('send-notification');
     Route::get('/reservation/status/{id}', [ReservationController::class, 'showStatus'])->name('reservation.status');
     Route::post('/charge', [StripeController::class, 'charge'])->name('stripe.charge');
     Route::get('/charge', [StripeController::class, 'showCharge'])->name('show.charge');

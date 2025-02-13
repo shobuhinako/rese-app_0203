@@ -28,7 +28,6 @@
         <p class="reservation__status-title">
             予約状況
         </p>
-        @foreach ($reservations as $reservation)
         <table class="reservation__content">
             <tr class="reservation__content-row">
                 <th class="item__name">Name</th>
@@ -37,13 +36,15 @@
                 <th class="item__name">Time</th>
                 <th class="item__name">Number</th>
             </tr>
-            <tr class="reservation__content-detail">
-                <td class="reservation__item">{{ $reservation->user->name }}</td>
-                <td class="reservation__item">{{ $reservation->shop->name }}</td>
-                <td class="reservation__item">{{ $reservation->reservation_date }}</td>
-                <td class="reservation__item">{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</td>
-                <td class="reservation__item">{{ $reservation->number_of_people }}</td>
-            </tr>
-        @endforeach
+            @foreach ($reservations as $reservation)
+                <tr class="reservation__content-detail">
+                    <td class="reservation__item">{{ $reservation->user->name }}</td>
+                    <td class="reservation__item">{{ $reservation->shop->name }}</td>
+                    <td class="reservation__item">{{ $reservation->reservation_date }}</td>
+                    <td class="reservation__item">{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</td>
+                    <td class="reservation__item">{{ $reservation->number_of_people }}</td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 @endsection
