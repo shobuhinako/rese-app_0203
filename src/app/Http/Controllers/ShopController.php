@@ -57,25 +57,25 @@ class ShopController extends Controller
             // Userのid取得
             $user_id = Auth::id();
 
-        // 既にいいねしているかチェック
-        $existingFavorite = Favorite::where('shop_id', $shop->id)
-            ->where('user_id', $user_id)
-            ->first();
+            // 既にいいねしているかチェック
+            $existingFavorite = Favorite::where('shop_id', $shop->id)
+                ->where('user_id', $user_id)
+                ->first();
 
-        // 既にいいねしている場合は削除し、そうでない場合は新しいいいねを作成する
-        if ($existingFavorite) {
-            $existingFavorite->delete();
-            $isFavorite = false;
-        } else {
-            $favorite = new Favorite();
-            $favorite->shop_id = $shop->id;
-            $favorite->user_id = $user_id;
-            $favorite->save();
-            $isFavorite = true;
-        }
+            // 既にいいねしている場合は削除し、そうでない場合は新しいいいねを作成する
+            if ($existingFavorite) {
+                $existingFavorite->delete();
+                $isFavorite = false;
+            } else {
+                $favorite = new Favorite();
+                $favorite->shop_id = $shop->id;
+                $favorite->user_id = $user_id;
+                $favorite->save();
+                $isFavorite = true;
+            }
 
-        session()->put('isFavorite', $isFavorite);
-        session()->put('favoriteShopId', $shop->id);
+            session()->put('isFavorite', $isFavorite);
+            session()->put('favoriteShopId', $shop->id);
         }
         return redirect()->back();
     }

@@ -28,11 +28,11 @@ class ReservationController extends Controller
 
     public function reservation(ReservationRequest $request){
         $reservation = Reservation::create([
-        'user_id' => $request->user_id,
-        'shop_id' => $request->shop_id,
-        'reservation_date' => $request->reservation_date,
-        'reservation_time' => $request->reservation_time,
-        'number_of_people' => $request->number_of_people,
+            'user_id' => $request->user_id,
+            'shop_id' => $request->shop_id,
+            'reservation_date' => $request->reservation_date,
+            'reservation_time' => $request->reservation_time,
+            'number_of_people' => $request->number_of_people,
         ]);
 
         $previousUrl = $request->session()->get('previous_url');
