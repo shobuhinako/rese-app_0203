@@ -223,6 +223,11 @@
     height: auto;
 }
 
+.error__message {
+    color: red;
+    list-style: none;
+}
+
 @media (max-width: 768px) {
     .shop__name {
         font-size: 15px;
@@ -328,5 +333,9 @@
 
     .no__review-message {
         font-size: 10px;
+    }
+
+    .error__message {
+        font-size: 14px;
     }
 }
