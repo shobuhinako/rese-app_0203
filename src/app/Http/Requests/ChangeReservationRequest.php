@@ -40,7 +40,7 @@ class ChangeReservationRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     $selectedDateTime = Carbon::parse($this->reservation_date . ' ' . $value);
                     if ($selectedDateTime->lte(now())) {
-                        $fail('過去の時間は予約できません。');
+                        $fail('過去の時間は予約できません');
                     }
                 },
                 Rule::unique('reservations')->where(function ($query) use ($auth){
@@ -56,8 +56,8 @@ class ChangeReservationRequest extends FormRequest
     public function messages()
     {
         return [
-            'reservation_time.custom' => '過去の時間は予約できません。',
-            'reservation_date.after_or_equal' => '過去の日付は予約できません。',
+            'reservation_time.custom' => '過去の時間は予約できません',
+            'reservation_date.after_or_equal' => '過去の日付は予約できません',
             'reservation_time.unique' => 'その日時の予約は既に存在します。別の日時を選択してください。',
         ];
     }
